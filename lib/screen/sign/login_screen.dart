@@ -64,8 +64,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
               SizedBox(height: MediaQuery.of(context).size.height * 0.21),
               const TitleHeader(
                 titleContext: 'Log In',
-                subContext:
-                    'Experience a service that helps prevent and treat various addictions with Diviction.',
+                subContext: '',
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.05),
               CustomInputField(

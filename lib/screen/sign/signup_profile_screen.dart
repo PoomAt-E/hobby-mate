@@ -16,14 +16,17 @@ final authProvider = StateNotifierProvider.autoDispose<AuthState, LoadState>(
 
 final imageProvider = StateProvider<String?>((ref) => null);
 final ageProvider = StateProvider((ref) => 20);
+final genderProvider = StateProvider((ref) => 'Male');
 
 class SignUpProfileScreen extends ConsumerStatefulWidget {
   final String id;
   final String password;
+  final String role;
   const SignUpProfileScreen({
     Key? key,
     required this.id,
     required this.password,
+    required this.role,
   }) : super(key: key);
 
   @override
@@ -37,7 +40,6 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
 
   // 회원가입시 프로필 이미지의 path를 DB에 저장하고 프로필 탭에서 DB에 접근하여 사진 로딩하기.
   bool isChoosedPicture = false;
-  String userGender = 'MALE';
 
   TextEditingController textEditForName = TextEditingController();
   TextEditingController textEditForNickname = TextEditingController();
@@ -56,6 +58,7 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
     final isComplete = ref.watch(authProvider);
     final imagePath = ref.watch(imageProvider);
     final age = ref.watch(ageProvider);
+    final gender = ref.watch(genderProvider);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       switch (isComplete) {
@@ -123,34 +126,14 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
                           hintText: 'Street Address',
                           textEditingController: textEditrAddress,
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            GenderButton(
-                              gender: 'Male',
-                              onGenderChoosed: () => setState(() {
-                                userGender = 'Male';
-                              }),
-                              userGender: userGender,
-                            ),
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.02),
-                            GenderButton(
-                              gender: 'Female',
-                              onGenderChoosed: () => setState(() {
-                                userGender = 'Female';
-                              }),
-                              userGender: userGender,
-                            ),
-                          ],
-                        )
+                        GenderWidget()
                       ],
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                     CustomRoundButton(
                         title: 'Profile completed!',
-                        onPressed: () => onPressedSignupButton(imagePath, age)),
+                        onPressed: () =>
+                            onPressedSignupButton(imagePath, age, gender)),
                   ]))),
         ));
   }
@@ -179,7 +162,7 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
     }
   }
 
-  onPressedSignupButton(String? image, int age) async {
+  onPressedSignupButton(String? image, int age, String gender) async {
     Map<String, String> member = {
       'name': textEditForName.text,
       'email': widget.id,
@@ -187,7 +170,7 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
       'password': widget.password,
       'age': age.toString(),
       'address': textEditrAddress.text,
-      'sex': userGender,
+      'sex': gender,
       // 'introduce': '',
       // 'interest': 0.toString(),
       // 'major': null.toString(),
@@ -218,15 +201,49 @@ class _AgePicker extends ConsumerWidget {
   }
 }
 
-class GenderButton extends StatelessWidget {
-  final String gender;
-  final String userGender;
+class GenderWidget extends ConsumerStatefulWidget {
+  const GenderWidget({super.key});
+
+  @override
+  _GenderWidgetState createState() => _GenderWidgetState();
+}
+
+class _GenderWidgetState extends ConsumerState<GenderWidget> {
+  @override
+  Widget build(BuildContext context) {
+    final gender = ref.watch(genderProvider);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        RowButton(
+          data: 'Male',
+          onGenderChoosed: () => setState(() {
+            ref.read(genderProvider.notifier).state = 'Male';
+          }),
+          state: 'Male' == gender,
+        ),
+        SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+        RowButton(
+          data: 'Female',
+          onGenderChoosed: () => setState(() {
+            ref.read(genderProvider.notifier).state = 'Female';
+          }),
+          state: 'Female' == gender,
+        ),
+      ],
+    );
+  }
+}
+
+class RowButton extends StatelessWidget {
+  final String data;
+  final bool state;
   final VoidCallback onGenderChoosed;
 
-  const GenderButton({
+  const RowButton({
     Key? key,
-    required this.gender,
-    required this.userGender,
+    required this.data,
+    required this.state,
     required this.onGenderChoosed,
   }) : super(key: key);
 
@@ -238,13 +255,10 @@ class GenderButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: onGenderChoosed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: userGender == gender
-                ? Colors.blue[300]
-                : const Color(0xFFEEEEEE),
+            backgroundColor: state ? Colors.blue[300] : const Color(0xFFEEEEEE),
             // 서브 컬러 - 글자 및 글자 및 애니메이션 색상
-            foregroundColor: userGender != gender
-                ? Colors.grey[600]
-                : const Color(0xFFEEEEEE),
+            foregroundColor:
+                !state ? Colors.grey[600] : const Color(0xFFEEEEEE),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(56),
               side: const BorderSide(width: 1, color: Colors.black12),
@@ -254,7 +268,7 @@ class GenderButton extends StatelessWidget {
               fontSize: 18,
             ),
           ),
-          child: Text(gender),
+          child: Text(data),
         ),
       ),
     );

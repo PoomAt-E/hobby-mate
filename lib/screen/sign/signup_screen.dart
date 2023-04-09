@@ -15,6 +15,8 @@ enum EmailDuplicateState { proceeding, success, fail, apifail }
 final idCheckProvider =
     StateProvider<EmailDuplicateState>((ref) => EmailDuplicateState.proceeding);
 
+final roleProvider = StateProvider((ref) => 'ROLE_MENTEE');
+
 class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
 
@@ -37,7 +39,6 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     ref.invalidate(idCheckProvider);
     super.dispose();
   }
@@ -45,6 +46,7 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     final idCheckState = ref.watch(idCheckProvider);
+    final role = ref.watch(roleProvider);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       switch (idCheckState) {
@@ -53,8 +55,10 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
               context,
               MaterialPageRoute(
                   builder: (context) => SignUpProfileScreen(
-                      id: textEditingControllerForId.text,
-                      password: textEditingControllerForPw.text)));
+                        id: textEditingControllerForId.text,
+                        password: textEditingControllerForPw.text,
+                        role: role,
+                      )));
           break;
         case EmailDuplicateState.fail:
           showSnackbar('중복된 이메일이 있습니다');
@@ -82,14 +86,12 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
                               height: MediaQuery.of(context).size.height * 0.2),
                           const TitleHeader(
-                            titleContext: 'Sign Up',
-                            subContext:
-                                'Experience a service that helps prevent and treat various addictions with Diviction.',
-                          ),
+                              titleContext: 'Sign Up', subContext: ''),
                           SizedBox(
                               height:
                                   MediaQuery.of(context).size.height * 0.05),
@@ -118,6 +120,10 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
                             textEditingController:
                                 textEditingControllerForCheckPw,
                           ),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.015),
+                          RoleWidget(),
                           const _PopLoginPage(),
                         ],
                       ),
@@ -126,8 +132,6 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
                       CustomRoundButton(
                           title: 'Create Account',
                           onPressed: onPressedSignupButton),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.10),
                     ])))));
   }
 
@@ -140,13 +144,6 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
   }
 
   onPressedSignupButton() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => SignUpProfileScreen(
-                id: textEditingControllerForId.text,
-                password: textEditingControllerForPw.text)));
-
     // 입력 체크
     if (textEditingControllerForId.text == '' ||
         textEditingControllerForPw.text == '' ||
@@ -171,16 +168,58 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
   }
 
   void checkEmail(String email) async {
-    try {
-      bool result = await AuthService().emailCheck(email, 'ROLE_USER');
-      if (result) {
-        ref.read(idCheckProvider.notifier).state = EmailDuplicateState.success;
-      } else {
-        ref.read(idCheckProvider.notifier).state = EmailDuplicateState.fail;
-      }
-    } catch (e) {
-      ref.read(idCheckProvider.notifier).state = EmailDuplicateState.apifail;
-    }
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SignUpProfileScreen(
+                  id: textEditingControllerForId.text,
+                  password: textEditingControllerForPw.text,
+                  role: 'ROLE_MENTEE', // 임시
+                )));
+
+    //   try {
+    //     bool result = await AuthService().emailCheck(email, 'ROLE_USER');
+    //     if (result) {
+    //       ref.read(idCheckProvider.notifier).state = EmailDuplicateState.success;
+    //     } else {
+    //       ref.read(idCheckProvider.notifier).state = EmailDuplicateState.fail;
+    //     }
+    //   } catch (e) {
+    //     ref.read(idCheckProvider.notifier).state = EmailDuplicateState.apifail;
+    //   }
+  }
+}
+
+class RoleWidget extends ConsumerStatefulWidget {
+  const RoleWidget({super.key});
+
+  @override
+  RoleWidgetState createState() => RoleWidgetState();
+}
+
+class RoleWidgetState extends ConsumerState<RoleWidget> {
+  @override
+  Widget build(BuildContext context) {
+    final role = ref.watch(roleProvider);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        RowButton(
+          data: '멘토',
+          onGenderChoosed: () => setState(() {
+            ref.read(roleProvider.notifier).state = 'ROLE_MENTOR';
+          }),
+          state: role == 'ROLE_MENTOR',
+        ),
+        SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+        RowButton(
+            data: '멘티',
+            onGenderChoosed: () => setState(() {
+                  ref.read(roleProvider.notifier).state = 'ROLE_MENTEE';
+                }),
+            state: role == 'ROLE_MENTEE'),
+      ],
+    );
   }
 }
 
