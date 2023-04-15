@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hobby_mate/screen/sign/signup_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../config/style.dart';
+import '../../style/style.dart';
 import '../../model/state.dart';
 import '../../provider/auth_provider.dart';
 import '../../widget/custom_textfield.dart';
@@ -50,56 +49,67 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
     });
 
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(FocusNode());
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: MediaQuery.of(context).size.height * 0.21),
-              const TitleHeader(
-                titleContext: 'Log In',
-                subContext: '',
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-              CustomInputField(
-                icon: Icons.email_outlined,
-                isPassword: false,
-                hintText: 'E-Mail',
-                textEditingController: textEditingControllerForId,
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.015),
-              CustomInputField(
-                icon: Icons.lock_outline,
-                isPassword: true,
-                hintText: 'Password',
-                textEditingController: textEditingControllerForPw,
-              ),
-              const _PushSignupPage(),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.20),
-              CustomRoundButton(
-                title: 'Log In',
-                onPressed: onPressedLoginButton,
-              ),
-              Center(
-                child: TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "Forget Password?",
-                    style: TextStyles.underlineTextStyle,
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Scaffold(
+            body: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+                flex: 1,
+                child: Center(
+                    child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const TitleHeader(
+                                titleContext: 'Log In',
+                                subContext: '',
+                              ),
+                              SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.05),
+                              CustomInputField(
+                                icon: Icons.email_outlined,
+                                isPassword: false,
+                                hintText: 'E-Mail',
+                                textEditingController:
+                                    textEditingControllerForId,
+                              ),
+                              SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.015),
+                              CustomInputField(
+                                icon: Icons.lock_outline,
+                                isPassword: true,
+                                hintText: 'Password',
+                                textEditingController:
+                                    textEditingControllerForPw,
+                              ),
+                              const _PushSignupPage(),
+                            ])))),
+            Container(
+                padding: const EdgeInsets.only(left: 25, right: 25, bottom: 20),
+                child: Column(children: [
+                  CustomRoundButton(
+                    title: 'Log In',
+                    onPressed: onPressedLoginButton,
                   ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+                  Center(
+                    child: TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        "Forget Password?",
+                        style: TextStyles.underlineTextStyle,
+                      ),
+                    ),
+                  )
+                ]))
+          ],
+        )));
   }
 
   void showSnackbar(String message) {
@@ -182,7 +192,7 @@ class CustomRoundButton extends StatelessWidget {
           child: ElevatedButton(
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
-              primary: const Color(0xFF787878),
+              primary: Color.fromARGB(219, 139, 139, 139),
               padding: const EdgeInsets.symmetric(vertical: 20), // 버튼 위아래 패딩 조절
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(49), // 모서리 둥글게
@@ -191,6 +201,7 @@ class CustomRoundButton extends StatelessWidget {
             child: Text(
               title,
               style: const TextStyle(
+                color: Colors.white,
                 fontSize: 20,
               ),
             ),

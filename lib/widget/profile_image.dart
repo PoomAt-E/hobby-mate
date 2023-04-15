@@ -39,7 +39,7 @@ class ProfileImageState extends State<ProfileImage> {
                   image: widget.path != null
                       ? FileImage(File(widget.path!))
                       : const AssetImage(
-                              'assets/images/default_profile_image.png')
+                              'assets/icons/default_profile_image.png')
                           as ImageProvider,
                   fit: BoxFit.cover),
             ),

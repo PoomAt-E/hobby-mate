@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hobby_mate/screen/sign/login_screen.dart';
+import 'package:hobby_mate/screen/sign/signup_profile_screen.dart';
+import 'package:hobby_mate/style/style.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../service/auth_service.dart';
@@ -25,7 +27,7 @@ class SplashScreen extends ConsumerWidget {
     void toLoginScreen() {
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
+          MaterialPageRoute(builder: (context) => BottomNavigation()),
           (route) => false);
     }
 
@@ -46,15 +48,7 @@ class SplashScreen extends ConsumerWidget {
     return Container(
       color: Colors.white,
       child: const Center(
-          child: Text(
-        '취미에\n취하다',
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 33,
-          height: 1.4,
-          decoration: TextDecoration.none,
-        ),
-      )),
+          child: Text('취미에\n취하다', style: TextStyles.splashScreenTextStyle)),
     );
   }
 }

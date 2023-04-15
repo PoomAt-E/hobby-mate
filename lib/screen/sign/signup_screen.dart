@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hobby_mate/screen/sign/signup_profile_screen.dart';
 import 'package:hobby_mate/util/input_validate.dart';
 
-import '../../config/style.dart';
+import '../../style/style.dart';
 import '../../service/auth_service.dart';
 import '../../widget/custom_textfield.dart';
 import '../../widget/title_header.dart';
@@ -77,62 +77,49 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Scaffold(
-            body: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: SingleChildScrollView(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.2),
-                          const TitleHeader(
-                              titleContext: 'Sign Up', subContext: ''),
-                          SizedBox(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.05),
-                          CustomInputField(
-                            icon: Icons.email_outlined,
-                            isPassword: false,
-                            hintText: 'E-Mail',
-                            textEditingController: textEditingControllerForId,
-                          ),
-                          SizedBox(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.015),
-                          CustomInputField(
-                            icon: Icons.lock_outline,
-                            isPassword: true,
-                            hintText: 'Password',
-                            textEditingController: textEditingControllerForPw,
-                          ),
-                          SizedBox(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.015),
-                          CustomInputField(
-                            icon: Icons.lock_outline,
-                            isPassword: true,
-                            hintText: 'Check your Password',
-                            textEditingController:
-                                textEditingControllerForCheckPw,
-                          ),
-                          SizedBox(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.015),
-                          RoleWidget(),
-                          const _PopLoginPage(),
-                        ],
-                      ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05),
-                      CustomRoundButton(
-                          title: 'Create Account',
-                          onPressed: onPressedSignupButton),
-                    ])))));
+            body: Column(children: [
+          Expanded(
+              child: Center(
+                  child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+                const TitleHeader(titleContext: 'Sign Up', subContext: ''),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                CustomInputField(
+                  icon: Icons.email_outlined,
+                  isPassword: false,
+                  hintText: 'E-Mail',
+                  textEditingController: textEditingControllerForId,
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.015),
+                CustomInputField(
+                  icon: Icons.lock_outline,
+                  isPassword: true,
+                  hintText: 'Password',
+                  textEditingController: textEditingControllerForPw,
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.015),
+                CustomInputField(
+                  icon: Icons.lock_outline,
+                  isPassword: true,
+                  hintText: 'Check your Password',
+                  textEditingController: textEditingControllerForCheckPw,
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.015),
+                RoleWidget(),
+                const _PopLoginPage(),
+              ],
+            ),
+          ))),
+          Container(
+            padding: const EdgeInsets.only(left: 25, right: 25, bottom: 20),
+            child: CustomRoundButton(
+                title: 'Create Account', onPressed: onPressedSignupButton),
+          )
+        ])));
   }
 
   void showSnackbar(String message) {

@@ -19,7 +19,7 @@ class TitleHeader extends StatelessWidget {
         Text(
           titleContext,
           style: const TextStyle(
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w400,
             fontSize: 30,
           ),
         ),
