@@ -1,14 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hobby_mate/screen/main/bottom_nav.dart';
+import 'package:hobby_mate/style/style.dart';
 import 'package:hobby_mate/widget/profile_image.dart';
+import 'package:hobby_mate/widget/title_header.dart';
 import 'package:numberpicker/numberpicker.dart';
 
-import '../../model/member.dart';
 import '../../model/state.dart';
 import '../../provider/auth_provider.dart';
 import '../../service/image_picker_service.dart';
 import '../../widget/custom_textfield.dart';
-import '../../widget/title_header.dart';
 import 'login_screen.dart';
 
 final authProvider = StateNotifierProvider.autoDispose<AuthState, LoadState>(
@@ -43,8 +45,16 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
 
   TextEditingController textEditForName = TextEditingController();
   TextEditingController textEditForNickname = TextEditingController();
-
   TextEditingController textEditrAddress = TextEditingController();
+
+  List<String> interestList = [
+    'Music',
+    'Movie',
+    'Game',
+    'Book',
+    'Sport',
+    'Etc'
+  ];
 
   @override
   void dispose() {
@@ -54,11 +64,22 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.role == '') {
+      interestList = ['Music', 'Movie', 'Game', 'Book', 'Sport', 'Etc'];
+    } else {
+      interestList = ['Music', 'Movie', 'Game', 'Book', 'Sport', 'Etc'];
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isComplete = ref.watch(authProvider);
     final imagePath = ref.watch(imageProvider);
     final age = ref.watch(ageProvider);
     final gender = ref.watch(genderProvider);
+    final interest = ref.watch(interestProvider);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       switch (isComplete) {
@@ -81,44 +102,77 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Scaffold(
-          body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 10),
-              child: SingleChildScrollView(
+            appBar: AppBar(
+                titleTextStyle: const TextStyle(
+                    fontWeight: FontWeight.w300,
+                    fontSize: 23,
+                    color: Colors.black),
+                title: const Text(
+                  'Profile',
+                ),
+                centerTitle: true,
+                backgroundColor: Colors.white,
+                elevation: 0,
+                leadingWidth: 50,
+                actions: [
+                  IconButton(
+                    iconSize: 50,
+                    icon: const Icon(
+                      Icons.check_circle_outline_sharp,
+                      size: 25,
+                      color: Colors.blue,
+                    ),
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const BottomNavigation())),
+                  )
+                ],
+                leading: IconButton(
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new_sharp,
+                      size: 22,
+                      color: Colors.blue,
+                    ),
+                    onPressed: () => Navigator.pop(context))),
+            body: Container(
+                color: Colors.white,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                child: SingleChildScrollView(
                   child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    Column(
-                      children: [
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.1),
-                        const TitleHeader(
-                          titleContext: 'Profile',
-                          subContext: '',
-                        ),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.025),
-                        ProfileImage(
-                          onProfileImagePressed: onProfileImagePressed,
-                          path: imagePath,
-                          type: 1,
-                          imageSize: MediaQuery.of(context).size.height * 0.12,
-                        ),
+                        Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width,
+                            child: ProfileImage(
+                              onProfileImagePressed: onProfileImagePressed,
+                              path: imagePath,
+                              type: 1,
+                              imageSize:
+                                  MediaQuery.of(context).size.height * 0.12,
+                            )),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.025),
                         CustomInputField(
                           icon: Icons.person_outline,
                           isPassword: false,
-                          hintText: 'Name',
+                          hintText: 'name',
                           textEditingController: textEditForName,
                         ),
                         CustomInputField(
                           icon: Icons.person_outline,
                           isPassword: false,
-                          hintText: 'Nickname',
+                          hintText: 'nickname',
                           textEditingController: textEditForNickname,
                         ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.01),
+                        const Text('age',
+                            style: TextStyles.editProfileTitleTextStyle),
                         const _AgePicker(),
                         CustomInputField(
                           icon: Icons.home_outlined,
@@ -126,16 +180,32 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
                           hintText: 'Street Address',
                           textEditingController: textEditrAddress,
                         ),
-                        GenderWidget()
-                      ],
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-                    CustomRoundButton(
-                        title: 'Profile completed!',
-                        onPressed: () =>
-                            onPressedSignupButton(imagePath, age, gender)),
-                  ]))),
-        ));
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical:
+                                  MediaQuery.of(context).size.height * 0.015),
+                          child: const Text('gender',
+                              style: TextStyles.editProfileTitleTextStyle),
+                        ),
+                        const GenderWidget(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical:
+                                  MediaQuery.of(context).size.height * 0.02),
+                          child: Text(widget.role == '' ? 'interest' : 'major',
+                              style: TextStyles.editProfileTitleTextStyle),
+                        ),
+                        InterestPicker(
+                          list: interestList,
+                        ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02),
+                        // CustomRoundButton(
+                        //     title: 'Profile completed!',
+                        //     onPressed: () =>
+                        //         onPressedSignupButton(imagePath, age, gender)),
+                      ]),
+                ))));
   }
 
   void showSnackbar(String message) {
@@ -191,6 +261,7 @@ class _AgePicker extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final age = ref.watch(ageProvider);
     return SizedBox(
+        width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * 0.12,
         child: NumberPicker(
             minValue: 15,
@@ -252,25 +323,79 @@ class RowButton extends StatelessWidget {
     return Expanded(
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.055,
-        child: ElevatedButton(
+        child: TextButton(
           onPressed: onGenderChoosed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: state ? Colors.blue[300] : const Color(0xFFEEEEEE),
+            backgroundColor:
+                state ? Colors.blue[300] : Palette.boxContainerColor,
             // 서브 컬러 - 글자 및 글자 및 애니메이션 색상
-            foregroundColor:
-                !state ? Colors.grey[600] : const Color(0xFFEEEEEE),
+            foregroundColor: !state ? Colors.black87 : Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(56),
-              side: const BorderSide(width: 1, color: Colors.black12),
             ),
             textStyle: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 18,
-            ),
+                fontWeight: FontWeight.w500, fontSize: 18, color: Colors.white),
           ),
           child: Text(data),
         ),
       ),
     );
+  }
+}
+
+final interestProvider = StateProvider((ref) => '');
+
+class InterestPicker extends ConsumerWidget {
+  const InterestPicker({super.key, required this.list});
+
+  final List<String> list;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final interest = ref.watch(interestProvider);
+
+    Widget sheetWidget() => SizedBox(
+        height: MediaQuery.of(context).size.height * 0.3,
+        child: CupertinoPicker.builder(
+            childCount: list.length,
+            itemExtent: 75,
+            onSelectedItemChanged: (value) {
+              ref.read(interestProvider.notifier).state = list[value];
+            },
+            itemBuilder: (context, index) {
+              return Container(
+                  alignment: Alignment.center, child: Text(list[index]));
+            }));
+    return InkWell(
+        onTap: () => showModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) => sheetWidget(),
+            ),
+        child: Container(
+            alignment: Alignment.center,
+            height: 55,
+            decoration: BoxDecoration(
+              color: Palette.boxContainerColor,
+              borderRadius: BorderRadius.circular(56),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            width: MediaQuery.of(context).size.width - 64,
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  const SizedBox(width: 30),
+                  Expanded(
+                      flex: 1,
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          interest,
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                      )),
+                  const Icon(Icons.arrow_drop_down,
+                      size: 30, color: Colors.black54),
+                ])));
   }
 }
