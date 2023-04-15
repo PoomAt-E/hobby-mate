@@ -122,10 +122,9 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
                       size: 25,
                       color: Colors.blue,
                     ),
-                    onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const BottomNavigation())),
+                    onPressed: () {
+                      onPressedSignupButton(imagePath, age, gender, interest);
+                    },
                   )
                 ],
                 leading: IconButton(
@@ -200,10 +199,6 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
                         ),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02),
-                        // CustomRoundButton(
-                        //     title: 'Profile completed!',
-                        //     onPressed: () =>
-                        //         onPressedSignupButton(imagePath, age, gender)),
                       ]),
                 ))));
   }
@@ -232,7 +227,8 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
     }
   }
 
-  onPressedSignupButton(String? image, int age, String gender) async {
+  onPressedSignupButton(
+      String? image, int age, String gender, String interest) async {
     Map<String, String> member = {
       'name': textEditForName.text,
       'email': widget.id,
@@ -241,11 +237,14 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
       'age': age.toString(),
       'address': textEditrAddress.text,
       'sex': gender,
-      // 'introduce': '',
-      // 'interest': 0.toString(),
-      // 'major': null.toString(),
-      // 'user_role': 'ROLE_USER',
+      'introduce': '',
+      'user_role': widget.role,
     };
+    if (widget.role == 'ROLE_MENTOR') {
+      member['major'] = interest;
+    } else {
+      member['interest'] = interest;
+    }
     if (image != null) {
       ref.read(authProvider.notifier).signupWithloadImage(image, member);
     }

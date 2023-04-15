@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hobby_mate/screen/sign/login_screen.dart';
-import 'package:hobby_mate/screen/sign/signup_profile_screen.dart';
 import 'package:hobby_mate/style/style.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../service/auth_service.dart';
 import 'main/bottom_nav.dart';

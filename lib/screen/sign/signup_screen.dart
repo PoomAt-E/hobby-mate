@@ -4,7 +4,6 @@ import 'package:hobby_mate/screen/sign/signup_profile_screen.dart';
 import 'package:hobby_mate/util/input_validate.dart';
 
 import '../../style/style.dart';
-import '../../service/auth_service.dart';
 import '../../widget/custom_textfield.dart';
 import '../../widget/title_header.dart';
 import 'login_screen.dart';
