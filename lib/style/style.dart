@@ -24,7 +24,10 @@ class TextStyles {
       letterSpacing: 1.4);
 
   static const TextStyle homeTitleTextStyle = TextStyle(
-      color: Colors.black87, fontSize: 17, fontWeight: FontWeight.w500);
+    color: Colors.black87,
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+  );
 
   static const TextStyle editProfileTitleTextStyle = TextStyle(
       color: Color.fromARGB(221, 26, 26, 26),
@@ -46,4 +49,19 @@ class TextStyles {
       overflow: TextOverflow.ellipsis,
       fontWeight: FontWeight.w500,
       letterSpacing: 1.3);
+
+  static const TextStyle hobbyTitleTextStyle = TextStyle(
+      color: Colors.black87, fontSize: 18, fontWeight: FontWeight.w500);
+  static const TextStyle classWeekTitleTextStyle =
+      TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500);
+  static const TextStyle classWeekContentTextStyle = TextStyle(
+    color: Colors.black,
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+  );
+  static const TextStyle classWeekContentDetailTextStyle = TextStyle(
+      color: Colors.black,
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+      letterSpacing: 1.2);
 }
