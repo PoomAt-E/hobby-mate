@@ -33,6 +33,7 @@ class _ClassDetailScreenState extends State<ClassDetailScreen> {
       ),
       SliverFillRemaining(
           child: ListView.builder(
+              shrinkWrap: true,
               itemCount: 10,
               itemBuilder: (context, index) {
                 return ExpansionTile(

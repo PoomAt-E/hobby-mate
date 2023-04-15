@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hobby_mate/screen/class/class_list_%20screen.dart';
 import 'package:hobby_mate/style/style.dart';
 import 'package:hobby_mate/service/community_service.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -90,12 +91,6 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                 child: HobbyBoxWidget(hobbyList: hobbyList),
               ),
             ])),
-        // const Padding(
-        //     padding: EdgeInsets.only(bottom: 15, top: 25),
-        //     child: Text(
-        //       '커뮤니티',
-        //       style: TextStyles.homeTitleTextStyle,
-        //     )),
         const SizedBox(
           height: 20,
         ),
@@ -177,6 +172,10 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                           style: TextStyles.homeTitleTextStyle,
                         ),
                         InkWell(
+                          onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ClassListScreen())),
                           child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: const [
@@ -194,13 +193,17 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                         )
                       ])),
               Container(
-                height: MediaQuery.of(context).size.height * 0.2,
-                width: double.infinity,
-                alignment: Alignment.center,
-                child: ClassBoxWidget(
-                  pageController: classPageController,
-                ),
-              ),
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  child: PageView.builder(
+                      scrollDirection: Axis.horizontal,
+                      controller: classPageController,
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: 4,
+                      itemBuilder: (context, index) {
+                        return ClassBoxWidget();
+                      })),
               Container(
                 width: double.infinity,
                 alignment: Alignment.center,
