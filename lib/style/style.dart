@@ -23,8 +23,8 @@ class TextStyles {
       fontStyle: FontStyle.italic,
       letterSpacing: 1.4);
 
-  static const TextStyle homeTitleTextStyle =
-      TextStyle(color: Colors.black87, fontSize: 17);
+  static const TextStyle homeTitleTextStyle = TextStyle(
+      color: Colors.black87, fontSize: 17, fontWeight: FontWeight.w500);
 
   static const TextStyle editProfileTitleTextStyle = TextStyle(
       color: Color.fromARGB(221, 26, 26, 26),
@@ -33,4 +33,17 @@ class TextStyles {
 
   static const TextStyle appbarIconTextStyle =
       TextStyle(color: Colors.blue, fontSize: 17, fontWeight: FontWeight.w500);
+  static const TextStyle communityWriterTextStyle = TextStyle(
+      height: 1.4,
+      fontSize: 16,
+      overflow: TextOverflow.ellipsis,
+      fontWeight: FontWeight.w500,
+      letterSpacing: 1.3);
+
+  static const TextStyle communityContentTextStyle = TextStyle(
+      height: 1.4,
+      fontSize: 15,
+      overflow: TextOverflow.ellipsis,
+      fontWeight: FontWeight.w500,
+      letterSpacing: 1.3);
 }

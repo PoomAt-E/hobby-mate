@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hobby_mate/config/style.dart';
+import 'package:hobby_mate/style/style.dart';
 import 'package:hobby_mate/screen/main/home_screen.dart';
 
 final bottomNavProvider = StateProvider<int>((ref) => 0);
@@ -18,7 +18,7 @@ class BottomNavigationState extends ConsumerState<BottomNavigation> {
     final currentPage = ref.watch(bottomNavProvider);
 
     final screen = [
-      HomeScreen(),
+      const HomeScreen(),
       Container(),
       Container(),
       Container(),
