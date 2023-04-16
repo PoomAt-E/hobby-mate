@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:hobby_mate/widget/home/lesson_box.dart';
+import 'package:hobby_mate/widget/home/class_box.dart';
 
 class ClassListScreen extends StatefulWidget {
   const ClassListScreen({super.key});
@@ -28,11 +28,13 @@ class _ClassListScreenState extends State<ClassListScreen> {
       ),
       SliverFillRemaining(
           child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Expanded(
-                  child: ListView.builder(
-                      itemCount: 5,
-                      itemBuilder: (context, index) => ClassBoxWidget()))))
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Flex(direction: Axis.vertical, children: [
+                Expanded(
+                    child: Column(
+                        children:
+                            [1, 2, 3].map((e) => ClassBoxWidget()).toList()))
+              ])))
     ]));
   }
 }

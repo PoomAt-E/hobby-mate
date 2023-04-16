@@ -26,22 +26,26 @@ class _ClassDetailScreenState extends State<ClassDetailScreen> {
               child: Text('김우중의 헬스 100일',
                   style: TextStyle(color: Colors.white, fontSize: 12))),
           background: Image(
-            image: AssetImage('assets/images/default_lesson.png'),
+            image: AssetImage('assets/images/default_class.png'),
             fit: BoxFit.cover,
           ),
         ),
       ),
       SliverFillRemaining(
-          child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return ExpansionTile(
-                    title: Text(
-                      '1주차 : 헬스 시작하기',
-                    ),
-                    children: [ClassWeekBox()]);
-              }))
+          child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Flex(direction: Axis.vertical, children: [
+                Expanded(
+                    child: Column(
+                  children: [1, 2, 3]
+                      .map((e) => ExpansionTile(
+                          title: Text(
+                            '1주차 : 헬스 시작하기',
+                          ),
+                          children: [ClassWeekBox()]))
+                      .toList(),
+                ))
+              ])))
     ]));
   }
 }

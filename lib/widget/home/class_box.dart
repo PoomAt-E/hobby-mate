@@ -20,7 +20,7 @@ class _ClassBoxWidgetState extends State<ClassBoxWidget> {
                     const ClassDetailScreen()) // 리버팟 적용된 HomeScreen 만들기
             ),
         child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -35,8 +35,8 @@ class _ClassBoxWidgetState extends State<ClassBoxWidget> {
                         borderRadius: BorderRadius.circular(10),
                         image: const DecorationImage(
                             fit: BoxFit.cover,
-                            image: AssetImage(
-                                'assets/images/default_lesson.png'))),
+                            image:
+                                AssetImage('assets/images/default_class.png'))),
                   ),
                   Container(
                       margin: const EdgeInsets.only(left: 20),

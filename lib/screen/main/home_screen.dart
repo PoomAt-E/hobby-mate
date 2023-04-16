@@ -7,7 +7,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../widget/home/community_box.dart';
 import '../../widget/home/hobby_box.dart';
-import '../../widget/home/lesson_box.dart';
+import '../../widget/home/class_box.dart';
 
 final postProvider = FutureProvider((ref) => CommunityService().getPost());
 
