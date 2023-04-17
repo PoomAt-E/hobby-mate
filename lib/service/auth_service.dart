@@ -57,7 +57,7 @@ class AuthService {
         final token = result['response']['token'];
         storage.write(key: 'accessToken', value: token['accessToken']);
         storage.write(key: 'refreshToken', value: token['refreshToken']);
-        getUser(email);
+        getMember(email);
         return true;
       } else {
         throw Exception('Failed to login');
@@ -66,25 +66,6 @@ class AuthService {
       throw Exception('Failed to login');
     }
   }
-
-  // Future<bool> signUp({ // 이미지 저장 x 회원가입
-  //   required Map<String, dynamic> user,
-  // }) async {
-  //   try {
-  //     print('user.toString() : ${user.toString()}');
-  //     NetWorkResult result = await DioClient()
-  //         .Signup_post('$_baseUrl/auth/signUp/member', user, false);
-  //     if (result.result == Result.success) {
-  //       User user = User.fromJson(result.response);
-  //       user.savePreference(user);
-  //       return true;
-  //     } else {
-  //       throw Exception('Failed to signUp');
-  //     }
-  //   } catch (e) {
-  //     throw Exception('Failed to signUp');
-  //   }
-  // }
 
   Future signupWithloadImage({
     // 이미지 저장 o 회원가입
@@ -134,7 +115,7 @@ class AuthService {
     }
   }
 
-  Future<Member> getUser(String email) async {
+  Future<Member> getMember(String email) async {
     try {
       Map<String, dynamic> result = await DioClient().get(
           '$_baseUrl/member/get/email/$email', {'user_email': email}, true);

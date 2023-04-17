@@ -23,6 +23,11 @@ class TextStyles {
       fontStyle: FontStyle.italic,
       letterSpacing: 1.4);
 
+  static const TextStyle shadowTextStyle = TextStyle(
+      letterSpacing: 0.04,
+      fontSize: 14,
+      color: Color.fromRGBO(82, 82, 82, 0.644));
+
   static const TextStyle homeTitleTextStyle = TextStyle(
     color: Colors.black87,
     fontSize: 18,
@@ -59,9 +64,42 @@ class TextStyles {
     fontSize: 16,
     fontWeight: FontWeight.w500,
   );
+
+  static const TextStyle blueBottonTextStyle = TextStyle(
+      letterSpacing: 0.04,
+      fontSize: 17,
+      color: Color.fromRGBO(255, 255, 255, 1));
+  static const TextStyle chatNicknameTextStyle =
+      TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.w600);
+  static const TextStyle chatNotMeBubbleTextStyle = TextStyle(
+      fontSize: 17,
+      color: Color.fromARGB(255, 255, 255, 255),
+      fontWeight: FontWeight.w400);
   static const TextStyle classWeekContentDetailTextStyle = TextStyle(
       color: Colors.black,
       fontSize: 14,
       fontWeight: FontWeight.w500,
       letterSpacing: 1.2);
+
+  static const TextStyle chatHeading = TextStyle(
+    color: Colors.black,
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    letterSpacing: 1.5,
+  );
+  static TextStyle chatbodyText = TextStyle(
+      color: Colors.black.withOpacity(0.8),
+      fontSize: 14,
+      letterSpacing: 1.2,
+      fontWeight: FontWeight.w500);
+  static TextStyle chatTimeText = TextStyle(
+      color: Colors.black.withOpacity(0.8),
+      fontSize: 11,
+      fontWeight: FontWeight.w500);
+
+  static const TextStyle errorTextStyle = TextStyle(
+      fontSize: 18,
+      height: 1.4,
+      color: Color.fromRGBO(51, 51, 51, 1),
+      fontWeight: FontWeight.w500);
 }

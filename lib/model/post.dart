@@ -3,8 +3,8 @@ class Post {
   final String title;
   final String content;
   final String location;
-  final String created_at;
-  final int user_id;
+  final String createdAt;
+  final int userId;
   final int views;
 
   Post({
@@ -12,8 +12,8 @@ class Post {
     required this.title,
     required this.content,
     required this.location,
-    required this.created_at,
-    required this.user_id,
+    required this.createdAt,
+    required this.userId,
     required this.views,
   });
 
@@ -23,8 +23,8 @@ class Post {
       title: json['title'],
       content: json['content'],
       location: json['location'],
-      created_at: json['created_at'],
-      user_id: json['user_id'],
+      createdAt: json['createdAt'],
+      userId: json['userId'],
       views: json['views'],
     );
   }

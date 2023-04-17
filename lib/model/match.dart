@@ -1,13 +1,13 @@
 class Match {
   int id;
-  int mentee_id;
-  int mentor_id;
-  String match_date;
+  int menteeId;
+  int mentorId;
+  String matchDate;
 
   Match({
     required this.id,
-    required this.mentee_id,
-    required this.mentor_id,
-    required this.match_date,
+    required this.menteeId,
+    required this.mentorId,
+    required this.matchDate,
   });
 }

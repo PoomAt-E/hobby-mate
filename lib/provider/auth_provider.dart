@@ -44,7 +44,7 @@ class AuthState extends StateNotifier<LoadState> {
   saveData(String email) async {
     final prefs = await SharedPreferences.getInstance();
     if (prefs.getString('email') == null || prefs.getString('email') != email) {
-      AuthService().getUser(email);
+      AuthService().getMember(email);
     }
   }
 }

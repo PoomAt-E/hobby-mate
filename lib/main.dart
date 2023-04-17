@@ -4,14 +4,15 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hobby_mate/screen/splash_screen.dart';
 
+import 'firebase_options.dart';
 import 'network/dio_client.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "lib/config/.env");
-  //  await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   DioClient();
   runApp(ProviderScope(child: MyApp()));
 }
