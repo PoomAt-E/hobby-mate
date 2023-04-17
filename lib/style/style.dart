@@ -102,4 +102,6 @@ class TextStyles {
       height: 1.4,
       color: Color.fromRGBO(51, 51, 51, 1),
       fontWeight: FontWeight.w500);
+  static const TextStyle optionButtonTextStyle = TextStyle(
+      color: Colors.black87, fontSize: 14, fontWeight: FontWeight.normal);
 }

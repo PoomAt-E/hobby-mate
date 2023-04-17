@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hobby_mate/screen/chat/chatlist_screen.dart';
+import 'package:hobby_mate/screen/class/class_list_%20screen.dart';
 import 'package:hobby_mate/screen/community/community_screen.dart';
-import 'package:hobby_mate/screen/main/profile_screen.dart';
-import 'package:hobby_mate/service/auth_service.dart';
 import 'package:hobby_mate/style/style.dart';
 import 'package:hobby_mate/screen/main/home_screen.dart';
-import 'package:hobby_mate/widget/profile_button.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 final bottomNavProvider = StateProvider<int>((ref) => 0);
 
@@ -21,31 +18,10 @@ class BottomNavigation extends ConsumerStatefulWidget {
 class BottomNavigationState extends ConsumerState<BottomNavigation> {
   final screen = [
     const HomeScreen(),
-    const ChatListScreen(),
+    const ClassListScreen(),
     const CommunityScreen(),
-    const Center(
-      child: Text('load..'),
-    ),
+    const ChatListScreen(),
   ];
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    setProfileScreen();
-  }
-
-  setProfileScreen() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String email = prefs.getString('email')!;
-
-    AuthService().getMember(email).then((value) {
-      setState(() {
-        screen[3] = ProfileScreen(member: value);
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,14 +45,14 @@ class BottomNavigationState extends ConsumerState<BottomNavigation> {
                 label: 'Home'),
             BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.chat,
+                  Icons.account_circle_rounded,
                   color: Palette.bottomUnselectedColor,
                 ),
                 activeIcon: Icon(
-                  Icons.chat,
+                  Icons.class_rounded,
                   color: Palette.bottomSelectedColor,
                 ),
-                label: 'Chat'),
+                label: 'Class'),
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.article_rounded,
@@ -89,14 +65,14 @@ class BottomNavigationState extends ConsumerState<BottomNavigation> {
                 label: 'Community'),
             BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.account_circle_rounded,
+                  Icons.chat,
                   color: Palette.bottomUnselectedColor,
                 ),
                 activeIcon: Icon(
-                  Icons.account_circle_rounded,
+                  Icons.chat,
                   color: Palette.bottomSelectedColor,
                 ),
-                label: 'MyPage'),
+                label: 'Chat'),
           ],
           currentIndex: currentPage,
           selectedItemColor: Palette.bottomSelectedColor,

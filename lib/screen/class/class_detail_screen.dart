@@ -19,7 +19,7 @@ class _ClassDetailScreenState extends State<ClassDetailScreen> {
         expandedHeight: 200,
         flexibleSpace: FlexibleSpaceBar(
           title: Container(
-              padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
               decoration: BoxDecoration(
                   color: Colors.black54,
                   borderRadius: BorderRadius.circular(5)),
@@ -33,7 +33,7 @@ class _ClassDetailScreenState extends State<ClassDetailScreen> {
       ),
       SliverFillRemaining(
           child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              padding: const EdgeInsets.symmetric(vertical: 20),
               child: Flex(direction: Axis.vertical, children: [
                 Expanded(
                     child: Column(
@@ -68,7 +68,7 @@ class ClassWeekBox extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     image: const DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage('assets/images/default_lesson.png'))),
+                        image: AssetImage('assets/images/default_class.png'))),
               ),
               Container(
                   width: MediaQuery.of(context).size.width - size - 70,

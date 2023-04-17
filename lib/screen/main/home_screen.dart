@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hobby_mate/model/member.dart';
 import 'package:hobby_mate/screen/class/class_list_%20screen.dart';
 import 'package:hobby_mate/screen/community/community_screen.dart';
+import 'package:hobby_mate/screen/main/bottom_nav.dart';
+import 'package:hobby_mate/screen/main/profile_screen.dart';
+import 'package:hobby_mate/service/auth_service.dart';
 import 'package:hobby_mate/style/style.dart';
 import 'package:hobby_mate/service/community_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../widget/home/community_box.dart';
@@ -112,10 +117,8 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                           style: TextStyles.homeTitleTextStyle,
                         ),
                         InkWell(
-                          onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const CommunityScreen())),
+                          onTap: () =>
+                              ref.read(bottomNavProvider.notifier).state = 2,
                           child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: const [
@@ -182,10 +185,8 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                           style: TextStyles.homeTitleTextStyle,
                         ),
                         InkWell(
-                          onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ClassListScreen())),
+                          onTap: () =>
+                              ref.read(bottomNavProvider.notifier).state = 1,
                           child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: const [
@@ -236,4 +237,15 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
       // )
     );
   }
+
+  onProfileIconClicked() async {
+    final pref = await SharedPreferences.getInstance();
+    final email = pref.getString('email')!;
+    Member member = await AuthService().getMember(email);
+
+    pushProfileScreen(member);
+  }
+
+  pushProfileScreen(Member member) => Navigator.push(context,
+      MaterialPageRoute(builder: (context) => ProfileScreen(member: member)));
 }
