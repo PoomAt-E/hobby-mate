@@ -136,7 +136,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                         )
                       ])),
               Container(
-                height: MediaQuery.of(context).size.height * 0.18,
+                height: MediaQuery.of(context).size.height * 0.2,
                 width: double.infinity,
                 alignment: Alignment.center,
                 child: PageView.builder(

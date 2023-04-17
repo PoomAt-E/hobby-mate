@@ -13,7 +13,10 @@ class TextStyles {
     decorationThickness: 1.5,
   );
   static const TextStyle appbarTextStyle = TextStyle(
-      color: Colors.black54, fontSize: 20, fontStyle: FontStyle.italic);
+    color: Colors.black54,
+    fontSize: 20,
+    fontStyle: FontStyle.italic,
+  );
 
   static const splashScreenTextStyle = TextStyle(
       color: Color.fromARGB(196, 0, 0, 0),
@@ -31,7 +34,7 @@ class TextStyles {
   static const TextStyle homeTitleTextStyle = TextStyle(
     color: Colors.black87,
     fontSize: 18,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
   );
 
   static const TextStyle editProfileTitleTextStyle = TextStyle(

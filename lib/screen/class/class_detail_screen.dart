@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hobby_mate/screen/class/class_vod_player_screen.dart';
 
 import '../../style/style.dart';
 
@@ -61,15 +62,35 @@ class ClassWeekBox extends StatelessWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(
             children: [
-              Container(
-                height: size,
-                width: size,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: const DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage('assets/images/default_class.png'))),
-              ),
+              InkWell(
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              const VideoPlayerScreen()) // 리버팟 적용된 HomeScreen 만들기
+                      ),
+                  child: Stack(
+                    children: [
+                      Container(
+                        height: size,
+                        width: size,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: const DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                    'assets/images/default_class.png'))),
+                      ),
+                      SizedBox(
+                        height: size,
+                        width: size,
+                        child: Center(
+                            child: Icon(
+                          Icons.play_circle,
+                          color: Colors.white.withOpacity(0.5),
+                          size: 40,
+                        )),
+                      )
+                    ],
+                  )),
               Container(
                   width: MediaQuery.of(context).size.width - size - 70,
                   margin: const EdgeInsets.only(left: 20),
