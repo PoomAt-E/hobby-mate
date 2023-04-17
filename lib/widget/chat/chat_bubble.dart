@@ -4,6 +4,7 @@ import 'package:chat_bubbles/bubbles/bubble_normal_image.dart';
 import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:flutter/material.dart';
 import 'package:hobby_mate/model/member.dart';
+import 'package:hobby_mate/screen/main/profile_screen.dart';
 
 import '../../model/chat.dart';
 import '../../style/style.dart';
@@ -39,8 +40,8 @@ class ChatBubbles extends StatelessWidget {
                             child: BubbleNormalImage(
                               id: '1',
                               color: Colors.amber,
-                              image: Image.file(
-                                  File(message.content.split('@')[1]),
+                              image: Image.network(
+                                  message.content.split('@')[1],
                                   width: 250,
                                   height: 250),
                             ))
@@ -61,41 +62,74 @@ class ChatBubbles extends StatelessWidget {
                       ]))
             },
           },
-          if (!isMe)
-            Padding(
-                padding: const EdgeInsets.only(bottom: 15),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ProfileButton(
-                          nickname: member.name,
-                          path: member.profileImgUrl,
-                          onProfilePressed: onProfilePressed),
-                      Padding(
-                          padding: const EdgeInsets.only(left: 40),
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                BubbleSpecialOne(
-                                  text: message.content,
-                                  isSender: false,
-                                  color: Colors.amber.withOpacity(0.3),
-                                  textStyle:
-                                      TextStyles.chatNotMeBubbleTextStyle,
-                                ),
-                                Text(dataTimeFormat(message.createdAt),
-                                    style: TextStyles.shadowTextStyle),
-                              ]))
-                    ]))
+          if (!isMe) ...{
+            if (message.content.contains('image@')) ...{
+              Padding(
+                  padding: const EdgeInsets.only(bottom: 15),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ProfileButton(
+                            nickname: member.name,
+                            path: member.profileImgUrl,
+                            onProfilePressed: onProfilePressed),
+                        Padding(
+                            padding: const EdgeInsets.only(left: 40),
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  SizedBox(
+                                      width: 220,
+                                      height: 190,
+                                      child: BubbleNormalImage(
+                                        id: '1',
+                                        color: Colors.amber,
+                                        image: Image.network(
+                                            message.content.split('@')[1],
+                                            width: 250,
+                                            height: 250),
+                                      )),
+                                  Text(dataTimeFormat(message.createdAt),
+                                      style: TextStyles.shadowTextStyle),
+                                ]))
+                      ])),
+            } else ...{
+              Padding(
+                  padding: const EdgeInsets.only(bottom: 15),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ProfileButton(
+                            nickname: member.name,
+                            path: member.profileImgUrl,
+                            onProfilePressed: onProfilePressed),
+                        Padding(
+                            padding: const EdgeInsets.only(left: 40),
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  BubbleSpecialOne(
+                                    text: message.content,
+                                    isSender: false,
+                                    color: Colors.amber.withOpacity(0.3),
+                                    textStyle:
+                                        TextStyles.chatNotMeBubbleTextStyle,
+                                  ),
+                                  Text(dataTimeFormat(message.createdAt),
+                                      style: TextStyles.shadowTextStyle),
+                                ]))
+                      ]))
+            },
+          }
         ]);
   }
 
   onProfilePressed(BuildContext context) {
-    // Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //         builder: (context) => ProfileS(
-    //               member: member,
-    //             )));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ProfileScreen(
+                  member: member,
+                )));
   }
 }

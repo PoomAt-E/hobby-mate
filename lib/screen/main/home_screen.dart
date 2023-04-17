@@ -74,7 +74,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ],
       ),
-      backgroundColor: const Color.fromARGB(255, 243, 243, 246),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

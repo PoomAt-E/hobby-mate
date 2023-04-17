@@ -224,7 +224,7 @@ class ChatScreenState extends State<ChatScreen> {
           isChoosedPicture = true;
         });
         final message = Message(
-            content: 'image@${image}',
+            content: '',
             sender: userId,
             createdAt:
                 DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.now()));

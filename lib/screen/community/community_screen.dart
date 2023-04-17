@@ -21,6 +21,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const MainAppbar(),
+        backgroundColor: Colors.white,
         body: SafeArea(
             child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
