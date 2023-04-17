@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hobby_mate/screen/chat/chatlist_screen.dart';
+import 'package:hobby_mate/screen/community/community_screen.dart';
+import 'package:hobby_mate/screen/main/profile_screen.dart';
+import 'package:hobby_mate/service/auth_service.dart';
 import 'package:hobby_mate/style/style.dart';
 import 'package:hobby_mate/screen/main/home_screen.dart';
+import 'package:hobby_mate/widget/profile_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final bottomNavProvider = StateProvider<int>((ref) => 0);
 
@@ -13,16 +19,37 @@ class BottomNavigation extends ConsumerStatefulWidget {
 }
 
 class BottomNavigationState extends ConsumerState<BottomNavigation> {
+  final screen = [
+    const HomeScreen(),
+    const ChatListScreen(),
+    const CommunityScreen(),
+    const Center(
+      child: Text('load..'),
+    ),
+  ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    setProfileScreen();
+  }
+
+  setProfileScreen() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String email = prefs.getString('email')!;
+
+    AuthService().getMember(email).then((value) {
+      setState(() {
+        screen[3] = ProfileScreen(member: value);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentPage = ref.watch(bottomNavProvider);
-
-    final screen = [
-      const HomeScreen(),
-      Container(),
-      Container(),
-      Container(),
-    ];
 
     return Scaffold(
       body: SafeArea(child: screen.elementAt(currentPage)),
