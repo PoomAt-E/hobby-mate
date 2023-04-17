@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "224664773282",
+    "project_id": "hobby-mate-40752",
+    "storage_bucket": "hobby-mate-40752.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224664773282:android:ad97756bd4ff13baed6dfb",
+        "android_client_info": {
+          "package_name": "com.example.hobby_mate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224664773282-1arqdv8isup2gd432d4f1f1osgu4gbvq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXDG_6v9vTahRnCKQ6CV4RbPXvYvUQqAI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224664773282-1arqdv8isup2gd432d4f1f1osgu4gbvq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
