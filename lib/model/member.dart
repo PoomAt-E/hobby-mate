@@ -10,10 +10,10 @@ class Member {
   String address;
   String sex;
   String introduce;
-  String profile_img_url;
+  String profileImgUrl;
   int? interest;
   int? major;
-  String user_role;
+  String userRole;
 
   Member({
     required this.id,
@@ -25,10 +25,10 @@ class Member {
     required this.address,
     required this.sex,
     required this.introduce,
-    required this.profile_img_url,
+    required this.profileImgUrl,
     this.interest,
     this.major,
-    required this.user_role,
+    required this.userRole,
   });
 
   factory Member.fromJson(Map<String, dynamic> json) => Member(
@@ -41,10 +41,10 @@ class Member {
         address: json["address"],
         sex: json['sex'],
         introduce: json["introduce"],
-        profile_img_url: json["profile_img_url"],
+        profileImgUrl: json["profileImgUrl"],
         interest: json["interest"],
         major: json["major"],
-        user_role: json["user_role"],
+        userRole: json["userRole"],
       );
 
   savePreference(Member member) async {
@@ -57,10 +57,10 @@ class Member {
     pref.setString('nickname', member.nickname);
     pref.setInt('age', member.age);
     pref.setString('sex', member.sex);
-    pref.setString('profile_img_url', member.profile_img_url);
+    pref.setString('profileImgUrl', member.profileImgUrl);
     pref.setString('introduce', member.introduce);
-    pref.setString('user_role', member.user_role);
-    member.user_role == 'ROLE_USER'
+    pref.setString('userRole', member.userRole);
+    member.userRole == 'ROLE_USER'
         ? pref.setInt('interest', member.interest!)
         : pref.setInt('major', member.major!);
   }
