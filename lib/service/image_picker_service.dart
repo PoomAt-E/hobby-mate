@@ -26,14 +26,14 @@ class ImagePickerService {
     }
   }
 
-  Future<String?> pickSingleImage() async {
+  Future<File?> pickSingleImage() async {
     try {
       final pickedFile = await _filePicker.pickFiles(
         type: FileType.image,
         allowMultiple: false,
       );
       if (pickedFile != null) {
-        return pickedFile.files.first.path;
+        return pickedFile.files.map((e) => File(e.path!)).first;
       } else {
         return null;
       }

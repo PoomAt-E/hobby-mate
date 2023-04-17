@@ -1,10 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hobby_mate/screen/main/bottom_nav.dart';
 import 'package:hobby_mate/style/style.dart';
-import 'package:hobby_mate/widget/profile_image.dart';
-import 'package:hobby_mate/widget/title_header.dart';
+import 'package:hobby_mate/widget/edit_profile_img.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 import '../../model/state.dart';
@@ -96,7 +96,6 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
       }
     });
 
-    // GestureDetector를 최상단으로 두고, requestFocus(FocusNode())를 통해서 키보드를 닫을 수 있음.
     return GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
@@ -147,10 +146,9 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
                         Container(
                             alignment: Alignment.center,
                             width: MediaQuery.of(context).size.width,
-                            child: ProfileImage(
+                            child: EditProfileImage(
                               onProfileImagePressed: onProfileImagePressed,
                               path: imagePath,
-                              type: 1,
                               imageSize:
                                   MediaQuery.of(context).size.height * 0.12,
                             )),
@@ -220,10 +218,10 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
   }
 
   onProfileImagePressed() async {
-    final String? imagePath = await ImagePickerService().pickSingleImage();
+    final File? image = await ImagePickerService().pickSingleImage();
 
-    if (imagePath != null) {
-      ref.read(imageProvider.notifier).state = imagePath;
+    if (image != null) {
+      ref.read(imageProvider.notifier).state = image.path;
     }
   }
 
