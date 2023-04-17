@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hobby_mate/screen/class/class_list_%20screen.dart';
+import 'package:hobby_mate/screen/community/community_screen.dart';
 import 'package:hobby_mate/style/style.dart';
 import 'package:hobby_mate/service/community_service.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -9,7 +10,8 @@ import '../../widget/home/community_box.dart';
 import '../../widget/home/hobby_box.dart';
 import '../../widget/home/class_box.dart';
 
-final postProvider = FutureProvider((ref) => CommunityService().getPost());
+final popularPostProvider =
+    FutureProvider((ref) => CommunityService().getPopularPost());
 
 class Hobby {
   final String title;
@@ -67,7 +69,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ],
       ),
-      backgroundColor: Color.fromARGB(255, 243, 243, 246),
+      backgroundColor: const Color.fromARGB(255, 243, 243, 246),
       body: SingleChildScrollView(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -75,7 +77,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           height: 20,
         ),
         Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             color: Colors.white,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -95,12 +97,12 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           height: 20,
         ),
         Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             color: Colors.white,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Padding(
-                  padding: EdgeInsets.only(bottom: 15),
+                  padding: const EdgeInsets.only(bottom: 15),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
@@ -110,6 +112,10 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                           style: TextStyles.homeTitleTextStyle,
                         ),
                         InkWell(
+                          onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const CommunityScreen())),
                           child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: const [
@@ -130,10 +136,14 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                 height: MediaQuery.of(context).size.height * 0.18,
                 width: double.infinity,
                 alignment: Alignment.center,
-                child: CommunityBoxWidget(
-                  pageController: communityPageController,
-                  posts: [],
-                ),
+                child: PageView.builder(
+                    scrollDirection: Axis.horizontal,
+                    controller: communityPageController,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      return const CommunityBoxWidget();
+                    }),
               ),
               Container(
                 width: double.infinity,
@@ -162,7 +172,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Padding(
-                  padding: EdgeInsets.only(bottom: 15, top: 10),
+                  padding: const EdgeInsets.only(bottom: 15, top: 10),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
@@ -202,7 +212,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                       physics: const BouncingScrollPhysics(),
                       itemCount: 4,
                       itemBuilder: (context, index) {
-                        return ClassBoxWidget();
+                        return const ClassBoxWidget();
                       })),
               Container(
                 width: double.infinity,
