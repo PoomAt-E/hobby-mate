@@ -48,9 +48,11 @@ class _ClassBoxWidgetState extends State<ClassBoxWidget> {
                         children: [
                           Text(
                             '김우중의 헬스 100일',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
@@ -60,7 +62,7 @@ class _ClassBoxWidgetState extends State<ClassBoxWidget> {
                             '딱 100일. 저 김우중이 운동시켜 드리겠습니다 ',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 4,
-                            style: TextStyles.communityContentTextStyle,
+                            style: TextStyles.classContentTextStyle,
                           )
                         ],
                       ))

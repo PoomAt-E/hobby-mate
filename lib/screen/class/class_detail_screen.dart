@@ -33,20 +33,18 @@ class _ClassDetailScreenState extends State<ClassDetailScreen> {
         ),
       ),
       SliverFillRemaining(
-          child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Flex(direction: Axis.vertical, children: [
-                Expanded(
-                    child: Column(
-                  children: [1, 2, 3]
-                      .map((e) => ExpansionTile(
-                          title: Text(
-                            '1주차 : 헬스 시작하기',
-                          ),
-                          children: [ClassWeekBox()]))
-                      .toList(),
-                ))
-              ])))
+          child: Flex(direction: Axis.vertical, children: [
+        Expanded(
+            child: Column(
+          children: [1, 2, 3]
+              .map((e) => ExpansionTile(
+                  title: Text(
+                    '1주차 : 헬스 시작하기',
+                  ),
+                  children: [ClassWeekBox()]))
+              .toList(),
+        ))
+      ]))
     ]));
   }
 }

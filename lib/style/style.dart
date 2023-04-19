@@ -53,10 +53,17 @@ class TextStyles {
 
   static const TextStyle communityContentTextStyle = TextStyle(
       height: 1.4,
-      fontSize: 15,
+      fontSize: 14,
       overflow: TextOverflow.ellipsis,
       fontWeight: FontWeight.w500,
       letterSpacing: 1.3);
+
+  static const TextStyle classContentTextStyle = TextStyle(
+      height: 1.2,
+      fontSize: 14,
+      overflow: TextOverflow.ellipsis,
+      fontWeight: FontWeight.w500,
+      letterSpacing: 1.2);
 
   static const TextStyle hobbyTitleTextStyle = TextStyle(
       color: Colors.black87, fontSize: 18, fontWeight: FontWeight.w500);
