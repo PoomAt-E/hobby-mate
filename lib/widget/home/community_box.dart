@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../model/post.dart';
 import '../../style/style.dart';
 import '../profile_image.dart';
 

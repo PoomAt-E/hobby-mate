@@ -21,9 +21,18 @@ class ChatService {
 
   String userEmail = '';
 
-  Future getUserEmail() async {
+  Future<String> makeChatroomId(String otherEmail) async {
+    if (userEmail == '') await getUserEmail();
+
+    final List<String> emails = [userEmail, otherEmail];
+    emails.sort();
+    return emails.join('&').replaceAll('.', '');
+  }
+
+  Future<String> getUserEmail() async {
     prefs = await SharedPreferences.getInstance();
     userEmail = prefs.getString('email')!.replaceAll('.', '');
+    return userEmail;
   }
 
   Future<List<MyChat>> getChatList() async {
