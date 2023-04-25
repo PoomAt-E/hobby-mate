@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../style/style.dart';
 
 class MainAppbar extends StatelessWidget with PreferredSizeWidget {
-  const MainAppbar({super.key});
+  const MainAppbar({super.key, this.hasBackBtn = false});
+
+  final bool hasBackBtn;
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
   @override
@@ -15,12 +17,15 @@ class MainAppbar extends StatelessWidget with PreferredSizeWidget {
         '취미에 취하다',
         style: TextStyles.appbarTextStyle,
       ),
-      // leading: IconButton(
-      //   icon: const Icon(Icons.arrow_back_ios_sharp, color: Colors.black54),
-      //   onPressed: () {
-      //     Navigator.pop(context);
-      //   },
-      // ),
+      leading: hasBackBtn
+          ? IconButton(
+              icon:
+                  const Icon(Icons.arrow_back_ios_sharp, color: Colors.black54),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          : null,
     );
   }
 }
