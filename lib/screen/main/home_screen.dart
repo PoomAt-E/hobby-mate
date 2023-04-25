@@ -241,7 +241,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
   onProfileIconClicked() async {
     final pref = await SharedPreferences.getInstance();
     final email = pref.getString('email')!;
-    Member member = await AuthService().getMember(email);
+    Member member = await AuthService().getMemberInfo(email);
 
     pushProfileScreen(member);
   }

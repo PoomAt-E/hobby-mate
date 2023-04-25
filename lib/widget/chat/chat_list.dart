@@ -18,7 +18,7 @@ class ChatList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     onProfilePressed(BuildContext context, String email) async {
-      final member = await AuthService().getMember(email);
+      final member = await AuthService().getMemberInfo(email);
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -43,7 +43,7 @@ class ChatList extends StatelessWidget {
       String userEmail = prefs.getString('email')!;
       String chatroomId = ('$email&$userEmail').replaceAll('.', '');
 
-      final counselor = await AuthService().getMember(email);
+      final counselor = await AuthService().getMemberInfo(email);
 
       toChatroom(chatroomId, counselor);
     }

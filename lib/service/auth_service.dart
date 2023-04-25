@@ -5,7 +5,7 @@ import 'package:hobby_mate/model/member.dart';
 
 import '../model/network_result.dart';
 import '../network/dio_client.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 
 const storage = fss.FlutterSecureStorage();
 
@@ -49,15 +49,15 @@ class AuthService {
     // 로그인
     try {
       Map<String, dynamic> result = await DioClient().post(
-          '$_baseUrl/auth/signIn/member',
-          {'email': email, 'password': password, 'authority': 'ROLE_USER'},
+          '$_baseUrl/api/member/signin',
+          {'email': email, 'password': password},
           false);
       if (result['result'] == Result.success) {
-        // 받은 토큰 저장
-        final token = result['response']['token'];
-        storage.write(key: 'accessToken', value: token['accessToken']);
-        storage.write(key: 'refreshToken', value: token['refreshToken']);
-        getMember(email);
+        // // 받은 토큰 저장
+        // final token = result['response']['token'];
+        // storage.write(key: 'accessToken', value: token['accessToken']);
+        // storage.write(key: 'refreshToken', value: token['refreshToken']);
+        getMemberInfo(email);
         return true;
       } else {
         throw Exception('Failed to login');
@@ -67,37 +67,68 @@ class AuthService {
     }
   }
 
-  Future signupWithloadImage({
-    // 이미지 저장 o 회원가입
-    required String path,
-    required Map<String, String> member,
-  }) async {
+  Future<bool> signUp(Map<String, dynamic> data) async {
+    // 로그인
     try {
-      final url = Uri.parse('$_baseUrl/auth/signUp/member');
-      final request = http.MultipartRequest('POST', url);
-      // 파일 업로드를 위한 http.MultipartRequest 생성
-      http.MultipartFile multipartFile =
-          await http.MultipartFile.fromPath('multipartFile', path);
-      request.headers.addAll(
-          {"Content-Type": "multipart/form-data"}); // request에 header 추가
-
-      // 이미지 파일을 http.MultipartFile로 변환하여 request에 추가
-      request.files.add(multipartFile);
-      request.fields.addAll(member); // request에 fields 추가
-
-      var streamedResponse = await request.send();
-      var result = await http.Response.fromStream(streamedResponse);
-      if (result.statusCode == 200) {
-        Member member = Member.fromJson(json.decode(result.body));
-        member.savePreference(member);
+      Map<String, dynamic> result =
+          await DioClient().post('$_baseUrl/api/member/signup', data, false);
+      if (result['result'] == Result.success) {
         return true;
       } else {
-        throw Exception('Failed to signUp');
+        throw Exception('Failed to login');
       }
     } catch (e) {
-      throw Exception('Failed to signUp');
+      throw Exception('Failed to login');
     }
   }
+
+  Future<Member> getMemberInfo(String email) async {
+    try {
+      Map<String, dynamic> result = await DioClient()
+          .get('$_baseUrl/api/member/info/$email', {'email': email}, true);
+      if (result['result'] == Result.success) {
+        Member member = Member.fromJson(result['response']['data']);
+        member.savePreference(member);
+        return member;
+      } else {
+        throw Exception('Failed to getUser');
+      }
+    } catch (e) {
+      throw Exception('Failed to getUser');
+    }
+  }
+
+  // Future signupWithloadImage({
+  //   // 이미지 저장 o 회원가입
+  //   required String path,
+  //   required Map<String, String> member,
+  // }) async {
+  //   try {
+  //     final url = Uri.parse('$_baseUrl/auth/signUp/member');
+  //     final request = http.MultipartRequest('POST', url);
+  //     // 파일 업로드를 위한 http.MultipartRequest 생성
+  //     http.MultipartFile multipartFile =
+  //         await http.MultipartFile.fromPath('multipartFile', path);
+  //     request.headers.addAll(
+  //         {"Content-Type": "multipart/form-data"}); // request에 header 추가
+
+  //     // 이미지 파일을 http.MultipartFile로 변환하여 request에 추가
+  //     request.files.add(multipartFile);
+  //     request.fields.addAll(member); // request에 fields 추가
+
+  //     var streamedResponse = await request.send();
+  //     var result = await http.Response.fromStream(streamedResponse);
+  //     if (result.statusCode == 200) {
+  //       Member member = Member.fromJson(json.decode(result.body));
+  //       member.savePreference(member);
+  //       return true;
+  //     } else {
+  //       throw Exception('Failed to signUp');
+  //     }
+  //   } catch (e) {
+  //     throw Exception('Failed to signUp');
+  //   }
+  // }
 
   Future<bool> emailCheck(String email, String role) async {
     try {
@@ -112,22 +143,6 @@ class AuthService {
       }
     } catch (e) {
       throw Exception('Failed to emailCheck');
-    }
-  }
-
-  Future<Member> getMember(String email) async {
-    try {
-      Map<String, dynamic> result = await DioClient().get(
-          '$_baseUrl/member/get/email/$email', {'user_email': email}, true);
-      if (result['result'] == Result.success) {
-        Member member = Member.fromJson(result['response']);
-        member.savePreference(member);
-        return member;
-      } else {
-        throw Exception('Failed to getUser');
-      }
-    } catch (e) {
-      throw Exception('Failed to getUser');
     }
   }
 }

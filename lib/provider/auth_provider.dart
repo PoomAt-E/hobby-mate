@@ -27,10 +27,23 @@ class AuthState extends StateNotifier<LoadState> {
     }
   }
 
-  Future signupWithloadImage(String path, Map<String, String> member) async {
+  // Future signupWithloadImage(String path, Map<String, String> member) async {
+  //   try {
+  //     var result =
+  //         await AuthService().signupWithloadImage(path: path, member: member);
+  //     if (result) {
+  //       state = LoadState.success;
+  //     } else {
+  //       state = LoadState.fail;
+  //     }
+  //   } catch (e) {
+  //     state = LoadState.fail;
+  //   }
+  // }
+
+  Future signUp(Map<String, dynamic> member) async {
     try {
-      var result =
-          await AuthService().signupWithloadImage(path: path, member: member);
+      var result = await AuthService().signUp(member);
       if (result) {
         state = LoadState.success;
       } else {
@@ -44,7 +57,7 @@ class AuthState extends StateNotifier<LoadState> {
   saveData(String email) async {
     final prefs = await SharedPreferences.getInstance();
     if (prefs.getString('email') == null || prefs.getString('email') != email) {
-      AuthService().getMember(email);
+      AuthService().getMemberInfo(email);
     }
   }
 }

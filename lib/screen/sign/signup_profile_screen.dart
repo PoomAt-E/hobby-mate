@@ -228,25 +228,30 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
 
   onPressedSignupButton(
       String? image, int age, String gender, String interest) async {
-    Map<String, String> member = {
-      'name': textEditForName.text,
+    Map<String, dynamic> member = {
+      'address': textEditrAddress.text,
+      'addressDetail': '',
+      'age': age,
       'email': widget.id,
+      'gender': gender,
+      'interests': [],
+      'introduce': '',
+      'major': [],
+      'name': textEditForName.text,
       'nickname': textEditForNickname.text,
       'password': widget.password,
-      'age': age.toString(),
-      'address': textEditrAddress.text,
-      'sex': gender,
-      'introduce': '',
-      'user_role': widget.role,
+      'phone': '',
+      'role': widget.role,
     };
     if (widget.role == 'ROLE_MENTOR') {
       member['major'] = interest;
     } else {
       member['interest'] = interest;
     }
-    if (image != null) {
-      ref.read(authProvider.notifier).signupWithloadImage(image, member);
-    }
+    ref.read(authProvider.notifier).signUp(member);
+    // if (image != null) {
+    //   ref.read(authProvider.notifier).signupWithloadImage(image, member);
+    // }
   }
 }
 
