@@ -77,7 +77,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                                   CustomInputField(
                                     icon: Icons.email_outlined,
                                     isPassword: false,
-                                    hintText: 'E-Mail',
+                                    title: 'E-Mail',
                                     textEditingController:
                                         textEditingControllerForId,
                                   ),
@@ -88,7 +88,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                                   CustomInputField(
                                     icon: Icons.lock_outline,
                                     isPassword: true,
-                                    hintText: 'Password',
+                                    title: 'Password',
                                     textEditingController:
                                         textEditingControllerForPw,
                                   ),

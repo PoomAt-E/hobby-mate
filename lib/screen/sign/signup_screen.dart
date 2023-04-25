@@ -91,7 +91,7 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
                     CustomInputField(
                       icon: Icons.email_outlined,
                       isPassword: false,
-                      hintText: 'E-Mail',
+                      title: 'E-Mail',
                       textEditingController: textEditingControllerForId,
                     ),
                     SizedBox(
@@ -99,7 +99,7 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
                     CustomInputField(
                       icon: Icons.lock_outline,
                       isPassword: true,
-                      hintText: 'Password',
+                      title: 'Password',
                       textEditingController: textEditingControllerForPw,
                     ),
                     SizedBox(
@@ -107,7 +107,7 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
                     CustomInputField(
                       icon: Icons.lock_outline,
                       isPassword: true,
-                      hintText: 'Check your Password',
+                      title: 'Check your Password',
                       textEditingController: textEditingControllerForCheckPw,
                     ),
                     SizedBox(

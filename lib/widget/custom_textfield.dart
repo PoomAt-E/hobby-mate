@@ -6,13 +6,15 @@ class CustomInputField extends StatelessWidget {
   final bool isPassword;
   final String hintText;
   final IconData icon;
+  final String title;
   final TextEditingController textEditingController;
 
   const CustomInputField({
     Key? key,
     required this.isPassword,
-    required this.hintText,
+    this.hintText = '',
     required this.icon,
+    required this.title,
     required this.textEditingController,
   }) : super(key: key);
 
@@ -22,7 +24,7 @@ class CustomInputField extends StatelessWidget {
       const SizedBox(
         height: 7,
       ),
-      Text(hintText, style: TextStyles.editProfileTitleTextStyle),
+      Text(title, style: TextStyles.editProfileTitleTextStyle),
       const SizedBox(
         height: 5,
       ),
@@ -43,8 +45,11 @@ class CustomInputField extends StatelessWidget {
             controller: textEditingController,
             cursorColor: Colors.grey,
             keyboardType: TextInputType.multiline,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               border: InputBorder.none,
+              hintText: hintText,
+              hintTextDirection: TextDirection.rtl,
+              hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
             ),
           ),
         ),

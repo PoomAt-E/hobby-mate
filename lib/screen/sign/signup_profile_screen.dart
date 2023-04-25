@@ -19,6 +19,7 @@ final authProvider = StateNotifierProvider.autoDispose<AuthState, LoadState>(
 final imageProvider = StateProvider<String?>((ref) => null);
 final ageProvider = StateProvider((ref) => 20);
 final genderProvider = StateProvider((ref) => 'Male');
+final phoneProvider = StateProvider((ref) => '');
 
 class SignUpProfileScreen extends ConsumerStatefulWidget {
   final String id;
@@ -45,7 +46,10 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
 
   TextEditingController textEditForName = TextEditingController();
   TextEditingController textEditForNickname = TextEditingController();
-  TextEditingController textEditrAddress = TextEditingController();
+  TextEditingController textEditForAddress = TextEditingController();
+  TextEditingController textEditForAddressDetail = TextEditingController();
+  TextEditingController textEditForPhone = TextEditingController();
+  TextEditingController textEditForIntroduce = TextEditingController();
 
   List<String> interestList = [
     'Music',
@@ -158,13 +162,13 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
                         CustomInputField(
                           icon: Icons.person_outline,
                           isPassword: false,
-                          hintText: 'name',
+                          title: 'name',
                           textEditingController: textEditForName,
                         ),
                         CustomInputField(
                           icon: Icons.person_outline,
                           isPassword: false,
-                          hintText: 'nickname',
+                          title: 'nickname',
                           textEditingController: textEditForNickname,
                         ),
                         SizedBox(
@@ -175,8 +179,21 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
                         CustomInputField(
                           icon: Icons.home_outlined,
                           isPassword: false,
-                          hintText: 'Street Address',
-                          textEditingController: textEditrAddress,
+                          title: 'Street Address',
+                          textEditingController: textEditForAddress,
+                        ),
+                        CustomInputField(
+                          icon: Icons.home_outlined,
+                          isPassword: false,
+                          title: 'Address Detail',
+                          textEditingController: textEditForAddressDetail,
+                        ),
+                        CustomInputField(
+                          icon: Icons.phone_outlined,
+                          isPassword: false,
+                          title: 'phone',
+                          hintText: 'input without \'-\'',
+                          textEditingController: textEditForPhone,
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(
@@ -197,7 +214,15 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
                           list: interestList,
                         ),
                         SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.02),
+                            height: MediaQuery.of(context).size.height * 0.015),
+                        CustomInputField(
+                          icon: Icons.phone_outlined,
+                          isPassword: false,
+                          title: 'introduce',
+                          textEditingController: textEditForIntroduce,
+                        ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.05),
                       ]),
                 ))));
   }
@@ -229,18 +254,18 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
   onPressedSignupButton(
       String? image, int age, String gender, String interest) async {
     Map<String, dynamic> member = {
-      'address': textEditrAddress.text,
-      'addressDetail': '',
+      'address': textEditForAddress.text,
+      'addressDetail': textEditForAddressDetail.text,
       'age': age,
       'email': widget.id,
       'gender': gender,
       'interests': [],
-      'introduce': '',
+      'introduce': textEditForIntroduce.text,
       'major': [],
       'name': textEditForName.text,
       'nickname': textEditForNickname.text,
       'password': widget.password,
-      'phone': '',
+      'phone': textEditForPhone.text,
       'role': widget.role,
     };
     if (widget.role == 'ROLE_MENTOR') {
@@ -379,7 +404,7 @@ class InterestPicker extends ConsumerWidget {
             height: 55,
             decoration: BoxDecoration(
               color: Palette.boxContainerColor,
-              borderRadius: BorderRadius.circular(56),
+              borderRadius: BorderRadius.circular(10),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 16),
             width: MediaQuery.of(context).size.width - 64,
