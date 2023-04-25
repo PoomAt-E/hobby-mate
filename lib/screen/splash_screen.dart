@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hobby_mate/screen/sign/login_screen.dart';
 import 'package:hobby_mate/style/style.dart';
 
 import '../service/auth_service.dart';
@@ -24,7 +25,7 @@ class SplashScreen extends ConsumerWidget {
     void toLoginScreen() {
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => BottomNavigation()),
+          MaterialPageRoute(builder: (context) => LoginScreen()),
           (route) => false);
     }
 

@@ -101,6 +101,7 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
                 titleTextStyle: const TextStyle(
                     fontWeight: FontWeight.w300,

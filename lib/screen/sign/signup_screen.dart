@@ -76,49 +76,53 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Scaffold(
+            resizeToAvoidBottomInset: false,
             body: Column(children: [
-          Expanded(
-              child: Center(
-                  child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.2),
-                const TitleHeader(titleContext: 'Sign Up', subContext: ''),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-                CustomInputField(
-                  icon: Icons.email_outlined,
-                  isPassword: false,
-                  hintText: 'E-Mail',
-                  textEditingController: textEditingControllerForId,
+              Expanded(
+                  child: Center(
+                      child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+                    const TitleHeader(titleContext: 'Sign Up', subContext: ''),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                    CustomInputField(
+                      icon: Icons.email_outlined,
+                      isPassword: false,
+                      hintText: 'E-Mail',
+                      textEditingController: textEditingControllerForId,
+                    ),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.015),
+                    CustomInputField(
+                      icon: Icons.lock_outline,
+                      isPassword: true,
+                      hintText: 'Password',
+                      textEditingController: textEditingControllerForPw,
+                    ),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.015),
+                    CustomInputField(
+                      icon: Icons.lock_outline,
+                      isPassword: true,
+                      hintText: 'Check your Password',
+                      textEditingController: textEditingControllerForCheckPw,
+                    ),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.015),
+                    RoleWidget(),
+                    const _PopLoginPage(),
+                  ],
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.015),
-                CustomInputField(
-                  icon: Icons.lock_outline,
-                  isPassword: true,
-                  hintText: 'Password',
-                  textEditingController: textEditingControllerForPw,
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.015),
-                CustomInputField(
-                  icon: Icons.lock_outline,
-                  isPassword: true,
-                  hintText: 'Check your Password',
-                  textEditingController: textEditingControllerForCheckPw,
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.015),
-                RoleWidget(),
-                const _PopLoginPage(),
-              ],
-            ),
-          ))),
-          Container(
-            padding: const EdgeInsets.only(left: 25, right: 25, bottom: 20),
-            child: CustomRoundButton(
-                title: 'Create Account', onPressed: onPressedSignupButton),
-          )
-        ])));
+              ))),
+              Container(
+                padding: const EdgeInsets.only(left: 25, right: 25, bottom: 20),
+                child: CustomRoundButton(
+                    title: 'Create Account', onPressed: onPressedSignupButton),
+              )
+            ])));
   }
 
   void showSnackbar(String message) {

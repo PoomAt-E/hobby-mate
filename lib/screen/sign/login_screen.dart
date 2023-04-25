@@ -53,63 +53,67 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Scaffold(
+            resizeToAvoidBottomInset: false,
             body: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-                flex: 1,
-                child: Center(
-                    child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 25),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const TitleHeader(
-                                titleContext: 'Log In',
-                                subContext: '',
-                              ),
-                              SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.05),
-                              CustomInputField(
-                                icon: Icons.email_outlined,
-                                isPassword: false,
-                                hintText: 'E-Mail',
-                                textEditingController:
-                                    textEditingControllerForId,
-                              ),
-                              SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.015),
-                              CustomInputField(
-                                icon: Icons.lock_outline,
-                                isPassword: true,
-                                hintText: 'Password',
-                                textEditingController:
-                                    textEditingControllerForPw,
-                              ),
-                              const _PushSignupPage(),
-                            ])))),
-            Container(
-                padding: const EdgeInsets.only(left: 25, right: 25, bottom: 20),
-                child: Column(children: [
-                  CustomRoundButton(
-                    title: 'Log In',
-                    onPressed: onPressedLoginButton,
-                  ),
-                  Center(
-                    child: TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        "Forget Password?",
-                        style: TextStyles.underlineTextStyle,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                    flex: 1,
+                    child: Center(
+                        child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 25),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const TitleHeader(
+                                    titleContext: 'Log In',
+                                    subContext: '',
+                                  ),
+                                  SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.05),
+                                  CustomInputField(
+                                    icon: Icons.email_outlined,
+                                    isPassword: false,
+                                    hintText: 'E-Mail',
+                                    textEditingController:
+                                        textEditingControllerForId,
+                                  ),
+                                  SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.015),
+                                  CustomInputField(
+                                    icon: Icons.lock_outline,
+                                    isPassword: true,
+                                    hintText: 'Password',
+                                    textEditingController:
+                                        textEditingControllerForPw,
+                                  ),
+                                  const _PushSignupPage(),
+                                ])))),
+                Container(
+                    padding:
+                        const EdgeInsets.only(left: 25, right: 25, bottom: 20),
+                    child: Column(children: [
+                      CustomRoundButton(
+                        title: 'Log In',
+                        onPressed: onPressedLoginButton,
                       ),
-                    ),
-                  )
-                ]))
-          ],
-        )));
+                      Center(
+                        child: TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            "Forget Password?",
+                            style: TextStyles.underlineTextStyle,
+                          ),
+                        ),
+                      )
+                    ]))
+              ],
+            )));
   }
 
   void showSnackbar(String message) {
