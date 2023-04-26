@@ -32,11 +32,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   initializePlayer() async {
     _controller = VideoPlayerController.network(
       'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
-    );
-
-    await Future.wait([_controller.initialize()]);
-    setControllor();
-    setState(() {});
+    )..initialize().then((value) {
+        setControllor();
+        setState(() {});
+      });
   }
 
   void setControllor() {
@@ -72,14 +71,20 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                         child: Chewie(
                           controller: _chewieController!,
                         ))
-                    : const Center(child: CircularProgressIndicator())),
+                    : Container(
+                        padding: EdgeInsets.all(20),
+                        child: Center(child: CircularProgressIndicator()))),
             Column(
-              children: [1, 2, 3]
+              children: ['통기타 시작하기', '튜닝하기', '악보 읽기', '코드 읽기']
                   .map((e) => ExpansionTile(
-                      title: Text(
-                        '1주차 : 헬스 시작하기',
-                      ),
-                      children: [ClassWeekBox()]))
+                          title: Text(
+                            e,
+                          ),
+                          children: [
+                            ClassWeekBox(
+                              title: e,
+                            )
+                          ]))
                   .toList(),
             )
           ],

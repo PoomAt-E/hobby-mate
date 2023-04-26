@@ -24,7 +24,7 @@ class _ClassDetailScreenState extends State<ClassDetailScreen> {
               decoration: BoxDecoration(
                   color: Colors.black54,
                   borderRadius: BorderRadius.circular(5)),
-              child: Text('김우중의 헬스 100일',
+              child: Text('통기타 시작하기',
                   style: TextStyle(color: Colors.white, fontSize: 12))),
           background: Image(
             image: AssetImage('assets/images/default_class.png'),
@@ -36,12 +36,12 @@ class _ClassDetailScreenState extends State<ClassDetailScreen> {
           child: Flex(direction: Axis.vertical, children: [
         Expanded(
             child: Column(
-          children: [1, 2, 3]
+          children: ['통기타 시작하기', '튜닝하기', '악보 읽기', '코드 읽기']
               .map((e) => ExpansionTile(
                   title: Text(
-                    '1주차 : 헬스 시작하기',
+                    e,
                   ),
-                  children: [ClassWeekBox()]))
+                  children: [ClassWeekBox(title: e)]))
               .toList(),
         ))
       ]))
@@ -50,7 +50,9 @@ class _ClassDetailScreenState extends State<ClassDetailScreen> {
 }
 
 class ClassWeekBox extends StatelessWidget {
-  const ClassWeekBox({super.key});
+  const ClassWeekBox({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -98,14 +100,14 @@ class ClassWeekBox extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text(
-                        '1주차 : 헬스 시작하기',
+                        '튜닝하기',
                         style: TextStyles.classWeekContentTextStyle,
                       ),
                       SizedBox(
                         height: 10,
                       ),
                       Text(
-                        '헬스를 시작하기 위한 기본적인 운동 방법과 운동에 필요한 용품들을 알아봅니다.',
+                        '본격적으로 통기타를 다뤄보기 전, 튜닝에 대해 알아봅시다',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 4,
                         style: TextStyles.classWeekContentDetailTextStyle,

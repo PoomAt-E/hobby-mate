@@ -47,7 +47,7 @@ class _ClassBoxWidgetState extends State<ClassBoxWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '김우중의 헬스 100일',
+                            '통기타 시작하기',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -59,7 +59,7 @@ class _ClassBoxWidgetState extends State<ClassBoxWidget> {
                             height: 10,
                           ),
                           Text(
-                            '딱 100일. 저 김우중이 운동시켜 드리겠습니다 ',
+                            '100명중 1명만이 터득하는 통기타의 비밀을 알려드립니다.',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 4,
                             style: TextStyles.classContentTextStyle,
