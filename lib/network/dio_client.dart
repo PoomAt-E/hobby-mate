@@ -58,7 +58,7 @@ class DioClient {
               : Options(contentType: Headers.jsonContentType));
       if (response.statusCode == 200) {
         _checkToken(response.headers);
-        return {'result': Result.success, 'response': response.data};
+        return {'result': Result.success, 'response': response.data['data']};
       } else if (response.statusCode == 401) {
         if (response.headers.value('CODE') == 'RTE') {
           // 토큰이 만료되었을 때
@@ -98,7 +98,7 @@ class DioClient {
               : Options(contentType: Headers.jsonContentType));
       if (response.statusCode == 200) {
         _checkToken(response.headers);
-        return {'result': Result.success, 'response': response.data};
+        return {'result': Result.success, 'response': response.data['data']};
       } else if (response.statusCode == 401) {
         if (response.headers.value('CODE') == 'RTE') {
           // 토큰이 만료되었을 때
