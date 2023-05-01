@@ -5,6 +5,7 @@ import 'package:hobby_mate/screen/class/class_list_%20screen.dart';
 import 'package:hobby_mate/screen/community/community_screen.dart';
 import 'package:hobby_mate/screen/main/bottom_nav.dart';
 import 'package:hobby_mate/screen/main/profile_screen.dart';
+import 'package:hobby_mate/screen/main/search_screen.dart';
 import 'package:hobby_mate/service/auth_service.dart';
 import 'package:hobby_mate/style/style.dart';
 import 'package:hobby_mate/service/community_service.dart';
@@ -62,7 +63,12 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.search, color: Colors.black54),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SearchScreen()));
+            },
           ),
           IconButton(
             icon: const Icon(Icons.notifications, color: Colors.black54),
