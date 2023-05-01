@@ -6,23 +6,23 @@ import 'package:hobby_mate/screen/chat/chat_screen.dart';
 import 'package:hobby_mate/screen/main/profile_screen.dart';
 import 'package:hobby_mate/service/chat_service.dart';
 import 'package:hobby_mate/widget/appbar.dart';
-import 'package:hobby_mate/widget/chat/chat_list.dart';
 
+import '../service/member_service.dart';
 import '../style/style.dart';
 import '../widget/profile_image.dart';
 
 final chatListProvider =
     FutureProvider<List<MyChat>>((ref) => ChatService().getChatList());
 
-final memberProvider = FutureProvider<List<Member>>((ref) {
-  final chatlist = ref.watch(chatListProvider);
-  // final List<Member> memberlist = await MemberService.get();
-  final List<Member> memberlist = [];
+final memberProvider = FutureProvider<List<Member>>((ref) async {
+  final chatlist = await ref.watch(chatListProvider.future);
+  final List<Member> recommendMemberList =
+      await MemberService().getRecommendMember();
 
-  final chatMemberNamelist = chatlist.asData!.value.map((e) => e.otherName);
+  final chatMemberNamelist = chatlist.map((e) => e.otherName);
 
-  if (chatlist.hasValue) {
-    return memberlist
+  if (chatlist.isNotEmpty) {
+    return recommendMemberList
         .where((element) => chatMemberNamelist.contains(element.name))
         .toList();
   } else {
@@ -40,32 +40,15 @@ class MatchingScreen extends ConsumerStatefulWidget {
 class _MatchingScreenState extends ConsumerState<MatchingScreen> {
   @override
   Widget build(BuildContext context) {
-    final chatlist = ref.watch(chatListProvider);
     final memberlist = ref.watch(memberProvider);
 
     return Scaffold(
-      appBar: MainAppbar(),
+      appBar: const MainAppbar(),
       body: Placeholder(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Text('나와 매칭된 사람들'),
-              chatlist.when(
-                  data: (item) => item.isEmpty
-                      ? const Expanded(
-                          child: Center(
-                              child: Center(
-                                  child: Text('No chats yet',
-                                      style: TextStyles.shadowTextStyle))))
-                      : Expanded(
-                          child: ChatList(
-                          chats: item,
-                        )),
-                  error: (e, st) =>
-                      Expanded(child: Center(child: Text('Error: $e'))),
-                  loading: () => const Expanded(
-                      child: Center(child: CircularProgressIndicator()))),
-              Text('나와 취미가 맞는 사람들'),
+              const Text('나와 취미가 맞는 사람들'),
               memberlist.when(
                   data: (item) => item.isEmpty
                       ? const Expanded(
@@ -139,19 +122,19 @@ class _MatchListState extends State<MatchList> {
                   ],
                 ),
               ),
-              GestureDetector(
+              InkWell(
                   onTap: () => onButtonClick(widget.members[index]),
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.24,
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     height: 30,
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 42, 42, 42),
+                      color: const Color.fromARGB(255, 42, 42, 42),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: const Center(
-                      child: Text('request',
-                          style: TextStyles.blueBottonTextStyle),
+                      child:
+                          Text('채팅해보기', style: TextStyles.blueBottonTextStyle),
                     ),
                   ))
             ],
@@ -167,6 +150,12 @@ class _MatchListState extends State<MatchList> {
         );
   }
 
+  void onButtonClick(Member member) async {
+    final chatroomId = await ChatService().makeChatroomId(member.email);
+
+    toChatScreen(chatroomId, member);
+  }
+
   void toChatScreen(String chatroomId, Member member) {
     Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ChatScreen(
@@ -175,11 +164,5 @@ class _MatchListState extends State<MatchList> {
                   other: member,
                 )) // 리버팟 적용된 HomeScreen 만들기
         );
-  }
-
-  void onButtonClick(Member member) async {
-    final chatroomId = await ChatService().makeChatroomId(member.email);
-
-    toChatScreen(chatroomId, member);
   }
 }
