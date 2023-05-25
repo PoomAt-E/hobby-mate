@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../style/style.dart';
 
-class MainAppbar extends StatelessWidget with PreferredSizeWidget {
+class MainAppbar extends StatelessWidget implements PreferredSizeWidget {
   const MainAppbar({super.key, this.hasBackBtn = false});
 
   final bool hasBackBtn;
