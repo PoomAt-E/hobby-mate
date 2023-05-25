@@ -21,17 +21,15 @@ class AuthService {
   Future<bool> isLogin() async {
     // 로그인 되어있는지 확인 (토큰 만료 여부 확인)
     String? acToken = await storage.read(key: 'accessToken');
-    String? rfToken = await storage.read(key: 'refreshToken');
+    // String? rfToken = await storage.read(key: 'refreshToken');
     try {
-      if (acToken == null && rfToken == null) {
+      if (acToken == null) {
         return false;
       } else {
         Map<String, dynamic> result = await DioClient().post(
-            '$_baseUrl/auth/validate/token',
+            '$_baseUrl/account/api/auth/validate',
             {
-              'accessToken': acToken,
-              'refreshToken': rfToken,
-              'authority': 'ROLE_USER'
+              'token': acToken,
             },
             false);
         if (result['result'] == Result.success) {
@@ -49,7 +47,7 @@ class AuthService {
     // 로그인
     try {
       Map<String, dynamic> result = await DioClient().post(
-          '$_baseUrl/api/member/signin',
+          '$_baseUrl/account/api/auth/signin',
           {'email': email, 'password': password},
           false);
       if (result['result'] == Result.success) {
@@ -70,8 +68,8 @@ class AuthService {
   Future<bool> signUp(Map<String, dynamic> data) async {
     // 로그인
     try {
-      Map<String, dynamic> result =
-          await DioClient().post('$_baseUrl/api/member/signup', data, false);
+      Map<String, dynamic> result = await DioClient()
+          .post('$_baseUrl/account/api/auth/signup', data, false);
       if (result['result'] == Result.success) {
         return true;
       } else {
@@ -84,8 +82,8 @@ class AuthService {
 
   Future<Member> getMemberInfo(String email) async {
     try {
-      Map<String, dynamic> result = await DioClient()
-          .get('$_baseUrl/api/member/info/$email', {'email': email}, true);
+      Map<String, dynamic> result = await DioClient().get(
+          '$_baseUrl/account/api/member/info/$email', {'email': email}, true);
       if (result['result'] == Result.success) {
         Member member = Member.fromJson(result['response']['data']);
         member.savePreference(member);
