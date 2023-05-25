@@ -4,9 +4,10 @@ import 'package:hobby_mate/style/style.dart';
 import '../../screen/main/home_screen.dart';
 
 class HobbyBoxWidget extends StatefulWidget {
-  const HobbyBoxWidget({super.key, required this.hobbyList});
+  const HobbyBoxWidget({super.key, required this.hobbyList, required this.size});
 
   final List<Hobby> hobbyList;
+  final double size;
 
   @override
   State<HobbyBoxWidget> createState() => _HobbyBoxWidgetState();
@@ -16,8 +17,10 @@ class _HobbyBoxWidgetState extends State<HobbyBoxWidget> {
   @override
   Widget build(BuildContext context) {
     final boxWidthSize = MediaQuery.of(context).size.width * 0.3;
-    return ListView.builder(
+    return
+      ListView.builder(
         scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
         itemCount: widget.hobbyList.length,
         itemBuilder: (context, index) {
           return Container(
@@ -35,28 +38,29 @@ class _HobbyBoxWidgetState extends State<HobbyBoxWidget> {
                   )
                 ]),
             // border: Border.all(color: Colors.black26, width: 1)),
-            width: boxWidthSize,
+            height: widget.size - 40,
+            width: widget.size - 40,
             padding: const EdgeInsets.all(15),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              // crossAxisAlignment: CrossAxisAlignment.start,
+            child: Stack(
+              alignment: Alignment.bottomCenter,
               children: [
                 Container(
-                    width: boxWidthSize - 30,
-                    height: boxWidthSize - 30,
+                    width: widget.size - 40,
+                    height: widget.size - 40,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage(widget.hobbyList[index].icon),
                         ))),
-                Text(
+                Positioned(bottom: 0,
+                    child: Text(
                   widget.hobbyList[index].title,
                   style: TextStyles.hobbyTitleTextStyle,
-                )
-              ],
-            ),
+                ))
+              ])
+
+
           );
         });
   }

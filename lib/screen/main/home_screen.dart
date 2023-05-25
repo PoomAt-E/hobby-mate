@@ -101,7 +101,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
               SizedBox(
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.2,
-                child: HobbyBoxWidget(hobbyList: hobbyList),
+                child: HobbyBoxWidget(hobbyList: hobbyList, size: MediaQuery.of(context).size.height * 0.2),
               ),
             ])),
         const SizedBox(
@@ -193,9 +193,9 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                         InkWell(
                           onTap: () =>
                               ref.read(bottomNavProvider.notifier).state = 1,
-                          child: Row(
+                          child: const Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children:  [
                                 Text(
                                   '전체보기  ',
                                   style: TextStyle(
