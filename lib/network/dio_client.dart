@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as fss;
+import 'package:hobby_mate/service/token_service.dart';
 
 import '../model/network_result.dart';
 
@@ -25,21 +26,6 @@ class DioClient {
     _refToken = await storage.read(key: 'refreshToken');
   }
 
-  _checkToken(Headers headers) {
-    if (headers.value('accessToken') != null) {
-      _tokenRefresh(
-          headers.value('accessToken')!, headers.value('refreshToken')!);
-    }
-  }
-
-  _tokenRefresh(String acToken, String refToken) async {
-    storage.write(key: 'accessToken', value: acToken);
-    storage.write(key: 'refreshToken', value: refToken);
-
-    _acToken = acToken;
-    _refToken = refToken;
-  }
-
   Future<Map<String, dynamic>> get(
       String url, Map<String, dynamic>? parameter, bool useToken) async {
     try {
@@ -57,18 +43,11 @@ class DioClient {
                 )
               : Options(contentType: Headers.jsonContentType));
       if (response.statusCode == 200) {
-        _checkToken(response.headers);
         return {'result': Result.success, 'response': response.data['data']};
-      } else if (response.statusCode == 401) {
-        if (response.headers.value('CODE') == 'RTE') {
-          // 토큰이 만료되었을 때
-          return {'result': Result.tokenExpired};
-        } else {
-          return {'result': Result.fail};
-        }
+      } else if (response.statusCode == 401 || response.statusCode == 403) {
+        TokenService().refreshToken();
+        return {'result': Result.tokenExpired};
       } else {
-        print("${response.realUri} [500] 서버에서 처리가 안됌");
-        _checkToken(response.headers);
         return {'result': Result.fail};
       }
     } on DioError catch (e) {
@@ -97,17 +76,11 @@ class DioClient {
                 )
               : Options(contentType: Headers.jsonContentType));
       if (response.statusCode == 200) {
-        _checkToken(response.headers);
         return {'result': Result.success, 'response': response.data['data']};
-      } else if (response.statusCode == 401) {
-        if (response.headers.value('CODE') == 'RTE') {
-          // 토큰이 만료되었을 때
-          return {'result': Result.tokenExpired};
-        } else {
-          return {'result': Result.fail};
-        }
+      } else if (response.statusCode == 401 || response.statusCode == 403) {
+        TokenService().refreshToken();
+        return {'result': Result.tokenExpired};
       } else {
-        _checkToken(response.headers);
         return {'result': Result.fail};
       }
     } on DioError catch (e) {
