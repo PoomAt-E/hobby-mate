@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hobby_mate/model/member.dart';
+import 'package:hobby_mate/screen/sign/signup_screen.dart';
 import 'package:hobby_mate/style/style.dart';
 import 'package:hobby_mate/widget/edit_profile_img.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -25,7 +26,7 @@ final phoneProvider = StateProvider((ref) => '');
 class SignUpProfileScreen extends ConsumerStatefulWidget {
   final String id;
   final String password;
-  final String role;
+  final ROLES role;
 
   const SignUpProfileScreen({
     Key? key,
@@ -266,12 +267,12 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
       'addressDetail': textEditForAddressDetail.text,
       'sex': gender,
       'introduce': textEditForIntroduce.text,
-      'role': widget.role,
+      'role': widget.role == ROLES.MENTEE ? 'MENTEE' : 'MENTOR',
       'phone': textEditForPhone.text,
       'interests': [],
       'majors': []
     };
-    if (widget.role == 'ROLE_MENTOR') {
+    if (widget.role == ROLES.MENTOR) {
       member['major'] = interest;
     } else {
       member['interest'] = interest;

@@ -10,11 +10,12 @@ import 'login_screen.dart';
 
 // 이메일 중복체크
 enum EmailDuplicateState { proceeding, success, fail, apifail }
+enum ROLES { MENTEE, MENTOR }
 
 final idCheckProvider =
     StateProvider<EmailDuplicateState>((ref) => EmailDuplicateState.proceeding);
 
-final roleProvider = StateProvider((ref) => 'MENTEE');
+final roleProvider = StateProvider<ROLES>((ref) => ROLES.MENTEE);
 
 class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -164,7 +165,7 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
             builder: (context) => SignUpProfileScreen(
                   id: textEditingControllerForId.text,
                   password: textEditingControllerForPw.text,
-                  role: 'MENTEE', // 임시
+                  role: ref.read(roleProvider), // 임시
                 )));
 
     //   try {
@@ -197,17 +198,17 @@ class RoleWidgetState extends ConsumerState<RoleWidget> {
         RowButton(
           data: '멘토',
           onGenderChoosed: () => setState(() {
-            ref.read(roleProvider.notifier).state = 'ROLE_MENTOR';
+            ref.read(roleProvider.notifier).state = ROLES.MENTOR;
           }),
-          state: role == 'ROLE_MENTOR',
+          state: role == ROLES.MENTOR,
         ),
         SizedBox(width: MediaQuery.of(context).size.width * 0.02),
         RowButton(
             data: '멘티',
             onGenderChoosed: () => setState(() {
-                  ref.read(roleProvider.notifier).state = 'ROLE_MENTEE';
+                  ref.read(roleProvider.notifier).state = ROLES.MENTEE;
                 }),
-            state: role == 'ROLE_MENTEE'),
+            state: role == ROLES.MENTEE),
       ],
     );
   }
