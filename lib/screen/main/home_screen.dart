@@ -20,6 +20,7 @@ final popularPostProvider =
 class Hobby {
   final String title;
   final String icon;
+
   Hobby({required this.title, required this.icon});
 }
 
@@ -47,8 +48,13 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
 
   final communityPageController = PageController();
   final classPageController = PageController();
+  int column = 0;
+
   @override
   Widget build(BuildContext context) {
+    column = hobbyList.length ~/ 4;
+    if(hobbyList.length % 4 != 0) column += 1;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -59,15 +65,6 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         leadingWidth: 0,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search, color: Colors.black54),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SearchScreen()));
-            },
-          ),
           IconButton(
             icon: const Icon(Icons.notifications, color: Colors.black54),
             onPressed: () {},
@@ -83,96 +80,134 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const SizedBox(
-          height: 20,
+          height: 10,
         ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SearchScreen()));
+            },
+            child: TextField(
+              enabled: false,
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SearchScreen()));
+              },
+              decoration: InputDecoration(
+                hintText: '어떤 취미를 찾으시나요?',
+                hintStyle: const TextStyle(fontSize: 14),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: const BorderSide(color: Colors.amber, width: 2),
+                ),
+                disabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.amber, width: 2),
+                ),
+                suffixIcon: const Icon(
+                  Icons.search,
+                  color: Colors.black54,
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 20,),
         Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             color: Colors.white,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const Padding(
-                  padding: EdgeInsets.only(bottom: 15),
+                  padding: EdgeInsets.only(bottom: 30),
                   child: Text(
-                    '🔥 요즘 Hot한 취미는',
+                    '이런 취미는 어떠세요?',
                     style: TextStyles.homeTitleTextStyle,
                   )),
               SizedBox(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.2,
-                child: HobbyBoxWidget(hobbyList: hobbyList, size: MediaQuery.of(context).size.height * 0.2),
+                height: 90*column.toDouble()+10,
+                child: HobbyBoxWidget(
+                    hobbyList: hobbyList,
               ),
-            ])),
-        const SizedBox(
-          height: 20,
-        ),
-        Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            color: Colors.white,
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        const Text(
-                          '🪧 오늘의 커뮤니티',
-                          style: TextStyles.homeTitleTextStyle,
-                        ),
-                        InkWell(
-                          onTap: () =>
-                              ref.read(bottomNavProvider.notifier).state = 2,
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Text(
-                                  '전체보기  ',
-                                  style: TextStyle(
-                                      fontSize: 13, color: Colors.black54),
-                                ),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 12,
-                                  color: Colors.black54,
-                                )
-                              ]),
-                        )
-                      ])),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.2,
-                width: double.infinity,
-                alignment: Alignment.center,
-                child: PageView.builder(
-                    scrollDirection: Axis.horizontal,
-                    controller: communityPageController,
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: 4,
-                    itemBuilder: (context, index) {
-                      return const CommunityBoxWidget();
-                    }),
-              ),
-              Container(
-                width: double.infinity,
-                alignment: Alignment.center,
-                child: SmoothPageIndicator(
-                    controller: communityPageController,
-                    count: 4,
-                    effect: const ScrollingDotsEffect(
-                      activeDotColor: Colors.indigoAccent,
-                      activeStrokeWidth: 10,
-                      activeDotScale: 1.7,
-                      maxVisibleDots: 5,
-                      radius: 8,
-                      spacing: 10,
-                      dotHeight: 5,
-                      dotWidth: 5,
-                    )),
-              )
-            ])),
-        const SizedBox(
-          height: 20,
-        ),
+            )])),
+        // const SizedBox(
+        //   height: 20,
+        // ),
+        // Container(
+        //     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        //     color: Colors.white,
+        //     child:
+        //         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        //       Padding(
+        //           padding: const EdgeInsets.only(bottom: 15),
+        //           child: Row(
+        //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //               mainAxisSize: MainAxisSize.max,
+        //               children: [
+        //                 const Text(
+        //                   '🪧 오늘의 커뮤니티',
+        //                   style: TextStyles.homeTitleTextStyle,
+        //                 ),
+        //                 InkWell(
+        //                   onTap: () =>
+        //                       ref.read(bottomNavProvider.notifier).state = 2,
+        //                   child: Row(
+        //                       crossAxisAlignment: CrossAxisAlignment.start,
+        //                       children: const [
+        //                         Text(
+        //                           '전체보기  ',
+        //                           style: TextStyle(
+        //                               fontSize: 13, color: Colors.black54),
+        //                         ),
+        //                         Icon(
+        //                           Icons.arrow_forward_ios,
+        //                           size: 12,
+        //                           color: Colors.black54,
+        //                         )
+        //                       ]),
+        //                 )
+        //               ])),
+        //       Container(
+        //         height: MediaQuery.of(context).size.height * 0.2,
+        //         width: double.infinity,
+        //         alignment: Alignment.center,
+        //         child: PageView.builder(
+        //             scrollDirection: Axis.horizontal,
+        //             controller: communityPageController,
+        //             physics: const BouncingScrollPhysics(),
+        //             itemCount: 4,
+        //             itemBuilder: (context, index) {
+        //               return const CommunityBoxWidget();
+        //             }),
+        //       ),
+        //       Container(
+        //         width: double.infinity,
+        //         alignment: Alignment.center,
+        //         child: SmoothPageIndicator(
+        //             controller: communityPageController,
+        //             count: 4,
+        //             effect: const ScrollingDotsEffect(
+        //               activeDotColor: Colors.indigoAccent,
+        //               activeStrokeWidth: 10,
+        //               activeDotScale: 1.7,
+        //               maxVisibleDots: 5,
+        //               radius: 8,
+        //               spacing: 10,
+        //               dotHeight: 5,
+        //               dotWidth: 5,
+        //             )),
+        //       )
+        //     ])),
+        // const SizedBox(
+        //   height: 20,
+        // ),
         Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             color: Colors.white,
@@ -185,7 +220,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         const Text(
-                          '👩🏻‍💻 추천 강좌',
+                          '📚 오늘의 클래스',
                           style: TextStyles.homeTitleTextStyle,
                         ),
                         InkWell(
@@ -193,7 +228,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                               ref.read(bottomNavProvider.notifier).state = 1,
                           child: const Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children:  [
+                              children: [
                                 Text(
                                   '전체보기  ',
                                   style: TextStyle(

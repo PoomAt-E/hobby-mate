@@ -23,43 +23,69 @@ class SearchScreen extends ConsumerStatefulWidget {
 
 class SearchScreenState extends ConsumerState<SearchScreen> {
   final TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final data = ref.watch(searchedListProvider);
+    final text = ref.watch(searchTextProvider);
     return Scaffold(
-        appBar: AppBar(
-          elevation: 3,
-          backgroundColor: Colors.white,
-          leadingWidth: 0,
-          title: TextField(
-            controller: _controller,
-            onChanged: (text) {
-              ref.read(searchTextProvider.notifier).state = text;
-            },
-            decoration: const InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Search',
-                prefixIcon: Icon(Icons.search)),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                _controller.clear();
-                ref.read(searchTextProvider.notifier).state = '';
-              },
-              icon: const Icon(Icons.clear),
-            )
-          ],
-        ),
-        body: data.when(
-          data: (data) => SearchListWidget(list: data),
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
-          ),
-          error: (e, s) => const Center(
-            child: Text('Error'),
-          ),
-        ));
+        body: Container(
+            padding: const EdgeInsets.only(top: 30),
+            child: Column(
+              children: [
+                Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: TextField(
+                      enabled: true,
+                      controller: _controller,
+                      onChanged: (text) {
+                        ref.read(searchTextProvider.notifier).state = text;
+                      },
+                      cursorColor: Colors.amber,
+                      decoration: InputDecoration(
+                          hintText: '어떤 취미를 찾으시나요?',
+                          hintStyle: const TextStyle(fontSize: 14),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide:
+                                const BorderSide(color: Colors.amber, width: 2),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                                const BorderSide(color: Colors.amber, width: 2),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                                const BorderSide(color: Colors.amber, width: 2),
+                          ),
+                          suffixIcon: text == ''
+                              ? const Icon(
+                                  Icons.search,
+                                  color: Colors.black54,
+                                )
+                              : IconButton(
+                                  onPressed: () {
+                                    _controller.clear();
+                                    ref
+                                        .read(searchTextProvider.notifier)
+                                        .state = '';
+                                  },
+                                  icon: const Icon(Icons.clear, color: Colors.amber,))),
+                    )),
+                Expanded(
+                    child: data.when(
+                  data: (data) => SearchListWidget(list: data),
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  error: (e, s) => const Center(
+                    child: Text('Error'),
+                  ),
+                ))
+              ],
+            )));
   }
 }
 
@@ -90,20 +116,22 @@ class SearchListWidget extends ConsumerWidget {
           textAlign: TextAlign.start);
     }
 
-    return ListView.builder(
-      itemCount: list.length,
-      itemBuilder: (context, index) {
-        return Container(
-          margin: EdgeInsets.symmetric(
-            horizontal: 20,
-          ),
-          padding: EdgeInsets.symmetric(vertical: 15),
-          child: searchText(list[index]),
-          decoration: BoxDecoration(
-              border:
-                  Border(bottom: BorderSide(color: Colors.black12, width: 1))),
-        );
-      },
-    );
+    return SingleChildScrollView(
+        child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: list
+          .map((e) => Container(
+                alignment: Alignment.centerLeft,
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                decoration: const BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(color: Colors.black12, width: 1))),
+                child: searchText(e),
+              ))
+          .toList(),
+    ));
   }
 }

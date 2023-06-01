@@ -4,62 +4,46 @@ import 'package:hobby_mate/style/style.dart';
 import '../../screen/main/home_screen.dart';
 
 class HobbyBoxWidget extends StatefulWidget {
-  const HobbyBoxWidget({super.key, required this.hobbyList, required this.size});
+  const HobbyBoxWidget({super.key, required this.hobbyList});
 
   final List<Hobby> hobbyList;
-  final double size;
 
   @override
   State<HobbyBoxWidget> createState() => _HobbyBoxWidgetState();
 }
 
 class _HobbyBoxWidgetState extends State<HobbyBoxWidget> {
+
   @override
   Widget build(BuildContext context) {
-    final boxWidthSize = MediaQuery.of(context).size.width * 0.3;
-    return
-      ListView.builder(
-        scrollDirection: Axis.horizontal,
+    return GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 4, //1 개의 행에 보여줄 item 개수
+        childAspectRatio: 1 / 1, //item 의 가로 2, 세로 2 의 비율
+        mainAxisSpacing: 0, //수평 Padding
+      crossAxisSpacing: 0
+      ),
         shrinkWrap: true,
         itemCount: widget.hobbyList.length,
         itemBuilder: (context, index) {
-          return Container(
-            margin:
-                const EdgeInsets.only(right: 17, top: 10, bottom: 10, left: 10),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color.fromARGB(21, 0, 0, 0),
-                    blurRadius: 5,
-                    spreadRadius: 1,
-                    offset: Offset(1, 3),
-                  )
-                ]),
-            // border: Border.all(color: Colors.black26, width: 1)),
-            height: widget.size - 40,
-            width: widget.size - 40,
-            padding: const EdgeInsets.all(15),
-            child: Stack(
-              alignment: Alignment.bottomCenter,
+          return SizedBox(
+            height: 80,
+            width: 80,
+            child: Column(
               children: [
                 Container(
-                    width: widget.size - 40,
-                    height: widget.size - 40,
+                    width: 50,
+                    height: 50,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage(widget.hobbyList[index].icon),
                         ))),
-                Positioned(bottom: 0,
-                    child: Text(
+                Text(
                   widget.hobbyList[index].title,
                   style: TextStyles.hobbyTitleTextStyle,
-                ))
+                )
               ])
-
 
           );
         });

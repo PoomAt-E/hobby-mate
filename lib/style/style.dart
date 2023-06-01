@@ -66,7 +66,7 @@ class TextStyles {
       letterSpacing: 1.2);
 
   static const TextStyle hobbyTitleTextStyle = TextStyle(
-      color: Colors.black87, fontSize: 18, fontWeight: FontWeight.w500);
+      color: Colors.black87, fontSize: 13, fontWeight: FontWeight.w500);
   static const TextStyle classWeekTitleTextStyle =
       TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500);
   static const TextStyle classWeekContentTextStyle = TextStyle(

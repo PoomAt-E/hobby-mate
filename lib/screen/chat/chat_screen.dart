@@ -197,7 +197,8 @@ class ChatScreenState extends State<ChatScreen> {
   newChatroom() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     userId = prefs.getString('email')!;
-    final username = prefs.getString('name')!;
+    final userName = prefs.getString('name')!;
+    final userRole = prefs.getString('role')!;
     final userUrl = prefs.getString('profile_img_url')!;
     final message = Message(
         content: newMessage,
@@ -209,9 +210,9 @@ class ChatScreenState extends State<ChatScreen> {
             name: widget.other.name,
             email: widget.other.email,
             photoUrl: widget.other.profileImageURL,
-            role: 'other'),
+            role: widget.other.role),
         user2: ChatMember(
-            name: username, email: userId, role: 'user', photoUrl: userUrl),
+            name: userName, email: userId, role: userRole, photoUrl: userUrl),
         messages: [message]);
     ChatService().newChatRoom(chatroom, message);
   }
