@@ -10,7 +10,7 @@ class MemberService {
   Future<List<Member>> getRecommendMember() async {
     try {
       Map<String, dynamic> result =
-          await DioClient().get('$_baseUrl/', {}, true);
+          await DioClient().get('$_baseUrl/account/api/member/list', {}, false);
       if (result['result'] == Result.success) {
         List<Member> members = result['response']
             .map((json) => Member.fromJson(json))

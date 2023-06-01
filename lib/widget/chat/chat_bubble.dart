@@ -71,7 +71,7 @@ class ChatBubbles extends StatelessWidget {
                       children: [
                         ProfileButton(
                             nickname: member.name,
-                            path: member.profileImgUrl,
+                            path: member.profileImageURL,
                             onProfilePressed: onProfilePressed),
                         Padding(
                             padding: const EdgeInsets.only(left: 40),
@@ -101,7 +101,7 @@ class ChatBubbles extends StatelessWidget {
                       children: [
                         ProfileButton(
                             nickname: member.name,
-                            path: member.profileImgUrl,
+                            path: member.profileImageURL,
                             onProfilePressed: onProfilePressed),
                         Padding(
                             padding: const EdgeInsets.only(left: 40),

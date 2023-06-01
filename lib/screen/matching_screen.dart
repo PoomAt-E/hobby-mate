@@ -44,30 +44,29 @@ class _MatchingScreenState extends ConsumerState<MatchingScreen> {
 
     return Scaffold(
       appBar: const MainAppbar(),
-      body: Placeholder(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const Text('나와 취미가 맞는 사람들'),
-              memberlist.when(
-                  data: (item) => item.isEmpty
-                      ? const Expanded(
-                          child: Center(
-                              child: Center(
-                                  child: Text('No members yet',
-                                      style: TextStyles.shadowTextStyle))))
-                      : Expanded(
-                          child: MatchList(
-                          members: item,
-                        )),
-                  error: (e, st) =>
-                      Expanded(child: Center(child: Text('Error: $e'))),
-                  loading: () => const Expanded(
-                      child: Center(child: CircularProgressIndicator()))),
-            ],
-          ),
-        ),
-      ),
+      body:memberlist.when(
+              data: (item) => item.isEmpty
+                  ? const Center(
+                      child: Center(
+                          child: Text('No members yet',
+                              style: TextStyles.shadowTextStyle)))
+                  : Center(
+                      child: Center(
+                          child: Text('No members yet',
+                              style: TextStyles.shadowTextStyle))),
+              error: (e, st) =>
+                  Center(child: Text('Error: $e')),
+              loading: () => const Expanded(
+                  child: Center(child: CircularProgressIndicator()))),
+        // Column(
+        //     children:
+        //     [
+        //       const Text('나와 취미가 맞는 사람들'),
+        //
+        //     ],
+        //   ),
+
+
     );
   }
 }
@@ -99,7 +98,7 @@ class _MatchListState extends State<MatchList> {
                     ProfileImage(
                       onProfileImagePressed: () =>
                           onProfileTap(widget.members[index]),
-                      path: widget.members.elementAt(index).profileImgUrl,
+                      path: widget.members.elementAt(index).profileImageURL,
                       imageSize: MediaQuery.of(context).size.width * 0.12,
                     ),
                     const SizedBox(

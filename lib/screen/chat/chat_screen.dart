@@ -208,7 +208,7 @@ class ChatScreenState extends State<ChatScreen> {
         user1: ChatMember(
             name: widget.other.name,
             email: widget.other.email,
-            photoUrl: widget.other.profileImgUrl,
+            photoUrl: widget.other.profileImageURL,
             role: 'other'),
         user2: ChatMember(
             name: username, email: userId, role: 'user', photoUrl: userUrl),

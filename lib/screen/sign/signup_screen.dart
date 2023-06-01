@@ -14,7 +14,7 @@ enum EmailDuplicateState { proceeding, success, fail, apifail }
 final idCheckProvider =
     StateProvider<EmailDuplicateState>((ref) => EmailDuplicateState.proceeding);
 
-final roleProvider = StateProvider((ref) => 'ROLE_MENTEE');
+final roleProvider = StateProvider((ref) => 'MENTEE');
 
 class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -164,7 +164,7 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
             builder: (context) => SignUpProfileScreen(
                   id: textEditingControllerForId.text,
                   password: textEditingControllerForPw.text,
-                  role: 'ROLE_MENTEE', // 임시
+                  role: 'MENTEE', // 임시
                 )));
 
     //   try {

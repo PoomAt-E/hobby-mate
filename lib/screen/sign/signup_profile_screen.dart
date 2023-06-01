@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hobby_mate/model/member.dart';
 import 'package:hobby_mate/style/style.dart';
 import 'package:hobby_mate/widget/edit_profile_img.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -25,6 +26,7 @@ class SignUpProfileScreen extends ConsumerStatefulWidget {
   final String id;
   final String password;
   final String role;
+
   const SignUpProfileScreen({
     Key? key,
     required this.id,
@@ -253,20 +255,21 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
 
   onPressedSignupButton(
       String? image, int age, String gender, String interest) async {
+
     Map<String, dynamic> member = {
-      'address': textEditForAddress.text,
-      'addressDetail': textEditForAddressDetail.text,
-      'age': age,
-      'email': widget.id,
-      'gender': gender,
-      'interests': [],
-      'introduce': textEditForIntroduce.text,
-      'major': [],
       'name': textEditForName.text,
+      'email': widget.id,
       'nickname': textEditForNickname.text,
       'password': widget.password,
-      'phone': textEditForPhone.text,
+      'age': age,
+      'address': textEditForAddress.text,
+      'addressDetail': textEditForAddressDetail.text,
+      'sex': gender,
+      'introduce': textEditForIntroduce.text,
       'role': widget.role,
+      'phone': textEditForPhone.text,
+      'interests': [],
+      'majors': []
     };
     if (widget.role == 'ROLE_MENTOR') {
       member['major'] = interest;

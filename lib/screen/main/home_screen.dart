@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hobby_mate/model/member.dart';
-import 'package:hobby_mate/screen/class/class_list_%20screen.dart';
-import 'package:hobby_mate/screen/community/community_screen.dart';
 import 'package:hobby_mate/screen/main/bottom_nav.dart';
 import 'package:hobby_mate/screen/main/profile_screen.dart';
 import 'package:hobby_mate/screen/main/search_screen.dart';
