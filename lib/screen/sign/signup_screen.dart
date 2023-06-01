@@ -103,6 +103,13 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
                       title: 'Password',
                       textEditingController: textEditingControllerForPw,
                     ),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      child: const Text('비밀번호는 소문자, 대문자, 특수문자 포함 8자리 이상입니다.',
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 11.5,
+                            fontWeight: FontWeight.w400)),),
                     SizedBox(
                         height: MediaQuery.of(context).size.height * 0.015),
                     CustomInputField(
@@ -113,7 +120,7 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
                     ),
                     SizedBox(
                         height: MediaQuery.of(context).size.height * 0.015),
-                    RoleWidget(),
+                    const RoleWidget(),
                     const _PopLoginPage(),
                   ],
                 ),
