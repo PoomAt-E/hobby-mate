@@ -15,19 +15,20 @@ final chatListProvider =
     FutureProvider<List<MyChat>>((ref) => ChatService().getChatList());
 
 final memberProvider = FutureProvider<List<Member>>((ref) async {
-  final chatlist = await ref.watch(chatListProvider.future);
+  // final chatlist = await ref.watch(chatListProvider.future);
   final List<Member> recommendMemberList =
       await MemberService().getRecommendMember();
 
-  final chatMemberNamelist = chatlist.map((e) => e.otherName);
+  // final chatMemberNamelist = chatlist.map((e) => e.otherName);
 
-  if (chatlist.isNotEmpty) {
-    return recommendMemberList
-        .where((element) => chatMemberNamelist.contains(element.name))
-        .toList();
-  } else {
-    return [];
-  }
+  // if (chatlist.isNotEmpty) {
+  //   return recommendMemberList
+  //       .where((element) => chatMemberNamelist.contains(element.name))
+  //       .toList();
+  return recommendMemberList;
+  // } else {
+  //   return [];
+  // }
 });
 
 class MatchingScreen extends ConsumerStatefulWidget {
@@ -44,29 +45,30 @@ class _MatchingScreenState extends ConsumerState<MatchingScreen> {
 
     return Scaffold(
       appBar: const MainAppbar(),
-      body:memberlist.when(
-              data: (item) => item.isEmpty
-                  ? const Center(
-                      child: Center(
-                          child: Text('No members yet',
-                              style: TextStyles.shadowTextStyle)))
-                  : Center(
-                      child: Center(
-                          child: Text('No members yet',
-                              style: TextStyles.shadowTextStyle))),
-              error: (e, st) =>
-                  Center(child: Text('Error: $e')),
-              loading: () => const Expanded(
-                  child: Center(child: CircularProgressIndicator()))),
-        // Column(
-        //     children:
-        //     [
-        //       const Text('나와 취미가 맞는 사람들'),
-        //
-        //     ],
-        //   ),
-
-
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: SingleChildScrollView(
+          child:
+          // Column(
+          //   children: [
+          //     const Text('나와 취미가 맞는 사람들'),
+              memberlist.when(
+                  data: (item) => item.isEmpty
+                      ? const Center(
+                              child: Center(
+                                  child: Text('No members yet',
+                                      style: TextStyles.shadowTextStyle)))
+                      : MatchList(
+                          members: item,
+                        ),
+                  error: (e, st) =>
+                      Center(child: Text('Error: $e')),
+                  loading: () => const Center(child: CircularProgressIndicator())),
+          //   ],
+          // ),
+        ),
+      ),
     );
   }
 }
@@ -83,62 +85,65 @@ class MatchList extends StatefulWidget {
 class _MatchListState extends State<MatchList> {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        shrinkWrap: true,
-        itemCount: widget.members.length,
-        itemBuilder: (context, index) {
-          return Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: () => onProfileTap(widget.members[index]),
-                child: Row(
-                  children: [
-                    ProfileImage(
-                      onProfileImagePressed: () =>
-                          onProfileTap(widget.members[index]),
-                      path: widget.members.elementAt(index).profileImageURL,
-                      imageSize: MediaQuery.of(context).size.width * 0.12,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        child: Text.rich(
-                          TextSpan(
-                              text: '${widget.members[index].name}\n',
-                              style: TextStyles.chatHeading,
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text:
-                                        widget.members.elementAt(index).address,
-                                    style: TextStyles.chatbodyText),
-                              ]),
-                          textAlign: TextAlign.start,
-                        )),
-                  ],
+    return Column(
+      children: widget.members.map((e) => Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () => onProfileTap(e),
+            child: Row(
+              children: [
+                ProfileImage(
+                  onProfileImagePressed: () =>
+                      onProfileTap(e),
+                  path: e.profileImageURL,
+                  imageSize: MediaQuery.of(context).size.width * 0.12,
                 ),
-              ),
-              InkWell(
-                  onTap: () => onButtonClick(widget.members[index]),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.24,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    height: 30,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 42, 42, 42),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Center(
-                      child:
-                          Text('채팅해보기', style: TextStyles.blueBottonTextStyle),
-                    ),
-                  ))
-            ],
-          );
-        });
+                const SizedBox(
+                  width: 10,
+                ),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: Text.rich(
+                      TextSpan(
+                          text: '${e.name}\n',
+                          style: TextStyles.chatHeading,
+                          children: <TextSpan>[
+                            TextSpan(
+                                text:
+                                e.address,
+                                style: TextStyles.chatbodyText),
+                          ]),
+                      textAlign: TextAlign.start,
+                    )),
+              ],
+            ),
+          ),
+          InkWell(
+              onTap: () => onButtonClick(e),
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.24,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                height: 30,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 42, 42, 42),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Center(
+                  child:
+                  Text('채팅해보기', style: TextStyles.blueBottonTextStyle),
+                ),
+              ))
+        ],
+      )).toList()
+    );
+      // ListView.builder(
+      //   shrinkWrap: true,
+      //   itemCount: widget.members.length,
+      //   itemBuilder: (context, index) {
+      //     return ;
+      //   });
   }
 
   void onProfileTap(Member member) {
