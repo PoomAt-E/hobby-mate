@@ -17,6 +17,8 @@ class MainAppbar extends StatelessWidget implements PreferredSizeWidget {
         '취미에 취하다',
         style: TextStyles.appbarTextStyle,
       ),
+      leadingWidth: hasBackBtn
+          ?50 : 0,
       leading: hasBackBtn
           ? IconButton(
               icon:
