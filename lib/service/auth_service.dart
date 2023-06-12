@@ -16,7 +16,7 @@ class AuthService {
   }
   AuthService._internal();
 
-  final String? _baseUrl = dotenv.env['BASE_URL'];
+  final String? _baseUrl = dotenv.env['AUTH_SERVER_URL'];
 
   Future<bool> isLogin() async {
     // 로그인 되어있는지 확인 (토큰 만료 여부 확인)

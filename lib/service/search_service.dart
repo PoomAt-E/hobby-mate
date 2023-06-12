@@ -14,17 +14,15 @@ class SearchService {
   Future<List<String>> search(String key) async {
     try {
       Map<String, dynamic> result =
-          await DioClient().get('$_baseUrl/', {}, true);
+          await DioClient().get('$_baseUrl/', {'keyword': key}, true);
       if (result['result'] == Result.success) {
-        // List<String> posts = result['response']
+        // List<String> results = result['response']
         //     .map((json) => Post.fromJson(json))
         //     .cast<Post>()
         //     .toList();
-
         return [];
       } else {
-        return ['어쩌구', '저쩌구', '어쩌구'];
-        throw Exception('Failed to getPost');
+        return [];
       }
     } catch (e) {
       return ['어쩌구', '저쩌구', '어쩌구'];

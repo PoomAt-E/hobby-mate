@@ -5,7 +5,7 @@ import '../model/member.dart';
 import '../model/network_result.dart';
 
 class MemberService {
-  final String? _baseUrl = dotenv.env['BASE_URL'];
+  final String? _baseUrl = dotenv.env['AUTH_SERVER_URL'];
 
   Future<List<Member>> getRecommendMember() async {
     try {

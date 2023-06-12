@@ -12,7 +12,7 @@ class CommunityService {
   }
   CommunityService._internal();
 
-  final String? _baseUrl = dotenv.env['BASE_URL'];
+  final String? _baseUrl = dotenv.env['COMMUNITY_SERVER_URL'];
 
   Future<List<Post>> getPost() async {
     try {
