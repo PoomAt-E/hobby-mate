@@ -11,6 +11,7 @@ import 'package:hobby_mate/widget/appbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../model/vod.dart';
 import '../../widget/home/hobby_box.dart';
 import '../../widget/home/class_box.dart';
 
@@ -239,7 +240,17 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                       physics: const BouncingScrollPhysics(),
                       itemCount: 4,
                       itemBuilder: (context, index) {
-                        return const ClassBoxWidget();
+                        return  ClassBoxWidget(vod: Vod(
+                          ownerId: "1",
+                          vodName: '통기타 시작하기',
+                          vodGroupId: "1",
+                          vodLengthH: 1,
+                          vodLengthM: 30,
+                          vodLengthS: 1,
+                          vodType: "1",
+                          id: "1",
+                          vodUrl: "1",
+                        ));
                       })),
               Container(
                 width: double.infinity,

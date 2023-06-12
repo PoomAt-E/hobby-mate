@@ -8,6 +8,7 @@ import 'package:hobby_mate/style/style.dart';
 import 'package:hobby_mate/widget/home/class_box.dart';
 import 'package:intl/intl.dart';
 
+import '../../model/vod.dart';
 import '../../util/number_format.dart';
 import '../../widget/number_btn.dart';
 import '../sign/signup_profile_screen.dart';
@@ -85,7 +86,17 @@ class EstimateScreenState extends ConsumerState<EstimateScreen> {
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.w600),
                               ),
-                              const ClassBoxWidget(),
+                              ClassBoxWidget(vod: Vod(
+                                ownerId: "1",
+                                vodName: '통기타 시작하기',
+                                vodGroupId: "1",
+                                vodLengthH: 1,
+                                vodLengthM: 30,
+                                vodLengthS: 1,
+                                vodType: "1",
+                                id: "1",
+                                vodUrl: "1",
+                              ),),
                               Container(
                                   margin: const EdgeInsets.only(top: 20),
                                   child: Row(
