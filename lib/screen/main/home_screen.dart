@@ -7,6 +7,7 @@ import 'package:hobby_mate/screen/main/search_screen.dart';
 import 'package:hobby_mate/service/auth_service.dart';
 import 'package:hobby_mate/style/style.dart';
 import 'package:hobby_mate/service/community_service.dart';
+import 'package:hobby_mate/widget/appbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -56,25 +57,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
     if(hobbyList.length % 4 != 0) column += 1;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          '취미에 취하다',
-          style: TextStyles.appbarTextStyle,
-        ),
-        leadingWidth: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications, color: Colors.black54),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Icons.person, color: Colors.black54),
-            onPressed: () {},
-          ),
-        ],
-      ),
+      appBar: const MainAppbar(),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
           child:
@@ -83,7 +66,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           height: 10,
         ),
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: InkWell(
             onTap: () {
               Navigator.push(
@@ -120,16 +103,16 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         const SizedBox(height: 20,),
         Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             color: Colors.white,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Padding(
-                  padding: EdgeInsets.only(bottom: 30),
-                  child: Text(
-                    '이런 취미는 어떠세요?',
-                    style: TextStyles.homeTitleTextStyle,
-                  )),
+              // const Padding(
+              //     padding: EdgeInsets.only(bottom: 30),
+              //     child: Text(
+              //       '이런 취미는 어떠세요?',
+              //       style: TextStyles.homeTitleTextStyle,
+              //     )),
               SizedBox(
                 width: double.infinity,
                 height: 90*column.toDouble()+10,

@@ -13,23 +13,22 @@ class HobbyBoxWidget extends StatefulWidget {
 }
 
 class _HobbyBoxWidgetState extends State<HobbyBoxWidget> {
-
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4, //1 개의 행에 보여줄 item 개수
-        childAspectRatio: 1 / 1, //item 의 가로 2, 세로 2 의 비율
-        mainAxisSpacing: 0, //수평 Padding
-      crossAxisSpacing: 0
-      ),
+    return GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4, //1 개의 행에 보여줄 item 개수
+            childAspectRatio: 1 / 1, //item 의 가로 2, 세로 2 의 비율
+            mainAxisSpacing: 0, //수평 Padding
+            crossAxisSpacing: 0),
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: widget.hobbyList.length,
         itemBuilder: (context, index) {
           return SizedBox(
-            height: 80,
-            width: 80,
-            child: Column(
-              children: [
+              height: 80,
+              width: 80,
+              child: Column(children: [
                 Container(
                     width: 50,
                     height: 50,
@@ -43,9 +42,7 @@ class _HobbyBoxWidgetState extends State<HobbyBoxWidget> {
                   widget.hobbyList[index].title,
                   style: TextStyles.hobbyTitleTextStyle,
                 )
-              ])
-
-          );
+              ]));
         });
   }
 }
