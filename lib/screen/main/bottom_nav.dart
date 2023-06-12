@@ -5,6 +5,8 @@ import 'package:hobby_mate/screen/class/class_list_%20screen.dart';
 import 'package:hobby_mate/screen/community/community_screen.dart';
 import 'package:hobby_mate/style/style.dart';
 import 'package:hobby_mate/screen/main/home_screen.dart';
+import 'package:hobby_mate/screen/match/MenteeScreen.dart';
+import 'package:hobby_mate/screen/match/MentorScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final bottomNavProvider = StateProvider<int>((ref) => 0);
@@ -28,14 +30,25 @@ class BottomNavigationState extends ConsumerState<BottomNavigation> {
   Widget build(BuildContext context) {
     final currentPage = ref.watch(bottomNavProvider);
     final role = ref.watch(roleStateProvider);
-
-    final screen = [
+    final List<dynamic> screen = role.when(data: (data)=>
+      [
       const HomeScreen(),
       const ClassListScreen(),
       const CommunityScreen(),
       const ChatListScreen(),
-      if(role == 'Mento')...[const MentoScreen()]else...[const MenteeScreen()]
-    ];
+      if(data == 'Mento')...[const MentorScreen()]else...[const MenteeScreen()]]
+     , error: ((error, stackTrace) => [
+      const HomeScreen(),
+      const ClassListScreen(),
+      const CommunityScreen(),
+      const ChatListScreen(),
+      const CircularProgressIndicator()]), loading: ()=>[
+      const HomeScreen(),
+      const ClassListScreen(),
+      const CommunityScreen(),
+      const ChatListScreen(),
+      const CircularProgressIndicator()]);
+
 
     return Scaffold(
       body: SafeArea(child: screen.elementAt(currentPage)),
@@ -83,6 +96,16 @@ class BottomNavigationState extends ConsumerState<BottomNavigation> {
                   color: Palette.bottomSelectedColor,
                 ),
                 label: 'Chat'),
+                BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.chat,
+                  color: Palette.bottomUnselectedColor,
+                ),
+                activeIcon: Icon(
+                  Icons.chat,
+                  color: Palette.bottomSelectedColor,
+                ),
+                label: 'Match'),
           ],
           currentIndex: currentPage,
           selectedItemColor: Palette.bottomSelectedColor,
