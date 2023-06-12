@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hobby_mate/screen/main/search_screen.dart';
 import 'package:hobby_mate/style/style.dart';
 
 import '../../screen/main/home_screen.dart';
@@ -25,24 +26,32 @@ class _HobbyBoxWidgetState extends State<HobbyBoxWidget> {
         physics: const NeverScrollableScrollPhysics(),
         itemCount: widget.hobbyList.length,
         itemBuilder: (context, index) {
-          return SizedBox(
-              height: 80,
-              width: 80,
-              child: Column(children: [
-                Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage(widget.hobbyList[index].icon),
-                        ))),
-                Text(
-                  widget.hobbyList[index].title,
-                  style: TextStyles.hobbyTitleTextStyle,
-                )
-              ]));
+          return InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SearchScreen(text: widget.hobbyList[index].title)));
+            },
+            child: SizedBox(
+                height: 80,
+                width: 80,
+                child: Column(children: [
+                  Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(widget.hobbyList[index].icon),
+                          ))),
+                  Text(
+                    widget.hobbyList[index].title,
+                    style: TextStyles.hobbyTitleTextStyle,
+                  )
+                ]))
+          );
         });
   }
 }
