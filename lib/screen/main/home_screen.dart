@@ -11,7 +11,6 @@ import 'package:hobby_mate/widget/appbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../widget/home/community_box.dart';
 import '../../widget/home/hobby_box.dart';
 import '../../widget/home/class_box.dart';
 
@@ -54,7 +53,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     column = hobbyList.length ~/ 4;
-    if(hobbyList.length % 4 != 0) column += 1;
+    if (hobbyList.length % 4 != 0) column += 1;
 
     return Scaffold(
       appBar: const MainAppbar(),
@@ -83,15 +82,17 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                         builder: (context) => const SearchScreen()));
               },
               decoration: InputDecoration(
+                // filled: true,
+                // fillColor: Colors.teal[50]!.withOpacity(0.5),
                 hintText: '어떤 취미를 찾으시나요?',
-                hintStyle: const TextStyle(fontSize: 14),
+                hintStyle: const TextStyle(fontSize: 14, color: Colors.black54),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
-                  borderSide: const BorderSide(color: Colors.amber, width: 2),
+                  borderSide: const BorderSide(color: Colors.teal, width: 2),
                 ),
                 disabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.amber, width: 2),
+                  borderSide: const BorderSide(color: Colors.teal, width: 2),
                 ),
                 suffixIcon: const Icon(
                   Icons.search,
@@ -101,7 +102,9 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           ),
         ),
-        const SizedBox(height: 20,),
+        const SizedBox(
+          height: 20,
+        ),
         Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             color: Colors.white,
@@ -115,11 +118,12 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
               //     )),
               SizedBox(
                 width: double.infinity,
-                height: 90*column.toDouble()+10,
+                height: 90 * column.toDouble() + 10,
                 child: HobbyBoxWidget(
-                    hobbyList: hobbyList,
-              ),
-            )])),
+                  hobbyList: hobbyList,
+                ),
+              )
+            ])),
         // const SizedBox(
         //   height: 20,
         // ),
@@ -197,33 +201,33 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Padding(
-                  padding: const EdgeInsets.only(bottom: 15, top: 10),
+                  padding: const EdgeInsets.only(top: 10),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         const Text(
-                          '📚 오늘의 클래스',
+                          '인기 클래스',
                           style: TextStyles.homeTitleTextStyle,
                         ),
-                        InkWell(
-                          onTap: () =>
-                              ref.read(bottomNavProvider.notifier).state = 1,
-                          child: const Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '전체보기  ',
-                                  style: TextStyle(
-                                      fontSize: 13, color: Colors.black54),
-                                ),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 12,
-                                  color: Colors.black54,
-                                )
-                              ]),
-                        )
+                        // InkWell(
+                        //   onTap: () =>
+                        //       ref.read(bottomNavProvider.notifier).state = 1,
+                        //   child: const Row(
+                        //       crossAxisAlignment: CrossAxisAlignment.start,
+                        //       children: [
+                        //         Text(
+                        //           '전체보기  ',
+                        //           style: TextStyle(
+                        //               fontSize: 13, color: Colors.black54),
+                        //         ),
+                        //         Icon(
+                        //           Icons.arrow_forward_ios,
+                        //           size: 12,
+                        //           color: Colors.black54,
+                        //         )
+                        //       ]),
+                        // )
                       ])),
               Container(
                   height: MediaQuery.of(context).size.height * 0.2,

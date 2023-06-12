@@ -33,7 +33,7 @@ class TextStyles {
 
   static const TextStyle homeTitleTextStyle = TextStyle(
     color: Colors.black87,
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: FontWeight.w600,
   );
 
