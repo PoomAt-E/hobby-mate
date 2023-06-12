@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hobby_mate/model/vod.dart';
 import 'package:hobby_mate/service/search_service.dart';
 import 'package:hobby_mate/style/style.dart';
+import 'package:hobby_mate/widget/home/class_box.dart';
 
 import '../../provider/search_provider.dart';
+import '../../widget/profile_image.dart';
 
 final searchTextProvider = StateProvider<String>((ref) => '');
 
@@ -35,7 +38,6 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
 
   @override
   void initState() {
-
     _controller.text = widget.text;
     ref.read(searchProvider.notifier).search(widget.text);
 
@@ -106,7 +108,30 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
               ],
             )),
         Expanded(
-          child: SearchListWidget(list: data),
+          child: SearchListWidget(list: [
+            Vod(
+              ownerId: "1",
+              vodName: '테니스 시작하기',
+              vodGroupId: "1",
+              vodLengthH: 1,
+              vodLengthM: 30,
+              vodLengthS: 1,
+              vodType: "1",
+              id: "1",
+              vodUrl: "1",
+            ),
+            Vod(
+              ownerId: "1",
+              vodName: '테니스 중급 과정',
+              vodGroupId: "1",
+              vodLengthH: 1,
+              vodLengthM: 30,
+              vodLengthS: 1,
+              vodType: "1",
+              id: "1",
+              vodUrl: "1",
+            )
+          ]),
         ),
       ],
     )));
@@ -116,7 +141,7 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
 class SearchListWidget extends ConsumerWidget {
   const SearchListWidget({super.key, required this.list});
 
-  final List<String> list;
+  final List<Vod> list;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -141,21 +166,61 @@ class SearchListWidget extends ConsumerWidget {
     }
 
     return SingleChildScrollView(
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: list
-          .map((e) => Container(
-                alignment: Alignment.centerLeft,
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 20,
+        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            '검색 결과',
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+          ),
+          Divider(),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              children: [
+                ProfileImage(
+                    onProfileImagePressed: () {}, path: null, imageSize: 50),
+                const SizedBox(width: 10),
+                Text(
+                  '강사: 테니스의 공주',
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w600),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                decoration: const BoxDecoration(
-                    border: Border(
-                        bottom: BorderSide(color: Colors.black12, width: 1))),
-                child: searchText(e),
-              ))
-          .toList(),
-    ));
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              children: [
+                ProfileImage(
+                    onProfileImagePressed: () {}, path: null, imageSize: 50),
+                const SizedBox(width: 10),
+                Text(
+                  '강사: 테니스의 왕자',
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
+          ),
+          Divider(),
+          ...list
+              .map((e) => ClassBoxWidget(vod: e))
+              // Container(
+              //       alignment: Alignment.centerLeft,
+              //       margin: const EdgeInsets.symmetric(
+              //         horizontal: 20,
+              //       ),
+              //       padding: const EdgeInsets.symmetric(vertical: 15),
+              //       decoration: const BoxDecoration(
+              //           border: Border(
+              //               bottom: BorderSide(color: Colors.black12, width: 1))),
+              //       child: searchText(e.vodName),
+              //     ))
+              .toList()
+        ]));
   }
 }

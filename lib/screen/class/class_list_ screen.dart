@@ -24,7 +24,7 @@ class _ClassListScreenState extends State<ClassListScreen> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const SizedBox(height: 20),
               const Text('내 수업 목록',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
               const Divider(
                 color: Colors.black12,
               ),
@@ -40,8 +40,11 @@ class _ClassListScreenState extends State<ClassListScreen> {
                 id: "1",
                 vodUrl: "1",
               )),
+              const SizedBox(
+                height: 20,
+              ),
               const Text('관심 목록',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
               const Divider(
                 color: Colors.black12,
               ),

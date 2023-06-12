@@ -60,7 +60,7 @@ class _ClassBoxWidgetState extends State<ClassBoxWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '통기타 시작하기',
+                            widget.vod.vodName,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
