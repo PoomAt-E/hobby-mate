@@ -24,7 +24,7 @@ class _ClassDetailScreenState extends State<ClassDetailScreen> {
           IconButton(
               onPressed: () {},
               icon: Icon(
-                true? Icons.favorite_rounded: Icons.favorite_border,
+                true ? Icons.favorite_rounded : Icons.favorite_border,
                 color: Colors.red,
               ))
         ],
@@ -37,63 +37,75 @@ class _ClassDetailScreenState extends State<ClassDetailScreen> {
                   color: Colors.black54,
                   borderRadius: BorderRadius.circular(5)),
               child: Text(widget.vod.vodName,
-                  style: TextStyle(color: Colors.white, fontSize: 12))),
+                  style: const TextStyle(color: Colors.white, fontSize: 12))),
           background: Image(
             image: AssetImage('assets/images/default_class.png'),
             fit: BoxFit.cover,
-    color: Colors.white.withOpacity(0.8), colorBlendMode: BlendMode.modulate,
+            color: Colors.white.withOpacity(0.8),
+            colorBlendMode: BlendMode.modulate,
           ),
         ),
       ),
       SliverFillRemaining(
           child: Flex(direction: Axis.vertical, children: [
         Expanded(
-
             child: SingleChildScrollView(
-                child:
-            Column(
-          children: ['통기타 시작하기', '튜닝하기', '악보 읽기', '코드 읽기', '튜닝하기', '악보 읽기', '코드 읽기']
-              .map(
-                (e) => ExpansionTile(
-                    title: Text(
-                      e,
-                    ),
-                    collapsedTextColor:
-                        e == '통기타 시작하기' ? Colors.black : Colors.black45,
-                    trailing: e == '통기타 시작하기'
-                        ? Icon(
-                            Icons.arrow_drop_down,
-                            size: 20,
-                            color: Colors.black87,
-                          )
-                        : Icon(
-                            Icons.lock,
-                            size: 20,
-                            color: Colors.black45,
-                          ),
-                    children: [ClassWeekBox(title: e)]),
-              )
-              .toList(),
+                child: Column(
+          children:
+              ['통기타 시작하기', '튜닝하기', '악보 읽기', '코드 읽기', '튜닝하기', '악보 읽기', '코드 읽기']
+                  .map(
+                    (e) => ExpansionTile(
+                        title: Text(
+                          e,
+                        ),
+                        collapsedTextColor:
+                            e == '통기타 시작하기' ? Colors.black : Colors.black45,
+                        trailing: e == '통기타 시작하기'
+                            ? const Icon(
+                                Icons.arrow_drop_down,
+                                size: 20,
+                                color: Colors.black87,
+                              )
+                            : const Icon(
+                                Icons.lock,
+                                size: 20,
+                                color: Colors.black45,
+                              ),
+                        children: [ClassWeekBox(title: e)]),
+                  )
+                  .toList(),
         ))),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          color: Colors.white,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Row(
             children: [
-              ProfileImage(onProfileImagePressed: (){}, path: null, imageSize: 50),
-              SizedBox(width: 10),
-              Text('강사: ${widget.vod.ownerId}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),
+              ProfileImage(
+                  onProfileImagePressed: () {}, path: null, imageSize: 50),
+              const SizedBox(width: 10),
+              Text(
+                '강사: ${widget.vod.ownerId}',
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
             ],
           ),
         ),
         InkWell(
-          onTap: () => showDialog(context: context, builder: (context) => AlertDialog(
-            title: Text('결제하기'),
-            content: Text('\'${widget.vod.vodName}\' 구매하시겠습니까?\n금액: 45,000원'),
-            actions: [
-              TextButton(onPressed: () => Navigator.of(context).pop(), child: Text('취소')),
-              TextButton(onPressed: () => Navigator.of(context).pop(), child: Text('확인')),
-            ],
-          )),
+          onTap: () => showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    title: const Text('결제하기'),
+                    content: Text(
+                        '\'${widget.vod.vodName}\' 구매하시겠습니까?\n금액: 45,000원'),
+                    actions: [
+                      TextButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: Text('취소')),
+                      TextButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: Text('확인')),
+                    ],
+                  )),
           child: Container(
             child: Text(
               '\'45,000원\' 구매하기',

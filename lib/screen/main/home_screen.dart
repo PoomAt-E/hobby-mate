@@ -111,12 +111,6 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
             color: Colors.white,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              // const Padding(
-              //     padding: EdgeInsets.only(bottom: 30),
-              //     child: Text(
-              //       '이런 취미는 어떠세요?',
-              //       style: TextStyles.homeTitleTextStyle,
-              //     )),
               SizedBox(
                 width: double.infinity,
                 height: 90 * column.toDouble() + 10,
@@ -201,13 +195,13 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
             color: Colors.white,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Padding(
-                  padding: const EdgeInsets.only(top: 10),
+              const Padding(
+                  padding: EdgeInsets.only(top: 10),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        const Text(
+                        Text(
                           '인기 클래스',
                           style: TextStyles.homeTitleTextStyle,
                         ),
@@ -230,8 +224,11 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                         //       ]),
                         // )
                       ])),
+              const SizedBox(
+                height: 10,
+              ),
               Container(
-                  height: MediaQuery.of(context).size.height * 0.2,
+                  height: 120,
                   width: double.infinity,
                   alignment: Alignment.center,
                   child: PageView.builder(
@@ -240,7 +237,8 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                       physics: const BouncingScrollPhysics(),
                       itemCount: 4,
                       itemBuilder: (context, index) {
-                        return  ClassBoxWidget(vod: Vod(
+                        return ClassBoxWidget(
+                            vod: Vod(
                           ownerId: "1",
                           vodName: '통기타 시작하기',
                           vodGroupId: "1",

@@ -16,7 +16,7 @@ class ClassBoxWidget extends StatefulWidget {
 class _ClassBoxWidgetState extends State<ClassBoxWidget> {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.height * 0.2 - 40;
+    final size = 90.0;
     return GestureDetector(
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) =>
@@ -33,9 +33,9 @@ class _ClassBoxWidgetState extends State<ClassBoxWidget> {
                     ))) // 리버팟 적용된 HomeScreen 만들기
             ),
         child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 15,),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
             ),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -45,7 +45,7 @@ class _ClassBoxWidgetState extends State<ClassBoxWidget> {
                     height: size,
                     width: size,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(8),
                         image: const DecorationImage(
                             fit: BoxFit.cover,
                             image:
@@ -65,7 +65,7 @@ class _ClassBoxWidgetState extends State<ClassBoxWidget> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
@@ -74,7 +74,7 @@ class _ClassBoxWidgetState extends State<ClassBoxWidget> {
                           Text(
                             '100명중 1명만이 터득하는 통기타의 비밀을 알려드립니다.',
                             overflow: TextOverflow.ellipsis,
-                            maxLines: 4,
+                            maxLines: 2,
                             style: TextStyles.classContentTextStyle,
                           )
                         ],

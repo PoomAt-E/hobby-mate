@@ -21,24 +21,54 @@ class _ClassListScreenState extends State<ClassListScreen> {
         body: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child:
-                Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-              // optionButton(),
-              Expanded(
-                  child: Column(
-                      children: [1, 2, 3]
-                          .map((e) => ClassBoxWidget(
-                                  vod: Vod(
-                                ownerId: "1",
-                                vodName: '통기타 시작하기',
-                                vodGroupId: "1",
-                                vodLengthH: 1,
-                                vodLengthM: 30,
-                                vodLengthS: 1,
-                                vodType: "1",
-                                id: "1",
-                                vodUrl: "1",
-                              )))
-                          .toList()))
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const SizedBox(height: 20),
+              const Text('내 수업 목록',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+              const Divider(
+                color: Colors.black12,
+              ),
+              ClassBoxWidget(
+                  vod: Vod(
+                ownerId: "1",
+                vodName: '통기타 시작하기',
+                vodGroupId: "1",
+                vodLengthH: 1,
+                vodLengthM: 30,
+                vodLengthS: 1,
+                vodType: "1",
+                id: "1",
+                vodUrl: "1",
+              )),
+              const Text('관심 목록',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+              const Divider(
+                color: Colors.black12,
+              ),
+              ClassBoxWidget(
+                  vod: Vod(
+                ownerId: "1",
+                vodName: '통기타 시작하기',
+                vodGroupId: "1",
+                vodLengthH: 1,
+                vodLengthM: 30,
+                vodLengthS: 1,
+                vodType: "1",
+                id: "1",
+                vodUrl: "1",
+              )),
+              ClassBoxWidget(
+                  vod: Vod(
+                ownerId: "1",
+                vodName: '통기타 시작하기',
+                vodGroupId: "1",
+                vodLengthH: 1,
+                vodLengthM: 30,
+                vodLengthS: 1,
+                vodType: "1",
+                id: "1",
+                vodUrl: "1",
+              )),
             ])));
   }
 
@@ -51,7 +81,7 @@ class _ClassListScreenState extends State<ClassListScreen> {
                     color: Color.fromARGB(44, 0, 0, 0), width: 1),
                 borderRadius: BorderRadius.circular(5.0))),
         onPressed: () => optionSheet(),
-        child: Row(mainAxisSize: MainAxisSize.min, children: const [
+        child: const Row(mainAxisSize: MainAxisSize.min, children: [
           Text('필터', style: TextStyle(color: Colors.black87)),
           Icon(
             Icons.filter_alt_rounded,

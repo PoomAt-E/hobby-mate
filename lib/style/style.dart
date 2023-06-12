@@ -60,7 +60,7 @@ class TextStyles {
 
   static const TextStyle classContentTextStyle = TextStyle(
       height: 1.2,
-      fontSize: 14,
+      fontSize: 13,
       overflow: TextOverflow.ellipsis,
       fontWeight: FontWeight.w500,
       letterSpacing: 1.2);
