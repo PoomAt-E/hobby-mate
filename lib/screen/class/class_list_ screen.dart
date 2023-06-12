@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hobby_mate/widget/appbar.dart';
 import 'package:hobby_mate/widget/home/class_box.dart';
 
+import '../../model/vod.dart';
+
 class ClassListScreen extends StatefulWidget {
   const ClassListScreen({super.key});
 
@@ -24,7 +26,18 @@ class _ClassListScreenState extends State<ClassListScreen> {
               Expanded(
                   child: Column(
                       children: [1, 2, 3]
-                          .map((e) => const ClassBoxWidget())
+                          .map((e) => ClassBoxWidget(
+                                  vod: Vod(
+                                ownerId: "1",
+                                vodName: '통기타 시작하기',
+                                vodGroupId: "1",
+                                vodLengthH: 1,
+                                vodLengthM: 30,
+                                vodLengthS: 1,
+                                vodType: "1",
+                                id: "1",
+                                vodUrl: "1",
+                              )))
                           .toList()))
             ])));
   }

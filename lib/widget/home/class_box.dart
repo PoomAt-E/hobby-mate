@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hobby_mate/screen/class/class_detail_screen.dart';
 
+import '../../model/vod.dart';
 import '../../style/style.dart';
 
 class ClassBoxWidget extends StatefulWidget {
-  const ClassBoxWidget({super.key});
+  const ClassBoxWidget({super.key, required this.vod});
+
+  final Vod vod;
 
   @override
   State<ClassBoxWidget> createState() => _ClassBoxWidgetState();
@@ -17,7 +20,17 @@ class _ClassBoxWidgetState extends State<ClassBoxWidget> {
     return GestureDetector(
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) =>
-                    const ClassDetailScreen()) // 리버팟 적용된 HomeScreen 만들기
+                    ClassDetailScreen(vod: Vod(
+                      ownerId: "1",
+                      vodName: '통기타 시작하기',
+                      vodGroupId: "1",
+                      vodLengthH: 1,
+                      vodLengthM: 30,
+                      vodLengthS: 1,
+                      vodType: "1",
+                      id: "1",
+                      vodUrl: "1",
+                    ))) // 리버팟 적용된 HomeScreen 만들기
             ),
         child: Container(
             padding: const EdgeInsets.symmetric(vertical: 15,),
