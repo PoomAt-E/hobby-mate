@@ -25,4 +25,24 @@ class MemberService {
       throw Exception('Failed to get');
     }
   }
+
+  Future<List<Member>> getMemberForKeyword(String major) async {
+    try {
+      Map<String, dynamic> result = await DioClient().get(
+          '$_baseUrl/account/api/member/list/major', {'major': major}, false);
+      if (result['result'] == Result.success) {
+        List<Member> members = result['response']
+            .map((json) => Member.fromJson(json))
+            .cast<Member>()
+            .toList();
+        print(members);
+
+        return members;
+      } else {
+        throw Exception('Failed to get');
+      }
+    } catch (e) {
+      throw Exception('Failed to get');
+    }
+  }
 }

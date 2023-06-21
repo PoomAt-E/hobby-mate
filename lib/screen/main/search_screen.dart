@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hobby_mate/model/member.dart';
 import 'package:hobby_mate/model/vod.dart';
+import 'package:hobby_mate/screen/class/class_detail_screen.dart';
 import 'package:hobby_mate/service/search_service.dart';
 import 'package:hobby_mate/style/style.dart';
 import 'package:hobby_mate/widget/home/class_box.dart';
@@ -9,20 +11,6 @@ import '../../provider/search_provider.dart';
 import '../../widget/profile_image.dart';
 
 final searchTextProvider = StateProvider<String>((ref) => '');
-
-// final searchedListProvider = FutureProvider<List<String>>((ref) async {
-//   final text = ref.watch(searchTextProvider);
-//   if (text.isEmpty) {
-//     return [];
-//   } else {
-//     return SearchService().search(text);
-//   }
-// });
-
-final searchProvider =
-    StateNotifierProvider<SearchProvider, List<String>>((ref) {
-  return SearchProvider();
-});
 
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key, this.text = ''});
@@ -36,28 +24,36 @@ class SearchScreen extends ConsumerStatefulWidget {
 class SearchScreenState extends ConsumerState<SearchScreen> {
   final TextEditingController _controller = TextEditingController();
 
+  final searchMemberProvider =
+      StateNotifierProvider<SearchProvider, List<Member>>((ref) {
+    return SearchProvider();
+  });
+  final searchClassProvider =
+      StateNotifierProvider<SearchProvider, List<Member>>((ref) {
+    return SearchProvider();
+  });
+
   @override
   void initState() {
     _controller.text = widget.text;
-    ref.read(searchProvider.notifier).search(widget.text);
-
+    ref.read(searchMemberProvider.notifier).search(widget.text);
+    ref.read(searchClassProvider.notifier).search(widget.text);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final data = ref.watch(searchProvider);
+    final searchedClass = ref.watch(searchClassProvider);
+    final searchedMember = ref.watch(searchMemberProvider);
     final text = ref.watch(searchTextProvider);
     return Scaffold(
         body: SafeArea(
-            child: Column(
-      children: [
+      child: Column(children: [
         Padding(
             padding: const EdgeInsets.only(left: 20, right: 10),
             child: Row(
               children: [
                 Expanded(
-                    // padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: TextField(
                   enabled: true,
                   controller: _controller,
@@ -99,7 +95,8 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
                 )),
                 IconButton(
                     onPressed: () {
-                      ref.read(searchProvider.notifier).search(text);
+                      ref.read(searchClassProvider.notifier).search(text);
+                      ref.read(searchMemberProvider.notifier).search(text);
                     },
                     icon: const Icon(
                       Icons.search,
@@ -108,119 +105,99 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
               ],
             )),
         Expanded(
-          child: SearchListWidget(list: [
-            Vod(
-              ownerId: "1",
-              vodName: '테니스 시작하기',
-              vodGroupId: "1",
-              vodLengthH: 1,
-              vodLengthM: 30,
-              vodLengthS: 1,
-              vodType: "1",
-              id: "1",
-              vodUrl: "1",
-            ),
-            Vod(
-              ownerId: "1",
-              vodName: '테니스 중급 과정',
-              vodGroupId: "1",
-              vodLengthH: 1,
-              vodLengthM: 30,
-              vodLengthS: 1,
-              vodType: "1",
-              id: "1",
-              vodUrl: "1",
-            )
-          ]),
-        ),
-      ],
-    )));
+          child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text(
+                      '검색 결과',
+                      style:
+                          TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+                    ),
+                    const Divider(),
+                    ...searchedMember.map((e) => Container(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: InkWell(
+                          onTap: (){
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ClassDetailScreen(vod: Vod(
+                                      ownerId: "1",
+                                      vodName: '테니스 시작하기',
+                                      vodGroupId: "1",
+                                      vodLengthH: 1,
+                                      vodLengthM: 30,
+                                      vodLengthS: 1,
+                                      vodType: "1",
+                                      id: "1",
+                                      vodUrl: "1",
+                                    ),)));
+                          },
+                          child: Row(
+                            children: [
+                              ProfileImage(
+                                  onProfileImagePressed: () {},
+                                  path: e.profileImageURL,
+                                  imageSize: 30),
+                              const SizedBox(width: 10),
+                              Text(
+                                '강사: ${e.nickname}',
+                                style: const TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                        ))),
+                    const Divider(),
+                    ...[
+                      Vod(
+                        ownerId: "1",
+                        vodName: '테니스 시작하기',
+                        vodGroupId: "1",
+                        vodLengthH: 1,
+                        vodLengthM: 30,
+                        vodLengthS: 1,
+                        vodType: "1",
+                        id: "1",
+                        vodUrl: "1",
+                      ),
+                      Vod(
+                        ownerId: "1",
+                        vodName: '테니스 중급 과정',
+                        vodGroupId: "1",
+                        vodLengthH: 1,
+                        vodLengthM: 30,
+                        vodLengthS: 1,
+                        vodType: "1",
+                        id: "1",
+                        vodUrl: "1",
+                      )
+                    ].map((e) => ClassBoxWidget(vod: e)).toList()
+                  ])),
+        )
+      ]),
+    ));
   }
-}
 
-class SearchListWidget extends ConsumerWidget {
-  const SearchListWidget({super.key, required this.list});
+  Widget searchText(String searchedText) {
+    List<String> splitText = searchedText.split(ref.read(searchTextProvider));
 
-  final List<Vod> list;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final title = ref.watch(searchTextProvider);
-
-    Widget searchText(String searchedText) {
-      List<String> splitText = searchedText.split(title);
-
-      final List<TextSpan> children = [];
-      for (int i = 0; i < splitText.length; i++) {
+    final List<TextSpan> children = [];
+    for (int i = 0; i < splitText.length; i++) {
+      children.add(TextSpan(
+          text: splitText[i], style: TextStyles.classWeekTitleTextStyle));
+      if (i != splitText.length - 1) {
         children.add(TextSpan(
-            text: splitText[i], style: TextStyles.classWeekTitleTextStyle));
-        if (i != splitText.length - 1) {
-          children.add(TextSpan(
-            text: title,
-            style: TextStyles.appbarIconTextStyle,
-          ));
-        }
+          text: ref.read(searchTextProvider),
+          style: TextStyles.appbarIconTextStyle,
+        ));
       }
-      return Text.rich(TextSpan(children: children),
-          textAlign: TextAlign.start);
     }
-
-    return SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            '검색 결과',
-            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
-          ),
-          Divider(),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              children: [
-                ProfileImage(
-                    onProfileImagePressed: () {}, path: null, imageSize: 50),
-                const SizedBox(width: 10),
-                Text(
-                  '강사: 테니스의 공주',
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              children: [
-                ProfileImage(
-                    onProfileImagePressed: () {}, path: null, imageSize: 50),
-                const SizedBox(width: 10),
-                Text(
-                  '강사: 테니스의 왕자',
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
-          ),
-          Divider(),
-          ...list
-              .map((e) => ClassBoxWidget(vod: e))
-              // Container(
-              //       alignment: Alignment.centerLeft,
-              //       margin: const EdgeInsets.symmetric(
-              //         horizontal: 20,
-              //       ),
-              //       padding: const EdgeInsets.symmetric(vertical: 15),
-              //       decoration: const BoxDecoration(
-              //           border: Border(
-              //               bottom: BorderSide(color: Colors.black12, width: 1))),
-              //       child: searchText(e.vodName),
-              //     ))
-              .toList()
-        ]));
+    return Text.rich(TextSpan(children: children), textAlign: TextAlign.start);
   }
 }

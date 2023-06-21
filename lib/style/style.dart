@@ -46,9 +46,9 @@ class TextStyles {
       TextStyle(color: Colors.blue, fontSize: 17, fontWeight: FontWeight.w500);
   static const TextStyle communityWriterTextStyle = TextStyle(
       height: 1.4,
-      fontSize: 16,
+      fontSize: 13,
       overflow: TextOverflow.ellipsis,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w400,
       letterSpacing: 1.3);
 
   static const TextStyle communityContentTextStyle = TextStyle(

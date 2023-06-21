@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hobby_mate/service/community_service.dart';
 import 'package:hobby_mate/style/style.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../provider/image_pick_provider.dart';
 import '../../widget/appbar.dart';
-
 
 class NewPostScreen extends StatefulWidget {
   const NewPostScreen({super.key});
@@ -15,12 +16,13 @@ class NewPostScreen extends StatefulWidget {
 }
 
 class NewPostScreenState extends State<NewPostScreen> {
-  String text = '';
   final textFieldController = TextEditingController();
+  final titleFieldController = TextEditingController();
 
   @override
   void dispose() {
     textFieldController.dispose();
+    titleFieldController.dispose();
     // ref.invalidate(imagePickerProvider);
     super.dispose();
   }
@@ -32,7 +34,9 @@ class NewPostScreenState extends State<NewPostScreen> {
           FocusScope.of(context).unfocus(); // 키보드 닫기 이벤트
         },
         child: Scaffold(
-          appBar: const MainAppbar(hasBackBtn: true,),
+          appBar: const MainAppbar(
+            hasBackBtn: true,
+          ),
           body: Container(
               padding: const EdgeInsets.only(
                   left: 16, right: 16, bottom: 20, top: 10),
@@ -58,6 +62,31 @@ class NewPostScreenState extends State<NewPostScreen> {
                         'The maximum count of images is 5.',
                         style: TextStyles.blueBottonTextStyle,
                       ),
+                      TextField(
+                        controller: titleFieldController,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 2,
+                        style: const TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          focusedBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide.none),
+                          contentPadding: const EdgeInsets.all(16),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          focusColor: Colors.transparent,
+                          hintText: '제목을 입력하세요',
+                          hintStyle: TextStyle(
+                            color: Colors.black.withOpacity(0.7),
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      ),
+
                       textFieldBox(),
                     ],
                   ),
@@ -68,37 +97,36 @@ class NewPostScreenState extends State<NewPostScreen> {
   }
 
   Widget textFieldBox() => Container(
-    width: MediaQuery.of(context).size.width,
-    margin: const EdgeInsets.only(top: 10),
-    padding: const EdgeInsets.all(10),
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10), color: Colors.grey[200]),
-    child: TextField(
-        onChanged: (value) => text = value,
-        controller: textFieldController,
-        keyboardType: TextInputType.multiline,
-        maxLines: null,
-        maxLength: 1000,
-        style: const TextStyle(
-          fontSize: 14.0,
-          color: Colors.black,
-        ),
-        decoration: InputDecoration(
-          focusedBorder:
-          const UnderlineInputBorder(borderSide: BorderSide.none),
-          contentPadding: const EdgeInsets.all(16),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          focusColor: Colors.transparent,
-          hintText: 'What is your problem?',
-          hintStyle: TextStyle(
-            color: Colors.black.withOpacity(0.7),
-            fontSize: 14.0,
-          ),
-        )),
-  );
+        width: MediaQuery.of(context).size.width,
+        margin: const EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), color: Colors.grey[200]),
+        child: TextField(
+            controller: textFieldController,
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
+            maxLength: 1000,
+            style: const TextStyle(
+              fontSize: 14.0,
+              color: Colors.black,
+            ),
+            decoration: InputDecoration(
+              focusedBorder:
+                  const UnderlineInputBorder(borderSide: BorderSide.none),
+              contentPadding: const EdgeInsets.all(16),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              focusColor: Colors.transparent,
+              hintText: 'What is your problem?',
+              hintStyle: TextStyle(
+                color: Colors.black.withOpacity(0.7),
+                fontSize: 14.0,
+              ),
+            )),
+      );
 
   Widget addPostButton(BuildContext context) {
     return InkWell(
@@ -116,7 +144,16 @@ class NewPostScreenState extends State<NewPostScreen> {
           textAlign: TextAlign.center,
         ),
       ),
-      onTap: () {
+      onTap: () async {
+        final shardPref = await SharedPreferences.getInstance();
+        final userId = shardPref.getString('email');
+        CommunityService().saveBoard({
+          'content': textFieldController.text,
+          'title': titleFieldController.text,
+          'location': '',
+          'userId': userId,
+          'views': 1
+        });
         Navigator.pop(context, true);
       },
     );
@@ -124,7 +161,7 @@ class NewPostScreenState extends State<NewPostScreen> {
 }
 
 final imagePickerProvider =
-StateNotifierProvider<ImageState, List<File>>((ref) {
+    StateNotifierProvider<ImageState, List<File>>((ref) {
   return ImageState();
 });
 

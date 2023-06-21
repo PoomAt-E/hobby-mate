@@ -1,10 +1,10 @@
 class Board {
-  final int boardId;
+  final String boardId;
   final String title;
   final String content;
   final String location;
-  final int userId;
-  final List<Comment> comments;
+  final String userId;
+  final List<String> comments;
   final int views;
 
   Board({
@@ -23,25 +23,49 @@ class Board {
       title: json['title'],
       content: json['content'],
       location: json['location'],
-      comments: json['comments'] !=null?List<Comment>.from(json['comments']):[],
+      comments:
+          json['comments'] != null ? List<String>.from(json['comments']) : [],
       userId: json['userId'],
       views: json['views'],
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'title': title,
+        'content': content,
+        'location': location,
+        'userId': userId,
+        'views': views,
+      };
 }
 
 class Comment {
+  String boardId;
+  List<String>? childList;
   String content;
-  String date;
+  int good;
   String id;
+  String userId;
 
-  Comment({required this.content, required this.date, required this.id});
+  Comment({
+    required this.boardId,
+    this.childList,
+    required this.content,
+    required this.good,
+    required this.id,
+    required this.userId,
+  });
 
   factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
+      boardId: json['boardId'],
+      childList: json['childList'] != null
+          ? List<String>.from(json['childList'])
+          : null,
       content: json['content'],
-      date: json['date'],
+      good: json['good'],
       id: json['id'],
+      userId: json['userId'],
     );
   }
 }

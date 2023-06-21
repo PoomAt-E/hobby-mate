@@ -34,14 +34,14 @@ class DioClient {
     try {
       // _getToken();
       Response response = await _dio.get(url,
-          queryParameters: parameter,
-          options: Options(contentType: Headers.jsonContentType));
+          queryParameters: parameter,);
       if (response.statusCode == 200) {
         return {'result': Result.success, 'response': response.data['data']};
       } else {
         return {'result': Result.fail};
       }
     } on DioError catch (e) {
+      print(e.message);
       if (e.response != null) {
         return {'result': Result.fail, 'response': e.response};
       } else {
@@ -54,10 +54,10 @@ class DioClient {
       String url, dynamic data, bool useToken) async {
     try {
       Response response = await _dio.post(url,
-          data: json.encode(data),
+          data: data,
           options: Options(contentType: Headers.jsonContentType));
       if (response.statusCode == 200) {
-        return {'result': Result.success, 'response': response.data['data']};
+        return {'result': Result.success, 'response': response.data};
       } else {
         return {'result': Result.fail};
       }

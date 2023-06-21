@@ -5,7 +5,7 @@ class Member {
   String email;
   String nickname;
   String? password;
-  int age;
+  int? age;
   String? address;
   String? addressDetail;
   String? gender;
@@ -21,7 +21,7 @@ class Member {
     required this.email,
     required this.nickname,
     this.password,
-    required this.age,
+    this.age,
     this.address,
     this.addressDetail,
     this.gender,
@@ -58,7 +58,6 @@ class Member {
     pref.setString('email', member.email);
     pref.setString('nickname', member.nickname);
     pref.setString('role', member.role??"MENTEE");
-    pref.setInt('age', member.age);
     // member.userRole == 'ROLE_USER'
     //     ? pref.setInt('interest', member.interest!)
     //     : pref.setInt('major', member.major!);
