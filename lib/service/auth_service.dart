@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as fss;
 import 'package:hobby_mate/model/member.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/network_result.dart';
 import '../network/dio_client.dart';
@@ -72,12 +73,28 @@ class AuthService {
         throw Exception('Failed to login');
       }
     } catch (e) {
-      throw Exception('Failed to login');
+      throw Exception('Failed to login $e');
     }
   }
 
   Future<Member> getMemberInfo(String email) async {
     try {
+      Map<String, dynamic> result = await DioClient()
+          .get('$_baseUrl/account/api/member/$email', {'email': email}, true);
+      if (result['result'] == Result.success) {
+        Member member = Member.fromJson(result['response']);
+        return member;
+      } else {
+        throw Exception('Failed to getUser');
+      }
+    } catch (e) {
+      throw Exception('Failed to getUser');
+    }
+  }
+  Future<Member> getMyInfo() async {
+    try {
+      final sharedPreferences = await SharedPreferences.getInstance();
+      String? email = sharedPreferences.getString('email');
       Map<String, dynamic> result = await DioClient()
           .get('$_baseUrl/account/api/member/$email', {'email': email}, true);
       if (result['result'] == Result.success) {

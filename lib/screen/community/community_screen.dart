@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hobby_mate/model/post.dart';
 import 'package:hobby_mate/screen/community/new_post_screen.dart';
 import 'package:hobby_mate/screen/community/post_screen.dart';
+import 'package:hobby_mate/service/auth_service.dart';
 import 'package:hobby_mate/service/community_service.dart';
 import 'package:hobby_mate/widget/appbar.dart';
 import 'package:hobby_mate/widget/home/community_box.dart';
@@ -39,7 +40,7 @@ class _CommunityScreenState extends ConsumerState<CommunityScreen> {
           children: [
             Container(
               child: boards.when(
-                  data: (boards) {
+                  data: (boards)  {
                     if (boards.isEmpty) {
                       return const Center(child: Text('게시글이 없습니다.'));
                     } else {
@@ -99,25 +100,37 @@ class _CommunityScreenState extends ConsumerState<CommunityScreen> {
                                                       const SizedBox(
                                                         height: 15,
                                                       ),
-                                                      Row(
-                                                        children: [
-                                                          ProfileImage(
-                                                              onProfileImagePressed:
-                                                                  () {},
-                                                              path: null,
-                                                              imageSize: 20),
-                                                          const SizedBox(
-                                                            width: 7,
-                                                          ),
-                                                          Text(
-                                                            boards[index]
-                                                                .userId
-                                                                .toString(),
-                                                            style: TextStyles
-                                                                .communityWriterTextStyle,
-                                                          )
-                                                        ],
-                                                      ),
+
+                                                          FutureBuilder(future: AuthService().getMemberInfo(boards[index].userId), builder: (context, snapshot) {
+                                                            if(snapshot.hasData) {
+                                                              return Row(
+                                                                children: [
+                                                                  ProfileImage(
+                                                                      onProfileImagePressed:
+                                                                          () {},
+                                                                      path: snapshot.data!.profileImageURL,
+                                                                      imageSize: 20),
+                                                                  const SizedBox(
+                                                                    width: 7,
+                                                                  ),
+                                                                  Text(
+                                                                    snapshot.data!.nickname,
+                                                                    style: TextStyles
+                                                                        .communityWriterTextStyle,
+                                                                  )
+                                                                ],
+                                                              )
+                                                                ;
+                                                            } else {
+                                                              return const Text(
+                                                                '익명',
+                                                                style: TextStyles
+                                                                    .communityWriterTextStyle,
+                                                              );
+                                                            }
+                                                          }),
+
+
                                                     ]),
                                                 Container(
                                                     padding: const EdgeInsets

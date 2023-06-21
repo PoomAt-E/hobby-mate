@@ -6,6 +6,7 @@ import 'package:hobby_mate/widget/home/community_box.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/post.dart';
+import '../../service/auth_service.dart';
 import '../../service/community_service.dart';
 import '../../widget/appbar.dart';
 import '../../widget/profile_image.dart';
@@ -64,21 +65,34 @@ class BoardScreenState extends ConsumerState<BoardScreen> {
                                     width: MediaQuery.of(context).size.width,
                                     alignment: Alignment.centerRight,
                                     color: Colors.grey[300],
-                                    child: Row(
-                                      children: [
-                                        ProfileImage(
-                                            onProfileImagePressed: () {},
-                                            path: null,
-                                            imageSize: 20),
-                                        const SizedBox(
-                                          width: 7,
-                                        ),
-                                        Text(
-                                          widget.board.userId.toString(),
-                                          style: TextStyles.communityWriterTextStyle,
+                                    child: FutureBuilder(future: AuthService().getMemberInfo(widget.board.userId), builder: (context, snapshot) {
+                                      if(snapshot.hasData) {
+                                        return Row(
+                                          children: [
+                                            ProfileImage(
+                                                onProfileImagePressed:
+                                                    () {},
+                                                path: snapshot.data!.profileImageURL,
+                                                imageSize: 20),
+                                            const SizedBox(
+                                              width: 7,
+                                            ),
+                                            Text(
+                                              snapshot.data!.nickname,
+                                              style: TextStyles
+                                                  .communityWriterTextStyle,
+                                            )
+                                          ],
                                         )
-                                      ],
-                                    )),
+                                        ;
+                                      } else {
+                                        return const Text(
+                                          '익명',
+                                          style: TextStyles
+                                              .communityWriterTextStyle,
+                                        );
+                                      }
+                                    })),
                                 CommunityBoxWidget(board: widget.board),
                                 Container(
                                     padding:

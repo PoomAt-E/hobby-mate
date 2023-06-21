@@ -50,7 +50,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
 
     return GestureDetector(
         onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
+          FocusScope.of(context).unfocus();
         },
         child: Scaffold(
             resizeToAvoidBottomInset: false,

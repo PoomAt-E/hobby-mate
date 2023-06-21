@@ -53,15 +53,7 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
   TextEditingController textEditForAddressDetail = TextEditingController();
   TextEditingController textEditForPhone = TextEditingController();
   TextEditingController textEditForIntroduce = TextEditingController();
-
-  List<String> interestList = [
-    'Music',
-    'Movie',
-    'Game',
-    'Book',
-    'Sport',
-    'Etc'
-  ];
+  TextEditingController textEditForMajor = TextEditingController();
 
   @override
   void dispose() {
@@ -70,15 +62,6 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
     super.dispose();
   }
 
-  @override
-  void initState() {
-    super.initState();
-    if (widget.role == '') {
-      interestList = ['Music', 'Movie', 'Game', 'Book', 'Sport', 'Etc'];
-    } else {
-      interestList = ['Music', 'Movie', 'Game', 'Book', 'Sport', 'Etc'];
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -206,15 +189,13 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
                               style: TextStyles.editProfileTitleTextStyle),
                         ),
                         const GenderWidget(),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical:
-                                  MediaQuery.of(context).size.height * 0.02),
-                          child: Text(widget.role == '' ? 'interest' : 'major',
-                              style: TextStyles.editProfileTitleTextStyle),
-                        ),
-                        InterestPicker(
-                          list: interestList,
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.015),
+                        CustomInputField(
+                          icon: Icons.book_outlined,
+                          isPassword: false,
+                          title: widget.role == '' ? 'interest' : 'major',
+                          textEditingController: textEditForMajor,
                         ),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.015),
@@ -269,8 +250,8 @@ class SignUpProfileScreenState extends ConsumerState<SignUpProfileScreen> {
       'introduce': textEditForIntroduce.text,
       'role': widget.role == ROLES.MENTEE ? 'MENTEE' : 'MENTOR',
       'phone': textEditForPhone.text,
-      'interests': [],
-      'majors': []
+      'interests': [textEditForMajor.text],
+      'majors': [textEditForMajor.text]
     };
     if (widget.role == ROLES.MENTOR) {
       member['major'] = interest;

@@ -74,7 +74,7 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
     // GestureDetector를 최상단으로 두고, requestFocus(FocusNode())를 통해서 키보드를 닫을 수 있음.
     return GestureDetector(
         onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
+          FocusScope.of(context).unfocus();
         },
         child: Scaffold(
             resizeToAvoidBottomInset: false,

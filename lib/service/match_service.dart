@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hobby_mate/model/matching.dart';
 import 'package:hobby_mate/model/post.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,21 +35,24 @@ class MatchService {
     }
   }
 
-  Future<List<Comment>> getComments(String boardId) async {
+  Future<List<Matching>> getMatch() async {
     try {
+      final pref = await SharedPreferences.getInstance();
+      final mentorEmail = pref.getString('email');
       final result = await Dio().get(
-          '$_baseUrl/community/board/get/comment/$boardId',
-          queryParameters: {'boardId': boardId});
+          '$_baseUrl/match/get/mentor/$mentorEmail',
+          queryParameters: {'mentorId': mentorEmail});
 
-      List<Comment> comments = result.data
-          .map((json) => Comment.fromJson(json))
-          .cast<Comment>()
+      List<Matching> matches = result.data
+          .map((json) => Matching.fromJson(json))
+          .cast<Matching>()
           .toList();
-      return comments;
+      return matches;
     } catch (e) {
-      throw Exception('Failed to getComments');
+      throw Exception('Failed to getMatch: $e');
     }
   }
+
 
   Future<void> saveMatch(String email) async {
     try {
