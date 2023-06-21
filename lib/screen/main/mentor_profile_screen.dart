@@ -6,7 +6,10 @@ import 'package:hobby_mate/screen/class/class_detail_screen.dart';
 import 'package:hobby_mate/service/streaming_service.dart';
 import 'package:intl/intl.dart';
 
+import '../../service/auth_service.dart';
+import '../../service/chat_service.dart';
 import '../../service/match_service.dart';
+import '../chat/chat_screen.dart';
 
 class MentorProfileScreen extends StatefulWidget {
   const MentorProfileScreen({super.key, required this.member});
@@ -42,7 +45,16 @@ class _MentorProfileScreenState extends State<MentorProfileScreen> {
                 Icons.arrow_back_ios,
                 color: Colors.black,
               )),
-          actions: const [SizedBox(width: 50)],
+          actions: [
+            IconButton(
+                onPressed: () {
+                  onButtonClick(widget.member.email);
+                },
+                icon: Icon(
+                  Icons.chat_bubble,
+                  color: Colors.black,
+                ))
+          ],
           title: const Center(
               child: Text('프로필',
                   style: TextStyle(
@@ -102,7 +114,9 @@ class _MentorProfileScreenState extends State<MentorProfileScreen> {
                                 final mentorsVod = ref.watch(_vodListProvider);
                                 return mentorsVod.when(data: (data) {
                                   if (data.isEmpty) {
-                                    return  Container(padding: const EdgeInsets.all(10), child: Text('등록한 강좌가 없습니다.'));
+                                    return Container(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Text('등록한 강좌가 없습니다.'));
                                   } else {
                                     return ListView.builder(
                                         shrinkWrap: true,
@@ -165,5 +179,22 @@ class _MentorProfileScreenState extends State<MentorProfileScreen> {
                         )))
               ],
             )));
+  }
+
+  void toChatScreen(String chatroomId, Member member) {
+    Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ChatScreen(
+                  chatroomId: chatroomId,
+                  isNew: true,
+                  other: member,
+                )) // 리버팟 적용된 HomeScreen 만들기
+        );
+  }
+
+  void onButtonClick(String email1) async {
+    // 나중에 Member로 바꿔야함
+    final chatroomId = await ChatService().makeChatroomId(email1);
+    final member = await AuthService().getMemberInfo(email1);
+    toChatScreen(chatroomId, member);
   }
 }
