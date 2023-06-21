@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hobby_mate/model/member.dart';
 import 'package:hobby_mate/model/vod.dart';
-import 'package:hobby_mate/screen/class/class_detail_screen.dart';
+import 'package:hobby_mate/provider/search_class_provider.dart';
 import 'package:hobby_mate/screen/main/mentor_profile_screen.dart';
-import 'package:hobby_mate/service/search_service.dart';
 import 'package:hobby_mate/style/style.dart';
 import 'package:hobby_mate/widget/home/class_box.dart';
 
@@ -30,8 +29,8 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
     return SearchProvider();
   });
   final searchClassProvider =
-      StateNotifierProvider<SearchProvider, List<Member>>((ref) {
-    return SearchProvider();
+      StateNotifierProvider<SearchClassProvider, List<VodGroup>>((ref) {
+    return SearchClassProvider();
   });
 
   @override
@@ -146,10 +145,8 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
                           ),
                         ))),
                     const Divider(),
-                    ...[
-                      VodGroup(id: '6492f531eb56265b530760f2', vodGroupName: '정승환노래교실', vodCount: 4, thumbnailURL: 'https://identitylessimgserver.s3.ap-northeast-2.amazonaws.com/streaming/vodGroup/thumbnail/Jung_Seung-hwan_%28singer%29_2019-09-27.png', keyword: null),
-                       VodGroup(id: '6492f531eb56265b530760f2', vodGroupName: '정승환노래교실', vodCount: 4, thumbnailURL: 'https://identitylessimgserver.s3.ap-northeast-2.amazonaws.com/streaming/vodGroup/thumbnail/Jung_Seung-hwan_%28singer%29_2019-09-27.png', keyword: null),
-                    ].map((e) => ClassBoxWidget(vodGroup: e)).toList()
+                    ...searchedClass.map((e) => ClassBoxWidget(vodGroup: e)).toList()
+
                   ])),
         )
       ]),

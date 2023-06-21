@@ -63,4 +63,22 @@ class StreamingService {
       throw Exception('Failed to get vodgroups: $e');
     }
   }
+
+  Future<List<VodGroup>> getVodForKeyword(String keyword) async {
+    try {
+      Map<String, dynamic> result = await DioClient().get(
+          '$_baseUrl/streaming/api/vodGroup/$keyword', {'keyword': keyword}, false);
+      if (result['result'] == Result.success) {
+        List<VodGroup> vodGroups = result['response']
+            .map((json) => VodGroup.fromJson(json))
+            .cast<VodGroup>()
+            .toList();
+        return vodGroups;
+      } else {
+        throw Exception('Failed to get');
+      }
+    } catch (e) {
+      throw Exception('Failed to get vodgroups: $e');
+    }
+  }
 }
