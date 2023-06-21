@@ -19,7 +19,8 @@ class SearchProvider extends StateNotifier<List<Member>>{
     }
     MemberService().getMemberForKeyword(text).then((value) {
       state = value;
-      print(value);
+      print(value[0].profileImageURL);
+
     }).catchError((onError) {
     });
 

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hobby_mate/model/member.dart';
 import 'package:hobby_mate/model/vod.dart';
 import 'package:hobby_mate/screen/class/class_detail_screen.dart';
+import 'package:hobby_mate/screen/main/mentor_profile_screen.dart';
 import 'package:hobby_mate/service/search_service.dart';
 import 'package:hobby_mate/style/style.dart';
 import 'package:hobby_mate/widget/home/class_box.dart';
@@ -122,21 +123,12 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
                     ...searchedMember.map((e) => Container(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: InkWell(
-                          onTap: (){
+                          onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ClassDetailScreen(vod: Vod(
-                                      ownerId: "1",
-                                      vodName: '테니스 시작하기',
-                                      vodGroupId: "1",
-                                      vodLengthH: 1,
-                                      vodLengthM: 30,
-                                      vodLengthS: 1,
-                                      vodType: "1",
-                                      id: "1",
-                                      vodUrl: "1",
-                                    ),)));
+                                    builder: (context) =>
+                                        MentorProfileScreen(member: e)));
                           },
                           child: Row(
                             children: [
