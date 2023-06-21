@@ -182,7 +182,7 @@ class ChatService {
         MyChat(
             chatRoomId: chatroom.chatRoomId,
             otherEmail: chatroom.user2.email,
-            otherName: chatroom.user2.name,
+            otherName: chatroom.user2.nickname,
             otherPhotoUrl: chatroom.user2.photoUrl!,
             lastMessage: message.content,
             lastTime: message.createdAt));
@@ -191,7 +191,7 @@ class ChatService {
         MyChat(
             chatRoomId: chatroom.chatRoomId,
             otherEmail: chatroom.user1.email,
-            otherName: chatroom.user1.name,
+            otherName: chatroom.user1.nickname,
             otherPhotoUrl: chatroom.user1.photoUrl!,
             lastMessage: message.content,
             lastTime: message.createdAt));

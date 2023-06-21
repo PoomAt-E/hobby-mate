@@ -49,27 +49,27 @@ class ChatRoom {
 }
 
 class ChatMember {
-  String name;
+  String nickname;
   String email;
   String? photoUrl;
   String role;
 
   ChatMember(
-      {required this.name,
+      {required this.nickname,
       required this.email,
       this.photoUrl,
       required this.role});
 
   factory ChatMember.fromJson(Map<String, dynamic> json) {
     return ChatMember(
-        name: json['name'],
+        nickname: json['nickname'],
         email: json['email'],
         photoUrl: json['photoUrl'],
         role: json['role']);
   }
   toJson() {
     return {
-      'name': name,
+      'name': nickname,
       'email': email,
       'photoUrl': photoUrl,
       'role': role,

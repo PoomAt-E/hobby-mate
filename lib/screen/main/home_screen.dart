@@ -15,8 +15,7 @@ import '../../model/vod.dart';
 import '../../widget/home/hobby_box.dart';
 import '../../widget/home/class_box.dart';
 
-final popularPostProvider =
-    FutureProvider((ref) => CommunityService().getPopularPost());
+
 
 class Hobby {
   final String title;
@@ -46,6 +45,9 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
     Hobby(title: '서핑', icon: 'assets/icons/icon_surf.png'),
     Hobby(title: '기타', icon: 'assets/icons/icon_guitar.png')
   ];
+
+  final popularPostProvider =
+  FutureProvider((ref) => CommunityService().getPopularBoard());
 
   final communityPageController = PageController();
   final classPageController = PageController();

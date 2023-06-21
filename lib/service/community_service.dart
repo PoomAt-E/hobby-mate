@@ -14,41 +14,41 @@ class CommunityService {
 
   final String? _baseUrl = dotenv.env['COMMUNITY_SERVER_URL'];
 
-  Future<List<Post>> getPost() async {
+  Future<List<Board>> getBoard() async {
     try {
       Map<String, dynamic> result =
           await DioClient().get('$_baseUrl/', {}, true);
       if (result['result'] == Result.success) {
-        List<Post> posts = result['response']
-            .map((json) => Post.fromJson(json))
-            .cast<Post>()
+        List<Board> boards = result['response']
+            .map((json) => Board.fromJson(json))
+            .cast<Board>()
             .toList();
 
-        return posts;
+        return boards;
       } else {
-        throw Exception('Failed to getPost');
+        throw Exception('Failed to getBoard');
       }
     } catch (e) {
-      throw Exception('Failed to getPost');
+      throw Exception('Failed to getBoard');
     }
   }
 
-  Future<List<Post>> getPopularPost() async {
+  Future<List<Board>> getPopularBoard() async {
     try {
       Map<String, dynamic> result =
           await DioClient().get('$_baseUrl/', {}, true);
       if (result['result'] == Result.success) {
-        List<Post> posts = result['response']
-            .map((json) => Post.fromJson(json))
-            .cast<Post>()
+        List<Board> boards = result['response']
+            .map((json) => Board.fromJson(json))
+            .cast<Board>()
             .toList();
 
-        return posts;
+        return boards;
       } else {
-        throw Exception('Failed to getPost');
+        throw Exception('Failed to getBoard');
       }
     } catch (e) {
-      throw Exception('Failed to getPost');
+      throw Exception('Failed to getBoard');
     }
   }
 }

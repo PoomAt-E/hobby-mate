@@ -207,12 +207,12 @@ class ChatScreenState extends State<ChatScreen> {
     final chatroom = ChatRoom(
         chatRoomId: widget.chatroomId,
         user1: ChatMember(
-            name: widget.other.name,
+            nickname: widget.other.nickname,
             email: widget.other.email,
             photoUrl: widget.other.profileImageURL,
-            role: widget.other.role),
+            role: widget.other.role??'MENTEE'),
         user2: ChatMember(
-            name: userName, email: userId, role: userRole, photoUrl: userUrl),
+            nickname: userName, email: userId, role: userRole, photoUrl: userUrl),
         messages: [message]);
     ChatService().newChatRoom(chatroom, message);
   }

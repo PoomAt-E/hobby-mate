@@ -9,20 +9,20 @@ import '../../model/post.dart';
 import '../../service/community_service.dart';
 import '../../widget/appbar.dart';
 
-final communityProvider = FutureProvider.autoDispose<List<Post>>((ref) async {
-  return await CommunityService().getPost();
+final communityProvider = FutureProvider.autoDispose<List<Board>>((ref) async {
+  return await CommunityService().getBoard();
 });
 
-class PostScreen extends ConsumerStatefulWidget {
-  const PostScreen({super.key, required this.post});
+class BoardScreen extends ConsumerStatefulWidget {
+  const BoardScreen({super.key, required this.board});
 
-  final Post post;
+  final Board board;
 
   @override
-  PostScreenState createState() => PostScreenState();
+  BoardScreenState createState() => BoardScreenState();
 }
 
-class PostScreenState extends ConsumerState<PostScreen> {
+class BoardScreenState extends ConsumerState<BoardScreen> {
   final _controller = TextEditingController();
   String newComment = '';
 
@@ -58,9 +58,9 @@ class PostScreenState extends ConsumerState<PostScreen> {
                         const SizedBox(
                           height: 8,
                         ),
-                        widget.post.comments.isNotEmpty
+                        widget.board.comments.isNotEmpty
                             ? Column(
-                            children: widget.post.comments
+                            children: widget.board.comments
                                 .map((e) => CommentItem(comment: e))
                                 .toList())
                             : Container(

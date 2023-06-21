@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:chat_bubbles/bubbles/bubble_normal_image.dart';
 import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +68,7 @@ class ChatBubbles extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ProfileButton(
-                            nickname: member.name,
+                            nickname: member.nickname,
                             path: member.profileImageURL,
                             onProfilePressed: onProfilePressed),
                         Padding(
@@ -100,7 +98,7 @@ class ChatBubbles extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ProfileButton(
-                            nickname: member.name,
+                            nickname: member.nickname,
                             path: member.profileImageURL,
                             onProfilePressed: onProfilePressed),
                         Padding(

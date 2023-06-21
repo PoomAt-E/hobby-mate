@@ -7,10 +7,9 @@ import 'package:hobby_mate/service/community_service.dart';
 import 'package:hobby_mate/widget/appbar.dart';
 import 'package:hobby_mate/widget/home/community_box.dart';
 
-import '../../style/style.dart';
 
 final communityScreenProvider =
-    FutureProvider((ref) => CommunityService().getPost());
+    FutureProvider((ref) => CommunityService().getBoard());
 
 class CommunityScreen extends StatefulWidget {
   const CommunityScreen({super.key});
@@ -44,13 +43,12 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     InkWell(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => PostScreen(
-                                post: Post(
-                                    id: 1,
+                            builder: (context) => BoardScreen(
+                                board: Board(
+                                    boardId: 1,
                                     title: 'title',
                                     content: 'content',
                                     location: 'location',
-                                    createdAt: 'createdAt',
                                     comments: [],
                                     userId: 1,
                                     views: 1))));
