@@ -85,6 +85,21 @@ class MatchService {
     }
   }
 
+  Future<void> acceptMatch(String id)async{
+    try{
+      Map<String, dynamic> result =
+      await DioClient().get('$_baseUrl/match/accept/match/$id', {'matchId': id}, false);
+      if(result['result'] == Result.success) {
+        print('success to acceptMatch');
+      }else{
+        throw Exception('Failed to acceptMatch');
+      }
+    }catch(e){
+      throw Exception('Failed to acceptMatch');
+    }
+
+}
+
   Future<List<Board>> getPopularBoard() async {
     try {
       Map<String, dynamic> result =

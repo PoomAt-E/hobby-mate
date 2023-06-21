@@ -207,35 +207,40 @@ class MenteeScreenState extends ConsumerState<MenteeScreen> {
                                                                     snapshot) {
                                                                   if (snapshot
                                                                       .hasData) {
-                                                                  return Container(
-                                                                      padding: const EdgeInsets
-                                                                          .all(
-                                                                          15),
-                                                                      margin: const EdgeInsets
-                                                                          .all(
-                                                                          10),
-                                                                      decoration: BoxDecoration(
-                                                                          color: Colors.grey[
-                                                                              200]!,
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(10)),
-                                                                      child: Row(
-                                                                        mainAxisSize:
-                                                                            MainAxisSize.max,
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceBetween,
-                                                                        children: [
-                                                                          Text(
-                                                                              '닉네임: ${snapshot.data!.nickname}'),
-                                                                          if (snapshot.data?.interests != null &&
-                                                                              snapshot.data?.interests?.isNotEmpty == true) ...[
-                                                                            Text(snapshot.data?.interests?.elementAt(0) ??
-                                                                                '보컬 연습'),
-                                                                          ] else ...[
-                                                                            const Text('보컬 연습'),
-                                                                          ]
-                                                                        ],
-                                                                      ));}else{
+                                                                    return Container(
+                                                                        padding:
+                                                                            const EdgeInsets.all(
+                                                                                15),
+                                                                        margin: const EdgeInsets
+                                                                            .all(
+                                                                            10),
+                                                                        decoration: BoxDecoration(
+                                                                            color: Colors.grey[
+                                                                                200]!,
+                                                                            borderRadius: BorderRadius.circular(
+                                                                                10)),
+                                                                        child:
+                                                                            Row(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Text(
+                                                                              '닉네임: ${snapshot.data!.nickname}',
+                                                                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                                                                            ),
+                                                                            ElevatedButton(
+                                                                              onPressed: () {
+                                                                                MatchService().acceptMatch(e.matchId);
+                                                                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('매칭을 수락했습니다.')));
+                                                                              },
+                                                                              child: Text('매칭 수락', style: TextStyle(color: Colors.black)),
+                                                                              style: ElevatedButton.styleFrom(primary: Colors.yellow[700]),
+                                                                            ),
+                                                                          ],
+                                                                        ));
+                                                                  } else {
                                                                     return const CircularProgressIndicator();
                                                                   }
                                                                 }))
