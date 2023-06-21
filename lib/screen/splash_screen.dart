@@ -2,15 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hobby_mate/screen/sign/login_screen.dart';
 import 'package:hobby_mate/style/style.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../service/auth_service.dart';
 import 'main/bottom_nav.dart';
 
-final loginStateProvider =
-    FutureProvider.autoDispose((ref) => AuthService().isLogin());
+// final loginStateProvider =
+//     FutureProvider.autoDispose((ref) => AuthService().isLogin());
+final loginStateProvider = FutureProvider.autoDispose((ref) async {
+  final sharedPref = await SharedPreferences.getInstance();
+  final isLogin = sharedPref.getString('email');
+  return isLogin == null ? false : true;
+});
 
 class SplashScreen extends ConsumerWidget {
   const SplashScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLogin = ref.watch(loginStateProvider);
@@ -25,7 +32,7 @@ class SplashScreen extends ConsumerWidget {
     void toLoginScreen() {
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const BottomNavigation()),
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
           (route) => false);
     }
 

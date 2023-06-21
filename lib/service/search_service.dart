@@ -17,8 +17,8 @@ class SearchService {
           await DioClient().get('$_baseUrl/', {'keyword': key}, true);
       if (result['result'] == Result.success) {
         // List<String> results = result['response']
-        //     .map((json) => Post.fromJson(json))
-        //     .cast<Post>()
+        //     .map((json) => Board.fromJson(json))
+        //     .cast<Board>()
         //     .toList();
         return [];
       } else {
@@ -26,7 +26,7 @@ class SearchService {
       }
     } catch (e) {
       return ['어쩌구', '저쩌구', '어쩌구'];
-      throw Exception('Failed to getPost');
+      throw Exception('Failed to getBoard');
     }
   }
 }

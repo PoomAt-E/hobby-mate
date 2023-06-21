@@ -1,11 +1,9 @@
-import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as fss;
 import 'package:hobby_mate/model/member.dart';
 
 import '../model/network_result.dart';
 import '../network/dio_client.dart';
-// import 'package:http/http.dart' as http;
 
 const storage = fss.FlutterSecureStorage();
 
@@ -83,9 +81,9 @@ class AuthService {
   Future<Member> getMemberInfo(String email) async {
     try {
       Map<String, dynamic> result = await DioClient().get(
-          '$_baseUrl/account/api/member/info/$email', {'email': email}, true);
+          '$_baseUrl/account/api/member/detail/mentee/$email', {'email': email}, true);
       if (result['result'] == Result.success) {
-        Member member = Member.fromJson(result['response']['data']);
+        Member member = Member.fromJson(result['response']);
         member.savePreference(member);
         return member;
       } else {
