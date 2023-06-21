@@ -25,7 +25,7 @@ class SplashScreen extends ConsumerWidget {
     void toLoginScreen() {
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => LoginScreen()),
+          MaterialPageRoute(builder: (context) => const BottomNavigation()),
           (route) => false);
     }
 

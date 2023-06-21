@@ -11,9 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 final bottomNavProvider = StateProvider<int>((ref) => 0);
 final roleStateProvider = FutureProvider((ref) =>
-SharedPreferences.getInstance().then((prefs) => prefs.getString('role')
-));
-
+    SharedPreferences.getInstance().then((prefs) => prefs.getString('role')));
 
 class BottomNavigation extends ConsumerStatefulWidget {
   const BottomNavigation({Key? key}) : super(key: key);
@@ -23,32 +21,36 @@ class BottomNavigation extends ConsumerStatefulWidget {
 }
 
 class BottomNavigationState extends ConsumerState<BottomNavigation> {
-
-
-
   @override
   Widget build(BuildContext context) {
     final currentPage = ref.watch(bottomNavProvider);
     final role = ref.watch(roleStateProvider);
-    final List<dynamic> screen = role.when(data: (data)=>
-      [
-      const HomeScreen(),
-      const ClassListScreen(),
-      const CommunityScreen(),
-      const ChatListScreen(),
-      if(data == 'Mento')...[const MentorScreen()]else...[const MenteeScreen()]]
-     , error: ((error, stackTrace) => [
-      const HomeScreen(),
-      const ClassListScreen(),
-      const CommunityScreen(),
-      const ChatListScreen(),
-      const CircularProgressIndicator()]), loading: ()=>[
-      const HomeScreen(),
-      const ClassListScreen(),
-      const CommunityScreen(),
-      const ChatListScreen(),
-      const CircularProgressIndicator()]);
-
+    final List<dynamic> screen = role.when(
+        data: (data) => [
+              const HomeScreen(),
+              const ClassListScreen(),
+              const CommunityScreen(),
+              const ChatListScreen(),
+              if (data == 'Mento') ...[
+                const MentorScreen()
+              ] else ...[
+                const MenteeScreen()
+              ]
+            ],
+        error: ((error, stackTrace) => [
+              const HomeScreen(),
+              const ClassListScreen(),
+              const CommunityScreen(),
+              const ChatListScreen(),
+              const CircularProgressIndicator()
+            ]),
+        loading: () => [
+              const HomeScreen(),
+              const ClassListScreen(),
+              const CommunityScreen(),
+              const ChatListScreen(),
+              const CircularProgressIndicator()
+            ]);
 
     return Scaffold(
       body: SafeArea(child: screen.elementAt(currentPage)),
@@ -96,7 +98,7 @@ class BottomNavigationState extends ConsumerState<BottomNavigation> {
                   color: Palette.bottomSelectedColor,
                 ),
                 label: 'Chat'),
-                BottomNavigationBarItem(
+            BottomNavigationBarItem(
                 icon: Icon(
                   Icons.chat,
                   color: Palette.bottomUnselectedColor,

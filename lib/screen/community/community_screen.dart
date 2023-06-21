@@ -37,7 +37,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ListView.builder(
-              itemCount: 10,
+              itemCount:10,
               itemBuilder: (context, index) {
                 return Column(
                   children: [
