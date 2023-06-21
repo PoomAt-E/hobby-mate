@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hobby_mate/screen/class/class_vod_player_screen.dart';
+import 'package:hobby_mate/service/auth_service.dart';
 import 'package:hobby_mate/widget/profile_image.dart';
 
+import '../../model/member.dart';
 import '../../model/vod.dart';
+import '../../service/chat_service.dart';
 import '../../style/style.dart';
+import '../chat/chat_screen.dart';
 
 class ClassDetailScreen extends StatefulWidget {
   const ClassDetailScreen({super.key, required this.vod});
@@ -23,7 +27,7 @@ class _ClassDetailScreenState extends State<ClassDetailScreen> {
         actions: [
           IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 true ? Icons.favorite_rounded : Icons.favorite_border,
                 color: Colors.red,
               ))
@@ -39,7 +43,7 @@ class _ClassDetailScreenState extends State<ClassDetailScreen> {
               child: Text(widget.vod.vodName,
                   style: const TextStyle(color: Colors.white, fontSize: 12))),
           background: Image(
-            image: AssetImage('assets/images/default_class.png'),
+            image: const AssetImage('assets/images/default_class.png'),
             fit: BoxFit.cover,
             color: Colors.white.withOpacity(0.8),
             colorBlendMode: BlendMode.modulate,
@@ -76,20 +80,41 @@ class _ClassDetailScreenState extends State<ClassDetailScreen> {
                   .toList(),
         ))),
         Container(
-          color: Colors.white,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: Row(
-            children: [
-              ProfileImage(
-                  onProfileImagePressed: () {}, path: null, imageSize: 50),
-              const SizedBox(width: 10),
-              Text(
-                '강사: ${widget.vod.ownerId}',
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            color: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+              Row(
+                children: [
+                  ProfileImage(
+                      onProfileImagePressed: () {}, path: null, imageSize: 50),
+                  const SizedBox(width: 10),
+                  Text(
+                    '강사: ${widget.vod.ownerId}',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+              InkWell(
+                  onTap: () => onButtonClick("test111@gmail.com"),
+                  child: Container(
+                alignment: AlignmentDirectional.centerEnd,
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 42, 42, 42),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.chat_bubble,
+                    color: Colors.white,
+                    size: 20,
+                ),
+              )))
+            ])),
         InkWell(
           onTap: () => showDialog(
               context: context,
@@ -100,29 +125,29 @@ class _ClassDetailScreenState extends State<ClassDetailScreen> {
                     actions: [
                       TextButton(
                           onPressed: () => Navigator.of(context).pop(),
-                          child: Text('취소')),
+                          child: const Text('취소')),
                       TextButton(
                           onPressed: () => Navigator.of(context).pop(),
-                          child: Text('확인')),
+                          child: const Text('확인')),
                     ],
                   )),
           child: Container(
-            child: Text(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+            color: Colors.teal,
+            alignment: Alignment.center,
+            child: const Text(
               '\'45,000원\' 구매하기',
               style: TextStyle(
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
                   fontSize: 18),
             ),
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-            color: Colors.teal,
-            alignment: Alignment.center,
           ),
         ),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('총 4개의 강의',
@@ -135,6 +160,21 @@ class _ClassDetailScreenState extends State<ClassDetailScreen> {
         Container()
       ]))
     ]));
+  }
+  void toChatScreen(String chatroomId, Member member) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => ChatScreen(
+          chatroomId: chatroomId,
+          isNew: true,
+          other: member,
+        )) // 리버팟 적용된 HomeScreen 만들기
+    );
+  }
+
+  void onButtonClick(String email1) async { // 나중에 Member로 바꿔야함
+    final chatroomId = await ChatService().makeChatroomId(email1);
+    final member = await AuthService().getMemberInfo(email1);
+    toChatScreen(chatroomId, member);
   }
 }
 
@@ -183,11 +223,11 @@ class ClassWeekBox extends StatelessWidget {
               Container(
                   width: MediaQuery.of(context).size.width - size - 70,
                   margin: const EdgeInsets.only(left: 20),
-                  child: Column(
+                  child: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text(
                         '튜닝하기',
                         style: TextStyles.classWeekContentTextStyle,

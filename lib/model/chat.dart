@@ -69,7 +69,7 @@ class ChatMember {
   }
   toJson() {
     return {
-      'name': nickname,
+      'nickname': nickname,
       'email': email,
       'photoUrl': photoUrl,
       'role': role,

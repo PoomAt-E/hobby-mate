@@ -71,7 +71,7 @@ class ChatScreenState extends State<ChatScreen> {
                 },
               ),
             ),
-            backgroundColor: Color.fromARGB(255, 42, 42, 42),
+            backgroundColor: Colors.white,
             extendBodyBehindAppBar: false,
             body: Stack(
               children: [
@@ -197,9 +197,9 @@ class ChatScreenState extends State<ChatScreen> {
   newChatroom() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     userId = prefs.getString('email')!;
-    final userName = prefs.getString('name')!;
+    final userName = prefs.getString('nickname')!;
     final userRole = prefs.getString('role')!;
-    final userUrl = prefs.getString('profile_img_url')!;
+    final userUrl = prefs.getString('profile_img_url')??'https://identitylessimgserver.s3.ap-northeast-2.amazonaws.com/member/base_profile.png';
     final message = Message(
         content: newMessage,
         sender: userId,

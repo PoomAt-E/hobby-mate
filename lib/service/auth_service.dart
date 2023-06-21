@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as fss;
 import 'package:hobby_mate/model/member.dart';
@@ -9,9 +10,11 @@ const storage = fss.FlutterSecureStorage();
 
 class AuthService {
   static final AuthService _authService = AuthService._internal();
+
   factory AuthService() {
     return _authService;
   }
+
   AuthService._internal();
 
   final String? _baseUrl = dotenv.env['AUTH_SERVER_URL'];
@@ -44,16 +47,11 @@ class AuthService {
   Future<bool> signIn(String email, String password) async {
     // 로그인
     try {
-      Map<String, dynamic> result = await DioClient().post(
-          '$_baseUrl/account/api/auth/signin',
-          {'email': email, 'password': password},
-          false);
-      if (result['result'] == Result.success) {
-        // // 받은 토큰 저장
-        // final token = result['response']['token'];
-        // storage.write(key: 'accessToken', value: token['accessToken']);
-        // storage.write(key: 'refreshToken', value: token['refreshToken']);
-        getMemberInfo(email);
+      final result = await Dio().post('$_baseUrl/account/api/auth/signin',
+          data: {'email': email, 'password': password});
+      if (result.statusCode == 200) {
+        final member = await getMemberInfo(email);
+        member.savePreference(member);
         return true;
       } else {
         throw Exception('Failed to login');
@@ -80,11 +78,10 @@ class AuthService {
 
   Future<Member> getMemberInfo(String email) async {
     try {
-      Map<String, dynamic> result = await DioClient().get(
-          '$_baseUrl/account/api/member/detail/mentee/$email', {'email': email}, true);
+      Map<String, dynamic> result = await DioClient()
+          .get('$_baseUrl/account/api/member/$email', {'email': email}, true);
       if (result['result'] == Result.success) {
         Member member = Member.fromJson(result['response']);
-        member.savePreference(member);
         return member;
       } else {
         throw Exception('Failed to getUser');

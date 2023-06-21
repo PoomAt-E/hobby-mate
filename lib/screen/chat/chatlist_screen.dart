@@ -5,7 +5,7 @@ import '../../service/chat_service.dart';
 import '../../style/style.dart';
 import '../../widget/chat/chat_list.dart';
 
-final counselorListProvider =
+final chatListProvider =
     StreamProvider.autoDispose((ref) => ChatService().getChatListData());
 
 class ChatListScreen extends ConsumerStatefulWidget {
@@ -18,7 +18,7 @@ class ChatListScreen extends ConsumerStatefulWidget {
 class ChatListScreenState extends ConsumerState<ChatListScreen> {
   @override
   Widget build(BuildContext context) {
-    final chatList = ref.watch(counselorListProvider);
+    final chatList = ref.watch(chatListProvider);
     return Container(
         padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
