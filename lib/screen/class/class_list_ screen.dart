@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hobby_mate/service/streaming_service.dart';
 import 'package:hobby_mate/widget/appbar.dart';
 import 'package:hobby_mate/widget/home/class_box.dart';
 
 import '../../model/vod.dart';
 
-class ClassListScreen extends StatefulWidget {
+class ClassListScreen extends ConsumerStatefulWidget {
   const ClassListScreen({super.key});
 
   @override
-  State<ClassListScreen> createState() => _ClassListScreenState();
+  _ClassListScreenState createState() => _ClassListScreenState();
 }
 
-class _ClassListScreenState extends State<ClassListScreen> {
+class _ClassListScreenState extends ConsumerState<ClassListScreen> {
+
+  final vodProvider = FutureProvider((ref) => StreamingService().getAllVodGroup());
   @override
   Widget build(BuildContext context) {
+    final vodGroups = ref.watch(vodProvider);
     return Scaffold(
         appBar: const MainAppbar(),
         backgroundColor: Colors.white,
@@ -28,32 +32,29 @@ class _ClassListScreenState extends State<ClassListScreen> {
               const Divider(
                 color: Colors.black12,
               ),
-              ClassBoxWidget(
-                vodGroup: VodGroup(
-                    id: '6492f531eb56265b530760f2',
-                    vodGroupName: '정승환노래교실',
-                    vodCount: 4,
-                    thumbnailURL:
-                        'https://identitylessimgserver.s3.ap-northeast-2.amazonaws.com/streaming/vodGroup/thumbnail/Jung_Seung-hwan_%28singer%29_2019-09-27.png',
-                    keyword: null),
-              ),
+              vodGroups.when(data: (vods){
+                if(vods.isEmpty){
+                  return const Center(child: Text('수업이 없습니다.'));
+                }else{
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: vods.length,
+                    itemBuilder: (context, index){
+                      return ClassBoxWidget(
+                        vodGroup: vods[index],
+                      );
+                    },
+                  );
+                }
+              }, error: (e, st){
+                return const Center(child: Text('수업을 불러오는데 실패했습니다.'));
+              }, loading: ()=>CircularProgressIndicator())
+             ,
               const SizedBox(
                 height: 20,
               ),
-              const Text('관심 목록',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
-              const Divider(
-                color: Colors.black12,
-              ),
-              ClassBoxWidget(
-                vodGroup: VodGroup(
-                    id: '6492f531eb56265b530760f2',
-                    vodGroupName: '정승환노래교실',
-                    vodCount: 4,
-                    thumbnailURL:
-                        'https://identitylessimgserver.s3.ap-northeast-2.amazonaws.com/streaming/vodGroup/thumbnail/Jung_Seung-hwan_%28singer%29_2019-09-27.png',
-                    keyword: null),
-              ),
+
             ])));
   }
 

@@ -5,7 +5,6 @@ class VodGroup {
   int vodCount;
   String thumbnailURL;
   String? keyword;
-
   List<Vod>? vodList = [];
 
   VodGroup(
@@ -15,6 +14,22 @@ class VodGroup {
       required this.vodCount,
       required this.thumbnailURL, this.keyword,
       this.vodList});
+
+  factory VodGroup.fromJson(Map<String, dynamic> json) {
+    return VodGroup(
+      id: json['id'],
+      ownerId: json['ownerId'],
+      vodGroupName: json['vodGroupName'],
+      vodCount: json['vodCount'],
+      thumbnailURL: json['thumbnailURL'],
+      keyword: json['keyword'],
+      vodList: json['vodlist'] != null?json['vodlist']
+          .map((json) => Vod.fromJson(json))
+          .cast<Vod>()
+          .toList(): null,
+
+    );
+  }
 }
 
 class Vod {
@@ -32,6 +47,15 @@ class Vod {
       required this.thumbnailURL,
       required this.vodURL,
       required this.key});
+
+  factory Vod.fromJson(Map<String, dynamic> json) => Vod(
+    idx: json['idx'],
+    title: json['title'],
+    description: json['description'],
+    thumbnailURL: json['thumbnailURL'],
+    vodURL: json['vodURL'],
+    key: json['key'],
+  );
 }
 
 class VodView {

@@ -16,34 +16,34 @@ class ClassBoxWidget extends StatefulWidget {
 class _ClassBoxWidgetState extends State<ClassBoxWidget> {
   @override
   Widget build(BuildContext context) {
-    final size = 90.0;
     return GestureDetector(
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) =>
-                    ClassDetailScreen(   vodGroup: VodGroup(id: '6492f531eb56265b530760f2', vodGroupName: '정승환노래교실', vodCount: 4, thumbnailURL: 'https://identitylessimgserver.s3.ap-northeast-2.amazonaws.com/streaming/vodGroup/thumbnail/Jung_Seung-hwan_%28singer%29_2019-09-27.png', keyword: null),)) // 리버팟 적용된 HomeScreen 만들기
+                    ClassDetailScreen(vodGroupId: widget.vodGroup.id))
             ),
         child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
             ),
+            width: MediaQuery.of(context).size.width,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(
                 children: [
                   Container(
-                    height: size,
-                    width: size,
+                    height: 90,
+                    width: 90,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        image: const DecorationImage(
+                        image:  DecorationImage(
                             fit: BoxFit.cover,
                             image:
-                                AssetImage('assets/images/default_class.png'))),
+                                NetworkImage(widget.vodGroup.thumbnailURL))),
                   ),
                   Container(
                       margin: const EdgeInsets.only(left: 20),
-                      width: MediaQuery.of(context).size.width - 110 - size,
+                      width: 200,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
@@ -51,18 +51,17 @@ class _ClassBoxWidgetState extends State<ClassBoxWidget> {
                         children: [
                           Text(
                             widget.vodGroup.vodGroupName,
-                            maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
-                            '100명중 1명만이 터득하는 통기타의 비밀을 알려드립니다.',
+                            widget.vodGroup.vodGroupName,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: TextStyles.classContentTextStyle,

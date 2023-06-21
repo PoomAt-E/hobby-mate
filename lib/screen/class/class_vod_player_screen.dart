@@ -9,10 +9,12 @@ import 'class_detail_screen.dart';
 class VideoPlayerScreen extends StatefulWidget {
   const VideoPlayerScreen({
     super.key,
-    // required this.vod
+    required this.vod,
+    required this.vodGroup,
   });
 
-  // final Vod vod;
+  final Vod vod;
+  final VodGroup vodGroup;
 
   @override
   State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
@@ -31,7 +33,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   initializePlayer() async {
     _controller = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+      widget.vod.vodURL,
     )..initialize().then((value) {
         setControllor();
         setState(() {});
@@ -60,9 +62,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         appBar: const MainAppbar(
           hasBackBtn: true,
         ),
-        body: Column(
+        body: SingleChildScrollView(child: Column(
           children: [
-            Container(
+            SizedBox(
+              height: 300,
                 child: _chewieController != null &&
                         _chewieController!
                             .videoPlayerController.value.isInitialized
@@ -72,22 +75,39 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           controller: _chewieController!,
                         ))
                     : Container(
-                        padding: EdgeInsets.all(20),
-                        child: Center(child: CircularProgressIndicator()))),
+                        padding: const EdgeInsets.all(20),
+                        child: const Center(child: CircularProgressIndicator()))),
+            const Divider(),
             Column(
-              children: ['통기타 시작하기', '튜닝하기', '악보 읽기', '코드 읽기']
-                  .map((e) => ExpansionTile(
-                          title: Text(
-                            e,
-                          ),
-                          children: [
-                            ClassWeekBox(
-                              title: e,
-                            )
-                          ]))
-                  .toList(),
-            )
+                children: widget.vodGroup.vodList!.map((e) {
+              final index = widget.vodGroup.vodList!.indexOf(widget.vod);
+              return ExpansionTile(
+                  title: Text(
+                    e.title,
+                  ),
+                  collapsedTextColor:
+                      index == 0 ? Colors.black : Colors.black45,
+                  trailing: index == 0
+                      ? const Icon(
+                          Icons.arrow_drop_down,
+                          size: 20,
+                          color: Colors.black87,
+                        )
+                      : const Icon(
+                          Icons.lock,
+                          size: 20,
+                          color: Colors.black45,
+                        ),
+                  children: [ClassWeekBox(vod: e, onClick: (){
+                    _controller = VideoPlayerController.network(
+                      e.vodURL,
+                    )..initialize().then((value) {
+                      setControllor();
+                      setState(() {});
+                    });
+                  })]);
+            }).toList())
           ],
-        ));
+        )));
   }
 }
