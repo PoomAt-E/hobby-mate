@@ -5,9 +5,9 @@ import '../../model/vod.dart';
 import '../../style/style.dart';
 
 class ClassBoxWidget extends StatefulWidget {
-  const ClassBoxWidget({super.key, required this.vod});
+  const ClassBoxWidget({super.key, required this.vodGroup});
 
-  final Vod vod;
+  final VodGroup vodGroup;
 
   @override
   State<ClassBoxWidget> createState() => _ClassBoxWidgetState();
@@ -20,17 +20,7 @@ class _ClassBoxWidgetState extends State<ClassBoxWidget> {
     return GestureDetector(
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) =>
-                    ClassDetailScreen(vod: Vod(
-                      ownerId: "1",
-                      vodName: '통기타 시작하기',
-                      vodGroupId: "1",
-                      vodLengthH: 1,
-                      vodLengthM: 30,
-                      vodLengthS: 1,
-                      vodType: "1",
-                      id: "1",
-                      vodUrl: "1",
-                    ))) // 리버팟 적용된 HomeScreen 만들기
+                    ClassDetailScreen(   vodGroup: VodGroup(id: '6492f531eb56265b530760f2', vodGroupName: '정승환노래교실', vodCount: 4, thumbnailURL: 'https://identitylessimgserver.s3.ap-northeast-2.amazonaws.com/streaming/vodGroup/thumbnail/Jung_Seung-hwan_%28singer%29_2019-09-27.png', keyword: null),)) // 리버팟 적용된 HomeScreen 만들기
             ),
         child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10),
@@ -60,7 +50,7 @@ class _ClassBoxWidgetState extends State<ClassBoxWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            widget.vod.vodName,
+                            widget.vodGroup.vodGroupName,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(

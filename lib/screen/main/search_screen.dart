@@ -147,29 +147,9 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
                         ))),
                     const Divider(),
                     ...[
-                      Vod(
-                        ownerId: "1",
-                        vodName: '테니스 시작하기',
-                        vodGroupId: "1",
-                        vodLengthH: 1,
-                        vodLengthM: 30,
-                        vodLengthS: 1,
-                        vodType: "1",
-                        id: "1",
-                        vodUrl: "1",
-                      ),
-                      Vod(
-                        ownerId: "1",
-                        vodName: '테니스 중급 과정',
-                        vodGroupId: "1",
-                        vodLengthH: 1,
-                        vodLengthM: 30,
-                        vodLengthS: 1,
-                        vodType: "1",
-                        id: "1",
-                        vodUrl: "1",
-                      )
-                    ].map((e) => ClassBoxWidget(vod: e)).toList()
+                      VodGroup(id: '6492f531eb56265b530760f2', vodGroupName: '정승환노래교실', vodCount: 4, thumbnailURL: 'https://identitylessimgserver.s3.ap-northeast-2.amazonaws.com/streaming/vodGroup/thumbnail/Jung_Seung-hwan_%28singer%29_2019-09-27.png', keyword: null),
+                       VodGroup(id: '6492f531eb56265b530760f2', vodGroupName: '정승환노래교실', vodCount: 4, thumbnailURL: 'https://identitylessimgserver.s3.ap-northeast-2.amazonaws.com/streaming/vodGroup/thumbnail/Jung_Seung-hwan_%28singer%29_2019-09-27.png', keyword: null),
+                    ].map((e) => ClassBoxWidget(vodGroup: e)).toList()
                   ])),
         )
       ]),

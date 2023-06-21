@@ -1,37 +1,37 @@
-class Vod {
-  String id;
-  String ownerId;
-  String vodGroupId;
-  String vodName;
-  String vodType;
-  String vodUrl;
-  int vodLengthH;
-  int vodLengthM;
-  int vodLengthS;
-
-  Vod(
-      {required this.id,
-      required this.ownerId,
-      required this.vodGroupId,
-      required this.vodLengthH,
-      required this.vodLengthM,
-      required this.vodLengthS,
-      required this.vodName,
-      required this.vodType,
-      required this.vodUrl});
-}
-
 class VodGroup {
   String id;
-  String ownerId;
+  String? ownerId;
   String vodGroupName;
-  int vodNumber;
+  int vodCount;
+  String thumbnailURL;
+  String? keyword;
+
+  List<Vod>? vodList = [];
 
   VodGroup(
       {required this.id,
-      required this.ownerId,
+      this.ownerId,
       required this.vodGroupName,
-      required this.vodNumber});
+      required this.vodCount,
+      required this.thumbnailURL, this.keyword,
+      this.vodList});
+}
+
+class Vod {
+  int idx;
+  String title;
+  String description;
+  String thumbnailURL;
+  String vodURL;
+  String key;
+
+  Vod(
+      {required this.idx,
+      required this.title,
+      required this.description,
+      required this.thumbnailURL,
+      required this.vodURL,
+      required this.key});
 }
 
 class VodView {

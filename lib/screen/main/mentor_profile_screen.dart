@@ -91,17 +91,9 @@ class _MentorProfileScreenState extends State<MentorProfileScreen> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 ClassDetailScreen(
-                                                    vod: Vod(
-                                                  ownerId: "1",
-                                                  vodName: '통기타 시작하기',
-                                                  vodGroupId: "1",
-                                                  vodLengthH: 1,
-                                                  vodLengthM: 30,
-                                                  vodLengthS: 1,
-                                                  vodType: "1",
-                                                  id: "1",
-                                                  vodUrl: "1",
-                                                ))));
+                                                  vodGroup: VodGroup(id: '6492f531eb56265b530760f2', vodGroupName: '정승환노래교실', vodCount: 4, thumbnailURL: 'https://identitylessimgserver.s3.ap-northeast-2.amazonaws.com/streaming/vodGroup/thumbnail/Jung_Seung-hwan_%28singer%29_2019-09-27.png', keyword: null),
+                                                    
+                                                )));
                                   },
                                   child: Container(
                                       decoration: BoxDecoration(
