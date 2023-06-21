@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hobby_mate/model/member.dart';
 import 'package:hobby_mate/model/vod.dart';
 import 'package:hobby_mate/screen/class/class_detail_screen.dart';
+import 'package:intl/intl.dart';
+
+import '../../service/match_service.dart';
 
 class MentorProfileScreen extends StatefulWidget {
   const MentorProfileScreen({super.key, required this.member});
@@ -91,8 +94,14 @@ class _MentorProfileScreenState extends State<MentorProfileScreen> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 ClassDetailScreen(
-                                                  vodGroup: VodGroup(id: '6492f531eb56265b530760f2', vodGroupName: '정승환노래교실', vodCount: 4, thumbnailURL: 'https://identitylessimgserver.s3.ap-northeast-2.amazonaws.com/streaming/vodGroup/thumbnail/Jung_Seung-hwan_%28singer%29_2019-09-27.png', keyword: null),
-                                                    
+                                                  vodGroup: VodGroup(
+                                                      id:
+                                                          '6492f531eb56265b530760f2',
+                                                      vodGroupName: '정승환노래교실',
+                                                      vodCount: 4,
+                                                      thumbnailURL:
+                                                          'https://identitylessimgserver.s3.ap-northeast-2.amazonaws.com/streaming/vodGroup/thumbnail/Jung_Seung-hwan_%28singer%29_2019-09-27.png',
+                                                      keyword: null),
                                                 )));
                                   },
                                   child: Container(
@@ -107,6 +116,19 @@ class _MentorProfileScreenState extends State<MentorProfileScreen> {
                                       ))),
                               const SizedBox(height: 20),
                             ]))),
+                Positioned(
+                    bottom: 0,
+                    child: InkWell(
+                        onTap: () {
+                          MatchService().saveMatch(widget.member.email);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          alignment: Alignment.center,
+                          color: Colors.yellow,
+                          width: MediaQuery.of(context).size.width,
+                          child: Text('Match!'),
+                        )))
               ],
             )));
   }
