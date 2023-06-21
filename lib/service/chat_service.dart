@@ -177,8 +177,9 @@ class ChatService {
   }
 
   Future newChatRoom(ChatRoom chatroom, Message message) async {
-    saveUserChatlist(
-        userEmail,
+    // 멘토
+    await saveUserChatlist(
+        chatroom.user1.email.replaceAll('.', ''),
         MyChat(
             chatRoomId: chatroom.chatRoomId,
             otherEmail: chatroom.user2.email,
@@ -186,7 +187,8 @@ class ChatService {
             otherPhotoUrl: chatroom.user2.photoUrl!,
             lastMessage: message.content,
             lastTime: message.createdAt));
-    saveUserChatlist(
+    // 본인
+    await saveUserChatlist(
         chatroom.user2.email.replaceAll('.', ''),
         MyChat(
             chatRoomId: chatroom.chatRoomId,

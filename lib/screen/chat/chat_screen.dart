@@ -210,7 +210,7 @@ class ChatScreenState extends State<ChatScreen> {
             nickname: widget.other.nickname,
             email: widget.other.email,
             photoUrl: widget.other.profileImageURL,
-            role: widget.other.role??'MENTEE'),
+            role: widget.other.role??'MENTOR'),
         user2: ChatMember(
             nickname: userName, email: userId, role: userRole, photoUrl: userUrl),
         messages: [message]);
