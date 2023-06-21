@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hobby_mate/model/member.dart';
 import 'package:hobby_mate/model/vod.dart';
 import 'package:hobby_mate/screen/class/class_detail_screen.dart';
+import 'package:hobby_mate/service/streaming_service.dart';
 import 'package:intl/intl.dart';
 
 import '../../service/match_service.dart';
@@ -17,6 +19,15 @@ class MentorProfileScreen extends StatefulWidget {
 
 class _MentorProfileScreenState extends State<MentorProfileScreen> {
   final TextEditingController textEditingController = TextEditingController();
+
+  late FutureProvider<List<VodGroup>> _vodListProvider;
+
+  @override
+  void initState() {
+    _vodListProvider = FutureProvider(
+        (ref) => StreamingService().getVodForMentor(widget.member.email));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,33 +98,56 @@ class _MentorProfileScreenState extends State<MentorProfileScreen> {
                                 thickness: 1,
                                 color: Colors.grey[300],
                               ),
-                              InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ClassDetailScreen(
-                                                  vodGroup: VodGroup(
-                                                      id:
-                                                          '6492f531eb56265b530760f2',
-                                                      vodGroupName: '정승환노래교실',
-                                                      vodCount: 4,
-                                                      thumbnailURL:
-                                                          'https://identitylessimgserver.s3.ap-northeast-2.amazonaws.com/streaming/vodGroup/thumbnail/Jung_Seung-hwan_%28singer%29_2019-09-27.png',
-                                                      keyword: null),
-                                                )));
-                                  },
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey[200],
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      padding: const EdgeInsets.all(20),
-                                      margin: const EdgeInsets.only(top: 10),
-                                      child: const Text(
-                                        '강좌명 : 통기타 시작하기.\n\n강좌내용 : 100명중 1명만이 터득하는 통기타 수업\n\n강좌수 : 5개\n\n금액 : 50000원',
-                                      ))),
+                              Consumer(builder: (context, ref, child) {
+                                final mentorsVod = ref.watch(_vodListProvider);
+                                return mentorsVod.when(data: (data) {
+                                  if (data.isEmpty) {
+                                    return  Container(padding: const EdgeInsets.all(10), child: Text('등록한 강좌가 없습니다.'));
+                                  } else {
+                                    return ListView.builder(
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount: data.length,
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ClassDetailScreen(
+                                                              vodGroupId:
+                                                                  data[index]
+                                                                      .id),
+                                                    ));
+                                              },
+                                              child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey[200],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
+                                                  padding:
+                                                      const EdgeInsets.all(20),
+                                                  margin: const EdgeInsets.only(
+                                                      top: 10),
+                                                  child: Text(
+                                                    '강좌명 : ${data[index].vodGroupName}\n\n강좌수 : ${data[index].vodCount}',
+                                                  )));
+                                        });
+                                  }
+                                }, error: (e, st) {
+                                  return Container(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Text('에러'));
+                                }, loading: () {
+                                  return Container(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Text('로딩중'));
+                                });
+                              }),
                               const SizedBox(height: 20),
                             ]))),
                 Positioned(
