@@ -41,11 +41,12 @@ class ChatList extends StatelessWidget {
     onButtonPressed(String email) async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String userEmail = prefs.getString('email')!;
-      String chatroomId = ('$email&$userEmail').replaceAll('.', '');
+      final list = [userEmail, email];
+      list.sort();
+      String roomId =  list.join('&').replaceAll('.', '');
+      final other = await AuthService().getMemberInfo(email);
 
-      final counselor = await AuthService().getMemberInfo(email);
-
-      toChatroom(chatroomId, counselor);
+      toChatroom(roomId, other);
     }
 
     return ListView.builder(

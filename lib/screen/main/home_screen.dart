@@ -43,7 +43,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
     Hobby(title: '테니스', icon: 'assets/icons/icon_tennis.png'),
     Hobby(title: '요가', icon: 'assets/icons/icon_yoga.png'),
     Hobby(title: '서핑', icon: 'assets/icons/icon_surf.png'),
-    Hobby(title: '기타', icon: 'assets/icons/icon_guitar.png')
+    Hobby(title: '노래', icon: 'assets/icons/icon_guitar.png')
   ];
 
   final popularPostProvider =

@@ -22,7 +22,7 @@ class _ClassBoxWidgetState extends State<ClassBoxWidget> {
                     ClassDetailScreen(vodGroupId: widget.vodGroup.id))
             ),
         child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
             ),
@@ -43,7 +43,7 @@ class _ClassBoxWidgetState extends State<ClassBoxWidget> {
                   ),
                   Container(
                       margin: const EdgeInsets.only(left: 20),
-                      width: 200,
+                      width: MediaQuery.of(context).size.width - 170,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
